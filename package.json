@@ -22,7 +22,10 @@
     "url": "https://github.com/arlac77/config-expander/issues"
   },
   "homepage": "https://github.com/arlac77/config-expander#readme",
-  "dependencies": {},
+  "dependencies": {
+    "expression-expander": "^5.2.3",
+    "pratt-parser": "^2.0.4"
+  },
   "devDependencies": {
     "chai": "^3.5.0",
     "cracks": "3.1.2",
@@ -37,10 +40,9 @@
   "release": {
     "verifyRelease": "cracks"
   },
-  "contributors": [{
-    "name": "Markus Felten",
-    "email": "markus.felten@gmx.de"
-  }],
+  "contributors": [
+    "Markus Felten <markus.felten@gmx.de>"
+  ],
   "license": "BSD-2-Clause",
   "engines": {
     "node": ">=6.9.1"
@@ -49,5 +51,6 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "author": "Markus Felten <markus.felten@gmx.de>"
 }
