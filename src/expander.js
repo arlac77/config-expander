@@ -6,11 +6,6 @@ const fs = require('fs'),
 	ee = require('expression-expander'),
 	createGrammar = require('pratt-parser').create;
 
-const constants = {
-	//configDirectory: path.dirname(commander.config),
-	//networkAddress: address()
-};
-
 function createValue(value) {
 	return Object.create(null, {
 		value: {
@@ -19,10 +14,12 @@ function createValue(value) {
 	});
 }
 
-
 function expand(config, options = {
-	basedir: '/'
+	basedir: '/',
+	constants: {}
 }) {
+	const constants = options.constants || {};
+
 	const functions = {
 		file: args => createValue(fs.readFileSync(path.resolve(path.dirname(options.basedir), args[0].value))),
 		directory: args => createValue(path.resolve(path.dirname(options.basedir), args[0].value)),

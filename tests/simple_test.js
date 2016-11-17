@@ -19,4 +19,24 @@ describe('expander', () => {
       name: 'a1'
     }));
   });
+
+  describe('constants', () => {
+    it('simple', () => assert.deepEqual(expand({
+      name: '${constA}'
+    }, {
+      constants: {
+        constA: 'constAValue'
+      }
+    }), {
+      name: 'constAValue'
+    }));
+  });
+
+  describe('functions', () => {
+    it('simple', () => assert.deepEqual(expand({
+      name: "${toUpperCase('lower')}"
+    }), {
+      name: 'LOWER'
+    }));
+  });
 });
