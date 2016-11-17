@@ -1,0 +1,53 @@
+{
+  "name": "config-expander",
+  "version": "0.0.0-semantic-release",
+  "description": "expands configuration templates",
+  "keywords": [
+    "config"
+  ],
+  "main": "dist/expander.js",
+  "module": "src/expander.js",
+  "scripts": {
+    "cover": "npm run build && ./node_modules/istanbul/lib/cli.js cover --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --R spec --U exports tests/*_test.js",
+    "build": "./node_modules/rollup/bin/rollup --format=cjs --output=dist/expander.js -- src/expander.js",
+    "test": "npm run build && mocha tests/*_test.js && markdown-doctest",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "docs": "jsdoc2md -l off -t doc/README.hbs -f src/expander.js > README.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arlac77/config-expander.git"
+  },
+  "bugs": {
+    "url": "https://github.com/arlac77/config-expander/issues"
+  },
+  "homepage": "https://github.com/arlac77/config-expander#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "cracks": "3.1.2",
+    "cz-conventional-changelog": "^1.2.0",
+    "istanbul": "^0.4.5",
+    "jsdoc-to-markdown": "^2.0.1",
+    "markdown-doctest": "^0.9.0",
+    "mocha": "^3.1.2",
+    "rollup": "^0.36.3",
+    "semantic-release": "^6.3.1"
+  },
+  "release": {
+    "verifyRelease": "cracks"
+  },
+  "contributors": [{
+    "name": "Markus Felten",
+    "email": "markus.felten@gmx.de"
+  }],
+  "license": "BSD-2-Clause",
+  "engines": {
+    "node": ">=6.9.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
