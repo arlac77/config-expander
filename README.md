@@ -36,12 +36,7 @@ Output
 ```
 
 # API Reference
-{{#modules~}}
-- {{name}}
-{{/modules}}
 
-{{#functions}}* {{>docs}}
-{{/functions}}
 * * *
 
 # install
