@@ -14,17 +14,16 @@ function createValue(value) {
 	});
 }
 
-function expand(config, options = {
-	basedir: '/',
-	constants: {}
-}) {
-	const constants = options.constants || {};
+function expand(config, options = {}) {
+	const constants = options.constants || {
+		basedir: '/'
+	};
 
 	const functions = {
-		file: args => createValue(fs.readFileSync(path.resolve(path.dirname(options.basedir), args[0].value))),
-		directory: args => createValue(path.resolve(path.dirname(options.basedir), args[0].value)),
+		file: args => createValue(fs.readFileSync(path.resolve(constants.basedir, args[0].value))),
+		directory: args => createValue(path.resolve(constants.basedir, args[0].value)),
 		include: args => {
-			const v = createValue(JSON.parse(fs.readFileSync(path.resolve(path.dirname(options.basedir), args[0].value))));
+			const v = createValue(JSON.parse(fs.readFileSync(path.resolve(constants.basedir, args[0].value))));
 			return v;
 		},
 		// string functions
