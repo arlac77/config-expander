@@ -33,10 +33,28 @@ describe('expander', () => {
   });
 
   describe('functions', () => {
-    it('simple', () => assert.deepEqual(expand({
+    it('toUpperCase', () => assert.deepEqual(expand({
       name: "${toUpperCase('lower')}"
     }), {
       name: 'LOWER'
+    }));
+
+    it('toLowerCase', () => assert.deepEqual(expand({
+      name: "${toLowerCase('UPPER')}"
+    }), {
+      name: 'upper'
+    }));
+
+    it('substring', () => assert.deepEqual(expand({
+      name: "${substring('lower',1,3)}"
+    }), {
+      name: 'ow'
+    }));
+
+    it('replace', () => assert.deepEqual(expand({
+      name: "${replace('lower','ow','12')}"
+    }), {
+      name: 'l12er'
     }));
   });
 });
