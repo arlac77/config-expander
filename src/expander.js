@@ -2,9 +2,16 @@
 'use strict';
 
 const fs = require('fs'),
-	path = require('path'),
-	ee = require('expression-expander'),
-	createGrammar = require('pratt-parser').create;
+	path = require('path');
+
+import {
+	createContext
+}
+from 'expression-expander';
+import {
+	create
+}
+from 'pratt-parser';
 
 function createValue(value) {
 	return Object.create(null, {
@@ -37,7 +44,7 @@ function expand(config, options = {}) {
 		toLowerCase: args => createValue(args[0].value.toLowerCase())
 	};
 
-	const g = createGrammar({
+	const g = create({
 		identifier(value, properties, context) {
 				const f = functions[value];
 				if (f) {
@@ -123,7 +130,7 @@ function expand(config, options = {}) {
 			}
 	});
 
-	const ctx = ee.createContext({
+	const ctx = createContext({
 		evaluate: (expression, context, path) => {
 			return g.parse(expression, path).value;
 		}
