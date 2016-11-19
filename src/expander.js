@@ -52,8 +52,8 @@ function expand(config, options = {}) {
 							return;
 						}
 					}
-					if (context[0].value.properties) {
-						const v = context[0].value.properties[value];
+					if (context[0].value.constants) {
+						const v = context[0].value.constants[value];
 						if (v !== undefined) {
 							properties.value.value = v;
 							return;

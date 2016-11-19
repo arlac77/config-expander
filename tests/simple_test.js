@@ -21,7 +21,7 @@ describe('expander', () => {
   });
 
   describe('constants', () => {
-    it('simple', () => assert.deepEqual(expand({
+    it('external', () => assert.deepEqual(expand({
       name: '${constA}'
     }, {
       constants: {
@@ -29,6 +29,18 @@ describe('expander', () => {
       }
     }), {
       name: 'constAValue'
+    }));
+
+    it('internal', () => assert.deepEqual(expand({
+      constants: {
+        A: 1
+      },
+      name: '${A}'
+    }), {
+      constants: {
+        A: 1
+      },
+      name: 1
     }));
   });
 
