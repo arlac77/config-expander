@@ -32,6 +32,20 @@ describe('expander', () => {
     }));
   });
 
+  describe('expression', () => {
+    it('addition', () => assert.deepEqual(expand({
+      name: "${1 + 2}"
+    }), {
+      name: 3
+    }));
+
+    it('substraction', () => assert.deepEqual(expand({
+      name: "${3 - 2}"
+    }), {
+      name: 1
+    }));
+  });
+
   describe('functions', () => {
     it('toUpperCase', () => assert.deepEqual(expand({
       name: "${toUpperCase('lower')}"
