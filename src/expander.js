@@ -21,6 +21,12 @@ function createValue(value) {
 	});
 }
 
+/**
+ * Expands expressions in a configuration object
+ * @param {Object} config
+ * @param {Object} options
+ * @returns {Object} expanded configuration
+ */
 function expand(config, options = {}) {
 	const constants = options.constants || {
 		basedir: '/'
@@ -44,7 +50,7 @@ function expand(config, options = {}) {
 		toLowerCase: args => createValue(args[0].value.toLowerCase())
 	};
 
-	const g = create({
+	const grammar = create({
 		identifier(value, properties, context) {
 				const f = functions[value];
 				if (f) {
@@ -131,9 +137,7 @@ function expand(config, options = {}) {
 	});
 
 	const ctx = createContext({
-		evaluate: (expression, context, path) => {
-			return g.parse(expression, path).value;
-		}
+		evaluate: (expression, context, path) => grammar.parse(expression, path).value
 	});
 
 	return ctx.expand(config);

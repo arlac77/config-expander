@@ -38,6 +38,20 @@ Output
 
 # API Reference
 
+* <a name="expand"></a>
+
+## expand(config, options) ⇒ <code>Object</code>
+Expands expressions in a configuration object
+
+**Kind**: global function  
+**Returns**: <code>Object</code> - expanded configuration  
+
+| Param | Type |
+| --- | --- |
+| config | <code>Object</code> | 
+| options | <code>Object</code> | 
+
+
 * * *
 
 # install
