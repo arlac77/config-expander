@@ -6,7 +6,9 @@
 const chai = require('chai'),
   assert = chai.assert,
   expect = chai.expect,
-  should = chai.should();
+  should = chai.should(),
+  fs = require('fs'),
+  path = require('path');
 
 const expand = require('../dist/expander').expand;
 
@@ -101,4 +103,17 @@ describe('expander', () => {
       name: 'l12er'
     }));
   });
+
+  describe('files', () => {
+    it('toUpperCase', () => assert.deepEqual(expand({
+      name: "${file('short.txt')}"
+    }, {
+      constants: {
+        basedir: path.join(__dirname, 'fixtures')
+      }
+    }), {
+      name: new Buffer('line 1\n')
+    }));
+  });
+
 });
