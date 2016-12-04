@@ -47,6 +47,12 @@ describe('expander', () => {
   });
 
   describe('expression', () => {
+    it('str concat', () => assert.deepEqual(expand({
+      name: "${'x' + 'y' }"
+    }), {
+      name: 'xy'
+    }));
+
     it('addition', () => assert.deepEqual(expand({
       name: "${1 + 2}"
     }), {
@@ -105,7 +111,7 @@ describe('expander', () => {
   });
 
   describe('files', () => {
-    it('toUpperCase', () => assert.deepEqual(expand({
+    it('has file content', () => assert.deepEqual(expand({
       name: "${file('short.txt')}"
     }, {
       constants: {
@@ -114,6 +120,29 @@ describe('expander', () => {
     }), {
       name: new Buffer('line 1\n')
     }));
+
+    it('has directory', () => assert.deepEqual(expand({
+      name: "${directory('fixtures')}"
+    }, {
+      constants: {
+        basedir: __dirname
+      }
+    }), {
+      name: path.join(__dirname, 'fixtures')
+    }));
+
+    it('can include', () => assert.deepEqual(expand({
+      name: "${include('fixtures/other.json')}"
+    }, {
+      constants: {
+        basedir: __dirname
+      }
+    }), {
+      name: {
+        key: 'value'
+      }
+    }));
   });
+
 
 });
