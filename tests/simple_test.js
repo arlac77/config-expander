@@ -56,6 +56,24 @@ describe('expander', () => {
     }), {
       name: 1
     }));
+
+    it('multiplication', () => assert.deepEqual(expand({
+      name: "${3*2)}"
+    }), {
+      name: 6
+    }));
+
+    it('division', () => assert.deepEqual(expand({
+      name: "${8/2)}"
+    }), {
+      name: 4
+    }));
+
+    it('number', () => assert.deepEqual(expand({
+      name: "${number('77')}"
+    }), {
+      name: 77
+    }));
   });
 
   describe('functions', () => {
