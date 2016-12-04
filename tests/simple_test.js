@@ -48,7 +48,7 @@ describe('expander', () => {
 
   describe('expression', () => {
     it('str concat', () => assert.deepEqual(expand({
-      name: "${'x' + 'y' }"
+      name: "${'x' + 'y'}"
     }), {
       name: 'xy'
     }));
