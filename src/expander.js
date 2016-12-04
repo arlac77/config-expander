@@ -35,10 +35,7 @@ function expand(config, options = {}) {
 	const functions = {
 		file: args => createValue(fs.readFileSync(path.resolve(constants.basedir, args[0].value))),
 		directory: args => createValue(path.resolve(constants.basedir, args[0].value)),
-		include: args => {
-			const v = createValue(JSON.parse(fs.readFileSync(path.resolve(constants.basedir, args[0].value))));
-			return v;
-		},
+		include: args => createValue(JSON.parse(fs.readFileSync(path.resolve(constants.basedir, args[0].value)))),
 		// string functions
 		number: args => {
 			const v = args[0].value;
