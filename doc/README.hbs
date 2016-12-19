@@ -27,7 +27,7 @@ Expands expressions in config json
 ```js
 const expand = require('config-expander').expand;
 
-// expanding hole expressions at the key position
+// expanding hole expressions at the value position (result is a number)
 console.log(JSON.stringify(expand({"key" : "${value}" },{ constants:{value: 77}})));
 ```
 
