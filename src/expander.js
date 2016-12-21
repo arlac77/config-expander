@@ -33,18 +33,48 @@ function expand(config, options = {}) {
 	};
 
 	const functions = {
-		file: args => createValue(fs.readFileSync(path.resolve(constants.basedir, args[0].value))),
-		directory: args => createValue(path.resolve(constants.basedir, args[0].value)),
-		include: args => createValue(JSON.parse(fs.readFileSync(path.resolve(constants.basedir, args[0].value)))),
-		// string functions
-		number: args => {
-			const v = args[0].value;
-			return createValue(parseFloat(v) === v ? v : parseFloat(v.replace(/[a-z]+/, '')));
+		file: {
+			arguments: ['string'],
+			returns: 'blob',
+			apply: args => createValue(fs.readFileSync(path.resolve(constants.basedir, args[0].value)))
 		},
-		substring: args => createValue(args[0].value.substring(args[1].value, args[2].value)),
-		replace: args => createValue(args[0].value.replace(args[1].value, args[2].value)),
-		toUpperCase: args => createValue(args[0].value.toUpperCase()),
-		toLowerCase: args => createValue(args[0].value.toLowerCase())
+		directory: {
+			arguments: ['string'],
+			returns: 'string',
+			apply: args => createValue(path.resolve(constants.basedir, args[0].value))
+		},
+		include: {
+			apply: args => createValue(JSON.parse(fs.readFileSync(path.resolve(constants.basedir, args[0].value))))
+		},
+		// string functions
+		number: {
+			arguments: ['string|number'],
+			returns: 'number',
+			apply: args => {
+				const v = args[0].value;
+				return createValue(parseFloat(v) === v ? v : parseFloat(v.replace(/[a-z]+/, '')));
+			}
+		},
+		substring: {
+			arguments: ['string', 'integer', 'integer'],
+			returns: 'string',
+			apply: args => createValue(args[0].value.substring(args[1].value, args[2].value))
+		},
+		replace: {
+			arguments: ['string', 'string', 'string'],
+			returns: 'string',
+			apply: args => createValue(args[0].value.replace(args[1].value, args[2].value))
+		},
+		toUpperCase: {
+			arguments: ['string'],
+			returns: 'string',
+			apply: args => createValue(args[0].value.toUpperCase())
+		},
+		toLowerCase: {
+			arguments: ['string'],
+			returns: 'string',
+			apply: args => createValue(args[0].value.toLowerCase())
+		}
 	};
 
 	const grammar = create({
@@ -96,7 +126,7 @@ function expand(config, options = {}) {
 
 							grammar.advance(')');
 
-							return left.value(args);
+							return left.value.apply(args);
 						} else {
 							const e = grammar.expression(0);
 							grammar.advance(')');
