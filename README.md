@@ -28,7 +28,8 @@ Expands expressions in config json
 const expand = require('config-expander').expand;
 
 // expanding hole expressions at the value position (result is a number)
-console.log(JSON.stringify(expand({"key" : "${value}" },{ constants:{value: 77}})));
+
+expand({"key" : "${value}" },{ constants:{value: 77}}).then(r => console.log(JSON.stringify(r)));
 ```
 
 Output
@@ -41,11 +42,11 @@ Output
 
 * <a name="expand"></a>
 
-## expand(config, options) ⇒ <code>Object</code>
+## expand(config, options) ⇒ <code>Promise</code>
 Expands expressions in a configuration object
 
 **Kind**: global function  
-**Returns**: <code>Object</code> - expanded configuration  
+**Returns**: <code>Promise</code> - expanded configuration  
 
 | Param | Type |
 | --- | --- |

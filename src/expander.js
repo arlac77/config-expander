@@ -25,7 +25,7 @@ function createValue(value) {
  * Expands expressions in a configuration object
  * @param {Object} config
  * @param {Object} options
- * @returns {Object} expanded configuration
+ * @returns {Promise} expanded configuration
  */
 function expand(config, options = {}) {
 	const constants = options.constants || {
@@ -46,7 +46,6 @@ function expand(config, options = {}) {
 		include: {
 			apply: args => createValue(JSON.parse(fs.readFileSync(path.resolve(constants.basedir, args[0].value))))
 		},
-		// string functions
 		number: {
 			arguments: ['string|number'],
 			returns: 'number',
@@ -167,7 +166,7 @@ function expand(config, options = {}) {
 		evaluate: (expression, context, path) => grammar.parse(expression, path).value
 	});
 
-	return ctx.expand(config);
+	return Promise.resolve(ctx.expand(config));
 }
 
 export {
