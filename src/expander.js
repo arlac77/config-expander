@@ -21,6 +21,30 @@ function createValue(value) {
 	});
 }
 
+class AST {
+	get value() {
+		return undefined;
+	}
+}
+
+class BinOP extends AST {
+	constructor(a, b, exec) {
+		super();
+		Object.defineProperty(this, 'value', {
+			get: () => exec(a, b)
+		});
+	}
+}
+
+class FCall extends AST {
+	constructor(f, args) {
+		super();
+		Object.defineProperty(this, 'value', {
+			get: () => f.value.apply(args).value
+		});
+	}
+}
+
 /**
  * Expands expressions in a configuration object
  * @param {Object} config
@@ -124,8 +148,7 @@ function expand(config, options = {}) {
 							}
 
 							grammar.advance(')');
-
-							return left.value.apply(args);
+							return new FCall(left, args);
 						} else {
 							const e = grammar.expression(0);
 							grammar.advance(')');
@@ -139,31 +162,28 @@ function expand(config, options = {}) {
 				')': {},
 				'+': {
 					precedence: 50,
-					combine: (left, right) => {
-						if (parseFloat(left.value) === left.value) {
-							return createValue(left.value + parseFloat(right.value));
-						}
-
-						return createValue(left.value + right.value);
-					}
+					combine: (left, right) => new BinOP(left, right, (l, r) => l.value + r.value)
 				},
 				'-': {
 					precedence: 50,
-					combine: (left, right) => createValue(left.value - right.value)
+					combine: (left, right) => new BinOP(left, right, (l, r) => l.value - r.value)
 				},
 				'*': {
 					precedence: 60,
-					combine: (left, right) => createValue(left.value * right.value)
+					combine: (left, right) => new BinOP(left, right, (l, r) => l.value * r.value)
 				},
 				'/': {
 					precedence: 60,
-					combine: (left, right) => createValue(left.value / right.value)
+					combine: (left, right) => new BinOP(left, right, (l, r) => l.value / r.value)
 				}
 			}
 	});
 
 	const ctx = createContext({
-		evaluate: (expression, context, path) => grammar.parse(expression, path).value
+		evaluate: (expression, context, path) => {
+			const ast = grammar.parse(expression, path);
+			return ast.value;
+		}
 	});
 
 	return Promise.resolve(ctx.expand(config));
