@@ -114,6 +114,13 @@ describe('expander', () => {
     }).then(r => assert.deepEqual(r, {
       name: 'ow'
     })));
+
+    it('substring with expressions', () => expand({
+      name: "${substring('lower',1,number('2')+1)}"
+    }).then(r => assert.deepEqual(r, {
+      name: 'ow'
+    })));
+
   });
 
   describe('files', () => {

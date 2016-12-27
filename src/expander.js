@@ -8,6 +8,7 @@ import {
 	createContext
 }
 from 'expression-expander';
+
 import {
 	create
 }
@@ -68,6 +69,8 @@ function expand(config, options = {}) {
 			apply: args => createValue(path.resolve(constants.basedir, args[0].value))
 		},
 		include: {
+			arguments: ['string'],
+			returns: 'object',
 			apply: args => createValue(JSON.parse(fs.readFileSync(path.resolve(constants.basedir, args[0].value))))
 		},
 		number: {
