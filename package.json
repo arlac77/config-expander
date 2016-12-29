@@ -24,7 +24,7 @@
   "homepage": "https://github.com/arlac77/config-expander#readme",
   "dependencies": {
     "expression-expander": "^5.3.0",
-    "pratt-parser": "^2.0.11"
+    "pratt-parser": "^2.0.12"
   },
   "devDependencies": {
     "chai": "^3.5.0",
