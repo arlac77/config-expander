@@ -3,5 +3,6 @@
 
 export default {
   format: 'cjs',
-  plugins: []
+  plugins: [],
+  external: ['expression-expander', 'pratt-parser']
 };
