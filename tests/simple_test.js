@@ -125,13 +125,15 @@ describe('expander', () => {
 
   describe('files', () => {
     it('has file content', () => expand({
-      name: "${file('short.txt')}"
+      name: "${file('short.txt')}",
+      name2: "${file('short.txt')}"
     }, {
       constants: {
         basedir: path.join(__dirname, 'fixtures')
       }
     }).then(r => assert.deepEqual(r, {
-      name: new Buffer('line 1\n')
+      name: new Buffer('line 1\n'),
+      name2: new Buffer('line 1\n')
     })));
 
     it('has directory', () => expand({

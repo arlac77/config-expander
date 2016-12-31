@@ -14,6 +14,18 @@ import {
 }
 from 'pratt-parser';
 
+function readFile(path) {
+	return new Promise((fullfill, reject) => {
+		fs.readFile(path, (error, data) => {
+			if (error) {
+				reject(error);
+			} else {
+				fullfill(data);
+			}
+		});
+	});
+}
+
 function createValue(value) {
 	return Object.create(null, {
 		value: {
@@ -61,7 +73,7 @@ function expand(config, options = {}) {
 		file: {
 			arguments: ['string'],
 			returns: 'blob',
-			apply: args => createValue(fs.readFileSync(path.resolve(constants.basedir, args[0].value)))
+			apply: args => createValue(readFile(path.resolve(constants.basedir, args[0].value)))
 		},
 		directory: {
 			arguments: ['string'],
