@@ -152,7 +152,7 @@ describe('expander', () => {
       }
     }).then(r => assert.deepEqual(r, {
       name: {
-        key: 'value'
+        key: 'value from other'
       }
     })));
   });
