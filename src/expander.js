@@ -14,25 +14,11 @@ import {
 }
 from 'pratt-parser';
 
-function readFile(path) {
-	return new Promise((fullfill, reject) => {
-		fs.readFile(path, (error, data) => {
-			if (error) {
-				reject(error);
-			} else {
-				fullfill(data);
-			}
-		});
-	});
+import {
+	readFile,createValue
 }
+from './util';
 
-function createValue(value) {
-	return Object.create(null, {
-		value: {
-			value: value
-		}
-	});
-}
 
 class AST {
 	get value() {
