@@ -15,10 +15,14 @@ import {
 from 'pratt-parser';
 
 import {
-	readFile,createValue
+	createValue
 }
 from './util';
 
+import {
+	functions
+}
+from './functions';
 
 class AST {
 	get value() {
@@ -36,10 +40,10 @@ class BinOP extends AST {
 }
 
 class FCall extends AST {
-	constructor(f, args) {
+	constructor(f, context, args) {
 		super();
 		Object.defineProperty(this, 'value', {
-			get: () => f.value.apply(args).value
+			get: () => f.value.apply(context, args).value
 		});
 	}
 }
@@ -55,50 +59,8 @@ function expand(config, options = {}) {
 		basedir: '/'
 	};
 
-	const functions = {
-		file: {
-			arguments: ['string'],
-			returns: 'blob',
-			apply: args => createValue(readFile(path.resolve(constants.basedir, args[0].value)))
-		},
-		directory: {
-			arguments: ['string'],
-			returns: 'string',
-			apply: args => createValue(path.resolve(constants.basedir, args[0].value))
-		},
-		include: {
-			arguments: ['string'],
-			returns: 'object',
-			apply: args => createValue(JSON.parse(fs.readFileSync(path.resolve(constants.basedir, args[0].value))))
-		},
-		number: {
-			arguments: ['string|number'],
-			returns: 'number',
-			apply: args => {
-				const v = args[0].value;
-				return createValue(parseFloat(v) === v ? v : parseFloat(v.replace(/[a-z]+/, '')));
-			}
-		},
-		substring: {
-			arguments: ['string', 'integer', 'integer'],
-			returns: 'string',
-			apply: args => createValue(args[0].value.substring(args[1].value, args[2].value))
-		},
-		replace: {
-			arguments: ['string', 'string', 'string'],
-			returns: 'string',
-			apply: args => createValue(args[0].value.replace(args[1].value, args[2].value))
-		},
-		toUpperCase: {
-			arguments: ['string'],
-			returns: 'string',
-			apply: args => createValue(args[0].value.toUpperCase())
-		},
-		toLowerCase: {
-			arguments: ['string'],
-			returns: 'string',
-			apply: args => createValue(args[0].value.toLowerCase())
-		}
+	const context = {
+		constants: constants
 	};
 
 	const grammar = create({
@@ -149,7 +111,7 @@ function expand(config, options = {}) {
 							}
 
 							grammar.advance(')');
-							return new FCall(left, args);
+							return new FCall(left, context, args);
 						} else {
 							const e = grammar.expression(0);
 							grammar.advance(')');
