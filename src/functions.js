@@ -2,7 +2,8 @@
 'use strict';
 
 const fs = require('fs'),
-	path = require('path');
+	path = require('path'),
+	crypto = require('crypto');
 
 import {
 	readFile, createValue
@@ -10,7 +11,7 @@ import {
 from './util';
 
 const functions = {
-	file: {
+	document: {
 		arguments: ['string'],
 		returns: 'blob',
 		apply: (context, args) => createValue(readFile(path.resolve(context.constants.basedir, args[0].value)))
@@ -52,8 +53,37 @@ const functions = {
 		arguments: ['string'],
 		returns: 'string',
 		apply: (context, args) => createValue(args[0].value.toLowerCase())
+	},
+	encrypt: {
+		arguments: ['string', 'string', 'string'],
+		returns: 'string',
+		apply: (context, args) => {
+			const [cryptkey, iv, cleardata] = args.map(a => a.value);
+			const encipher = crypto.createCipheriv('aes-256-cbc', cryptkey, iv);
+			let encryptdata = encipher.update(cleardata, 'utf8', 'binary');
+			encryptdata += encipher.final('binary');
+			const encode_encryptdata = new Buffer(encryptdata, 'binary').toString('base64');
+			return createValue(new Buffer(encryptdata, 'binary').toString('base64'));
+		}
+	},
+	decrypt: {
+		arguments: ['string', 'string', 'string'],
+		returns: 'string',
+		apply: (context, args) => {
+			let [cryptkey, iv, encryptdata] = args.map(a => a.value);
+
+			encryptdata = new Buffer(encryptdata, 'base64').toString('binary');
+
+			const decipher = crypto.createDecipheriv('aes-256-cbc', cryptkey, iv);
+			let decoded = decipher.update(encryptdata, 'binary', 'utf8');
+			decoded += decipher.final('utf8');
+			return createValue(decoded);
+		}
 	}
 };
+
+// BACKward compatibility only
+functions.file = functions.document;
 
 export {
 	functions

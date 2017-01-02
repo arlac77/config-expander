@@ -24,10 +24,19 @@ import {
 }
 from './functions';
 
+/**
+ * @module config-expander
+ */
+
 class AST {
 	get value() {
 		return undefined;
 	}
+}
+
+function Error(error) {
+	console.error(error);
+	return Promise.reject(error);
 }
 
 class BinOP extends AST {
@@ -43,7 +52,7 @@ class FCall extends AST {
 	constructor(f, context, args) {
 		super();
 		Object.defineProperty(this, 'value', {
-			get: () => f.value.apply(context, args).value
+			get: () => f.apply(context, args).value
 		});
 	}
 }
@@ -65,38 +74,35 @@ function expand(config, options = {}) {
 
 	const grammar = create({
 		identifier(value, properties, context) {
-				const f = functions[value];
-				if (f) {
-					properties.type.value = 'function';
-					properties.value.value = f;
+				if (context.length >= 2) {
+					const ctx = context[context.length - 2];
+
+					if (ctx.value[value] !== undefined) {
+						properties.value.value = ctx.value[value];
+						return;
+					}
+				}
+				if (context[0].value.constants) {
+					const v = context[0].value.constants[value];
+					if (v !== undefined) {
+						properties.value.value = v;
+						return;
+					}
+				}
+
+				const c = constants[value];
+				if (c) {
+					properties.value.value = c;
 				} else {
-					if (context.length >= 2) {
-						const ctx = context[context.length - 2];
-
-						if (ctx.value[value] !== undefined) {
-							properties.value.value = ctx.value[value];
-							return;
-						}
-					}
-					if (context[0].value.constants) {
-						const v = context[0].value.constants[value];
-						if (v !== undefined) {
-							properties.value.value = v;
-							return;
-						}
-					}
-
-					const c = constants[value];
-					if (c) {
-						properties.value.value = c;
-					}
+					properties.type.value = 'identifier';
+					properties.value.value = value;
 				}
 			},
 			prefix: {
 				'(': {
 					precedence: 80,
 					led(grammar, left) {
-						if (left.type === 'function') {
+						if (left.type === 'identifier') {
 							const args = [];
 
 							if (grammar.token.value !== ')') {
@@ -111,7 +117,13 @@ function expand(config, options = {}) {
 							}
 
 							grammar.advance(')');
-							return new FCall(left, context, args);
+
+							const f = functions[left.value];
+							if (f) {
+								return new FCall(f, context, args);
+							} else {
+								return Error(`unknown function ${left.value}`);
+							}
 						} else {
 							const e = grammar.expression(0);
 							grammar.advance(')');

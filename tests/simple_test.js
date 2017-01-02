@@ -85,6 +85,12 @@ describe('expander', () => {
   });
 
   describe('functions', () => {
+    xit('unknown function', () => expand({
+      name: "${thisFunctionIsUnknown('lower')}"
+    }).then(r => assert.deepEqual(r, {
+      name: 'LOWER'
+    })));
+
     it('toUpperCase', () => expand({
       name: "${toUpperCase('lower')}"
     }).then(r => assert.deepEqual(r, {
@@ -121,12 +127,17 @@ describe('expander', () => {
       name: 'ow'
     })));
 
+    xit('encrypt', () => expand({
+      name: "${encrypt('secret','a2xhcgAAAAAAAAAA','clear')}"
+    }).then(r => assert.deepEqual(r, {
+      name: 'ow'
+    })));
   });
 
   describe('files', () => {
     it('has file content', () => expand({
-      name: "${file('short.txt')}",
-      name2: "${file('short.txt')}"
+      name: "${document('short.txt')}",
+      name2: "${document('short.txt')}"
     }, {
       constants: {
         basedir: path.join(__dirname, 'fixtures')
