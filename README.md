@@ -40,12 +40,12 @@ Output
 # API Reference
 - config-expander
 
-* <a name="module_config-expander..expand"></a>
+* <a name="module_config-expander.expand"></a>
 
-## config-expander~expand(config, options) ⇒ <code>Promise</code>
+## config-expander.expand(config, options) ⇒ <code>Promise</code>
 Expands expressions in a configuration object
 
-**Kind**: inner method of <code>[config-expander](#module_config-expander)</code>  
+**Kind**: static method of <code>[config-expander](#module_config-expander)</code>  
 **Returns**: <code>Promise</code> - expanded configuration  
 
 | Param | Type |

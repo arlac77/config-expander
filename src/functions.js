@@ -10,7 +10,7 @@ import {
 }
 from './util';
 
-const functions = {
+export const functions = {
 	document: {
 		arguments: ['string'],
 		returns: 'blob',
@@ -84,7 +84,3 @@ const functions = {
 
 // BACKward compatibility only
 functions.file = functions.document;
-
-export {
-	functions
-};

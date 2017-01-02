@@ -3,7 +3,7 @@
 
 const fs = require('fs');
 
-function readFile(path) {
+export function readFile(path) {
 	return new Promise((fullfill, reject) => {
 		fs.readFile(path, (error, data) => {
 			if (error) {
@@ -15,14 +15,10 @@ function readFile(path) {
 	});
 }
 
-function createValue(value) {
+export function createValue(value) {
 	return Object.create(null, {
 		value: {
 			value: value
 		}
 	});
 }
-
-export {
-	readFile,createValue
-};

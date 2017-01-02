@@ -63,7 +63,7 @@ class FCall extends AST {
  * @param {Object} options
  * @returns {Promise} expanded configuration
  */
-function expand(config, options = {}) {
+export function expand(config, options = {}) {
 	const constants = options.constants || {
 		basedir: '/'
 	};
@@ -163,7 +163,3 @@ function expand(config, options = {}) {
 
 	return Promise.resolve(ctx.expand(config));
 }
-
-export {
-	expand
-};
