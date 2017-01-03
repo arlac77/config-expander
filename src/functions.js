@@ -1,6 +1,10 @@
 /* jslint node: true, esnext: true */
 'use strict';
 
+/**
+ * @module config-expander
+ */
+
 const fs = require('fs'),
 	path = require('path'),
 	crypto = require('crypto');

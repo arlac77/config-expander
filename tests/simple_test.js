@@ -166,6 +166,16 @@ describe('expander', () => {
       }
     })));
 
+	it('can nest includes', () => expand("${include('fixtures/first.json')}", {
+      constants: {
+        basedir: __dirname
+      }
+    }).then(r => assert.deepEqual(r, {
+      first_key: { name: {
+        key: 'value from other'
+      }}
+    })));
+
     it('include missing', () => expand("${include('fixtures/missing.json')}").catch(e => assert.ok(true)));
   });
 });

@@ -1,6 +1,10 @@
 /* jslint node: true, esnext: true */
 'use strict';
 
+/**
+ * @module config-expander
+ */
+
 const path = require('path');
 
 import {
@@ -22,10 +26,6 @@ import {
 	functions
 }
 from './functions';
-
-/**
- * @module config-expander
- */
 
 class AST {
 	get value() {
