@@ -168,5 +168,7 @@ describe('expander', () => {
         key: 'value from other'
       }
     })));
+
+    it('include missing', () => expand("${include('fixtures/missing.json')}").catch(e => assert.ok(true)));
   });
 });

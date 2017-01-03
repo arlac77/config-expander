@@ -1,8 +1,7 @@
 /* jslint node: true, esnext: true */
 'use strict';
 
-const fs = require('fs'),
-	path = require('path');
+const path = require('path');
 
 import {
 	createContext
@@ -161,5 +160,10 @@ export function expand(config, options = {}) {
 		}
 	});
 
-	return Promise.resolve(ctx.expand(config));
+	try {
+		const r = ctx.expand(config);
+		return r instanceof Promise ? r : Promise.resolve(r);
+	} catch (e) {
+		return Promise.reject(e);
+	}
 }
