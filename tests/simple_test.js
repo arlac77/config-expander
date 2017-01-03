@@ -127,11 +127,8 @@ describe('expander', () => {
       name: 'ow'
     })));
 
-    xit('encrypt', () => expand({
-      name: "${encrypt('secret','a2xhcgAAAAAAAAAA','clear')}"
-    }).then(r => assert.deepEqual(r, {
-      name: 'ow'
-    })));
+    it('encrypt/decrypt', () => expand("${decrypt('key',encrypt('key','secret'))}").then(r => assert.equal(
+      r, 'secret')));
   });
 
   describe('files', () => {

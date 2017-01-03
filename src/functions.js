@@ -54,27 +54,39 @@ export const functions = {
 		returns: 'string',
 		apply: (context, args) => createValue(args[0].value.toLowerCase())
 	},
+
+	/**
+	 * encrypt a plaintext value
+	 * @param {String} key
+	 * @param {String} plaintext
+	 * @return {String} encrypted value
+	 */
 	encrypt: {
-		arguments: ['string', 'string', 'string'],
+		arguments: ['string', 'string'],
 		returns: 'string',
 		apply: (context, args) => {
-			const [cryptkey, iv, cleardata] = args.map(a => a.value);
-			const encipher = crypto.createCipheriv('aes-256-cbc', cryptkey, iv);
-			let encryptdata = encipher.update(cleardata, 'utf8', 'binary');
+			const [key, plaintext] = args.map(a => a.value);
+			const encipher = crypto.createCipher('aes-256-cbc', key);
+			let encryptdata = encipher.update(plaintext, 'utf8', 'binary');
 			encryptdata += encipher.final('binary');
 			const encode_encryptdata = new Buffer(encryptdata, 'binary').toString('base64');
 			return createValue(new Buffer(encryptdata, 'binary').toString('base64'));
 		}
 	},
+
+	/**
+	 * decrypt
+	 * @param {String} key
+	 * @param {String} encrypted
+	 * @return {String} plaintext
+	 */
 	decrypt: {
-		arguments: ['string', 'string', 'string'],
+		arguments: ['string', 'string'],
 		returns: 'string',
 		apply: (context, args) => {
-			let [cryptkey, iv, encryptdata] = args.map(a => a.value);
-
+			let [key, encryptdata] = args.map(a => a.value);
 			encryptdata = new Buffer(encryptdata, 'base64').toString('binary');
-
-			const decipher = crypto.createDecipheriv('aes-256-cbc', cryptkey, iv);
+			const decipher = crypto.createDecipher('aes-256-cbc', key);
 			let decoded = decipher.update(encryptdata, 'binary', 'utf8');
 			decoded += decipher.final('utf8');
 			return createValue(decoded);
