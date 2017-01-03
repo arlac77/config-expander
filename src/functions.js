@@ -37,11 +37,13 @@ export const functions = {
 			const file = path.resolve(context.constants.basedir, args[
 				0].value);
 
-			return createValue(expand(JSON.parse(fs.readFileSync(file)), {
-				constants: {
-					basedir: path.dirname(file)
-				}
-			}));
+			return createValue(readFile(file).then(data =>
+				expand(JSON.parse(data), {
+					constants: {
+						basedir: path.dirname(file)
+					}
+				})
+			));
 		}
 	},
 	number: {
