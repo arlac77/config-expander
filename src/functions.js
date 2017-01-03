@@ -14,6 +14,11 @@ import {
 }
 from './util';
 
+import {
+	expand
+}
+from './expander';
+
 export const functions = {
 	document: {
 		arguments: ['string'],
@@ -28,7 +33,16 @@ export const functions = {
 	include: {
 		arguments: ['string'],
 		returns: 'object',
-		apply: (context, args) => createValue(JSON.parse(fs.readFileSync(path.resolve(context.constants.basedir, args[0].value))))
+		apply: (context, args) => {
+			const file = path.resolve(context.constants.basedir, args[
+				0].value);
+
+			return createValue(expand(JSON.parse(fs.readFileSync(file)), {
+				constants: {
+					basedir: path.dirname(file)
+				}
+			}));
+		}
 	},
 	number: {
 		arguments: ['string|number'],
@@ -59,15 +73,15 @@ export const functions = {
 		apply: (context, args) => createValue(args[0].value.toLowerCase())
 	},
 
-	/**
-	 * encrypt a plaintext value
-	 * @param {String} key
-	 * @param {String} plaintext
-	 * @return {String} encrypted value
-	 */
 	encrypt: {
 		arguments: ['string', 'string'],
 		returns: 'string',
+		/**
+		 * Encrypt a plaintext value
+		 * @param {String} key
+		 * @param {String} plaintext
+		 * @return {String} encrypted value
+		 */
 		apply: (context, args) => {
 			const [key, plaintext] = args.map(a => a.value);
 			const encipher = crypto.createCipher('aes-256-cbc', key);
@@ -78,15 +92,15 @@ export const functions = {
 		}
 	},
 
-	/**
-	 * decrypt
-	 * @param {String} key
-	 * @param {String} encrypted
-	 * @return {String} plaintext
-	 */
 	decrypt: {
 		arguments: ['string', 'string'],
 		returns: 'string',
+		/**
+		 * Decrypt a string
+		 * @param {String} key
+		 * @param {String} encrypted
+		 * @return {String} plaintext
+		 */
 		apply: (context, args) => {
 			let [key, encryptdata] = args.map(a => a.value);
 			encryptdata = new Buffer(encryptdata, 'base64').toString('binary');

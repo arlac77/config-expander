@@ -166,16 +166,17 @@ describe('expander', () => {
       }
     })));
 
-	it('can nest includes', () => expand("${include('fixtures/first.json')}", {
+    it('can nest includes', () => expand("${include('fixtures/first.json')}", {
       constants: {
         basedir: __dirname
       }
     }).then(r => assert.deepEqual(r, {
-      first_key: { name: {
+      first_key: {
         key: 'value from other'
-      }}
+      }
     })));
 
-    it('include missing', () => expand("${include('fixtures/missing.json')}").catch(e => assert.ok(true)));
+    it('include missing', () => expand("${include('fixtures/missing.json')}").catch(e => assert.equal(e.message,
+      'ENOENT: no such file or directory, open \'/fixtures/missing.json\'')));
   });
 });

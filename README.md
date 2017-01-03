@@ -39,6 +39,7 @@ Output
 
 # API Reference
 - config-expander
+- config-expander
 
 * <a name="module_config-expander.expand"></a>
 
@@ -52,6 +53,34 @@ Expands expressions in a configuration object
 | --- | --- |
 | config | <code>Object</code> | 
 | options | <code>Object</code> | 
+
+
+* <a name="module_config-expander..functions.encrypt.apply"></a>
+
+## module:config-expander~functions.encrypt.apply(key, plaintext) ⇒ <code>String</code>
+Encrypt a plaintext value
+
+**Kind**: static method of <code>module:config-expander~functions.encrypt</code>  
+**Returns**: <code>String</code> - encrypted value  
+
+| Param | Type |
+| --- | --- |
+| key | <code>String</code> | 
+| plaintext | <code>String</code> | 
+
+
+* <a name="module_config-expander..functions.decrypt.apply"></a>
+
+## module:config-expander~functions.decrypt.apply(key, encrypted) ⇒ <code>String</code>
+Decrypt a string
+
+**Kind**: static method of <code>module:config-expander~functions.decrypt</code>  
+**Returns**: <code>String</code> - plaintext  
+
+| Param | Type |
+| --- | --- |
+| key | <code>String</code> | 
+| encrypted | <code>String</code> | 
 
 
 * * *
