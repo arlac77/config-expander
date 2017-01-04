@@ -7,6 +7,11 @@ import {
 from 'pratt-parser';
 
 import {
+	createValue
+}
+from './util';
+
+import {
 	functions
 }
 from './functions';
@@ -18,9 +23,7 @@ class AST {
 }
 
 function Error(error) {
-	return {
-		value: Promise.reject(error)
-	};
+	return createValue(Promise.reject(error));
 }
 
 class BinOP extends AST {
