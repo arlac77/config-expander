@@ -22,7 +22,7 @@ from './expander';
 export const functions = {
 	document: {
 		arguments: ['string'],
-		returns: 'blob',
+		returns: 'buffer',
 		apply: (context, args) => createValue(readFile(path.resolve(context.constants.basedir, args[0].value)))
 	},
 	resolve: {
@@ -54,6 +54,15 @@ export const functions = {
 			return createValue(parseFloat(v) === v ? v : parseFloat(v.replace(/[a-z]+/, '')));
 		}
 	},
+	string: {
+		arguments: ['string|buffer'],
+		returns: 'number',
+		apply: (context, args) => {
+			const v = args[0].value;
+			return createValue(v instanceof Buffer ? v.toString() : v);
+		}
+	},
+
 	substring: {
 		arguments: ['string', 'integer', 'integer'],
 		returns: 'string',

@@ -49,7 +49,7 @@ class FCall extends AST {
 	constructor(f, context, args) {
 		super();
 		Object.defineProperty(this, 'value', {
-			get: () => f.apply(context, args).value
+			get: () => Promise.all(args.map(a => a.value)).then(r => f.apply(context, r.map(v => createValue(v))).value)
 		});
 	}
 }

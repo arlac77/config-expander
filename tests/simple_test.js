@@ -85,6 +85,15 @@ describe('expander', () => {
       r, 'secret')));
   });
 
+  describe('promise function args', () => {
+    it('one promise arg', () => expand(
+      "${substring(string(document('fixtures/short.txt')),0,4)}", {
+        constants: {
+          basedir: __dirname
+        }
+      }).then(r => assert.equal(r, 'line')));
+  });
+
   describe('promise expressions', () => {
     it('two promises binop', () => expand(
       "${document('fixtures/short.txt') + document('fixtures/short2.txt')}", {
