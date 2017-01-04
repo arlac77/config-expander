@@ -93,7 +93,7 @@ export const grammar = create({
 						if (f) {
 							return new FCall(f, grammar.context, args);
 						} else {
-							return Error(`unknown function ${left.value}`);
+							return Error(`Unknown function: '${left.value}'`);
 						}
 					} else {
 						const e = grammar.expression(0);

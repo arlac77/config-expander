@@ -23,15 +23,11 @@ describe('expander', () => {
   });
 
   describe('constants', () => {
-    it('external', () => expand({
-      name: '${constA}'
-    }, {
+    it('external', () => expand('${constA}', {
       constants: {
         constA: 'constAValue'
       }
-    }).then(r => assert.deepEqual(r, {
-      name: 'constAValue'
-    })));
+    }).then(r => assert.equal(r, 'constAValue')));
 
     it('internal', () => expand({
       constants: {
@@ -63,48 +59,18 @@ describe('expander', () => {
   });
 
   describe('expression', () => {
-    it('str concat', () => expand({
-      name: "${'x' + 'y'}"
-    }).then(r => assert.deepEqual(r, {
-      name: 'xy'
-    })));
-
-    it('addition', () => expand({
-      name: "${1 + 2}"
-    }).then(r => assert.deepEqual(r, {
-      name: 3
-    })));
-
-    it('substraction', () => expand({
-      name: "${3 - 2}"
-    }).then(r => assert.deepEqual(r, {
-      name: 1
-    })));
-
-    it('multiplication', () => expand({
-      name: "${3*2)}"
-    }).then(r => assert.deepEqual(r, {
-      name: 6
-    })));
-
-    it('division', () => expand({
-      name: "${8/2)}"
-    }).then(r => assert.deepEqual(r, {
-      name: 4
-    })));
-
-    it('number', () => expand({
-      name: "${number('77')}"
-    }).then(r => assert.deepEqual(r, {
-      name: 77
-    })));
+    it('str concat', () => expand("${'x' + 'y'}").then(r => assert.equal(r, 'xy')));
+    it('addition', () => expand("${1 + 2}").then(r => assert.equal(r, 3)));
+    it('substraction', () => expand("${3 - 2}").then(r => assert.equal(r, 1)));
+    it('multiplication', () => expand("${3*2)}").then(r => assert.equal(r, 6)));
+    it('division', () => expand("${8/2)}").then(r => assert.equal(r, 4)));
+    it('number', () => expand("${number('77')}").then(r => assert.equal(r, 77)));
   });
 
   describe('functions', () => {
-    it('unknown function', () => expand(
-        "${thisFunctionIsUnknown()}"
-      ).then(e => assert.deepEqual(e, {}))
-      .catch(e => assert.deepEqual(e, "unknown function thisFunctionIsUnknown")));
+    it('unknown function', () => expand("${thisFunctionIsUnknown()}")
+      .then(e => assert.equal(e, {}))
+      .catch(e => assert.equal(e, "Unknown function: 'thisFunctionIsUnknown'")));
     it('toUpperCase', () => expand("${toUpperCase('lower')}").then(r => assert.equal(r, 'LOWER')));
     it('toLowerCase', () => expand("${toLowerCase('UPPER')}").then(r => assert.equal(r, 'upper')));
     it('substring', () => expand("${substring('lower',1,3)}").then(r => assert.equal(r, 'ow')));
@@ -142,16 +108,12 @@ describe('expander', () => {
       name: path.join(__dirname, 'fixtures')
     })));
 
-    it('can include', () => expand({
-      name: "${include('fixtures/other.json')}"
-    }, {
+    it('can include', () => expand("${include('fixtures/other.json')}", {
       constants: {
         basedir: __dirname
       }
     }).then(r => assert.deepEqual(r, {
-      name: {
-        key: 'value from other'
-      }
+      key: 'value from other'
     })));
 
     it('can nest includes', () => expand("${include('fixtures/first.json')}", {
