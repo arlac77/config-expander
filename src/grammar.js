@@ -91,6 +91,7 @@ export const grammar = create({
 
 						const f = functions[left.value];
 						if (f) {
+							//console.log(`${f.arguments} <> ${args.map(a => a.type)}`);
 							return new FCall(f, grammar.context, args);
 						} else {
 							return Error(`Unknown function: '${left.value}'`);

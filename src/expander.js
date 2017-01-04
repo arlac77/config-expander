@@ -28,12 +28,10 @@ from './grammar';
  */
 export function expand(config, options = {}) {
 	try {
-		const constants = options.constants || {
-			basedir: '/'
-		};
-
 		const context = {
-			constants
+			constants: options.constants || {
+				basedir: '/'
+			}
 		};
 
 		const ee = createContext({
