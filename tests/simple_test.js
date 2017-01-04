@@ -1,4 +1,4 @@
-/* global describe, it */
+/* global describe, it, xit */
 /* jslint node: true, esnext: true */
 
 'use strict';
@@ -44,6 +44,22 @@ describe('expander', () => {
       },
       name: 1
     })));
+
+    it('double def', () => expand({
+      constants: {
+        A: 2
+      },
+      name: '${A}'
+    }, {
+      constants: {
+        A: 7
+      }
+    }).then(r => assert.deepEqual(r, {
+      constants: {
+        A: 2
+      },
+      name: 2
+    })));
   });
 
   describe('expression', () => {
@@ -85,47 +101,19 @@ describe('expander', () => {
   });
 
   describe('functions', () => {
-    xit('unknown function', () => expand({
-      name: "${thisFunctionIsUnknown('lower')}"
-    }).then(r => assert.deepEqual(r, {
-      name: 'LOWER'
-    })));
+    it('unknown function', () => expand(
+        "${thisFunctionIsUnknown()}"
+      ).then(e => assert.deepEqual(e, {}))
+      .catch(e => assert.deepEqual(e, "unknown function thisFunctionIsUnknown")));
+    it('toUpperCase', () => expand("${toUpperCase('lower')}").then(r => assert.equal(r, 'LOWER')));
+    it('toLowerCase', () => expand("${toLowerCase('UPPER')}").then(r => assert.equal(r, 'upper')));
+    it('substring', () => expand("${substring('lower',1,3)}").then(r => assert.equal(r, 'ow')));
+    it('replace', () => expand("${replace('lower','ow','12')}").then(r => assert.equal(r, 'l12er')));
+    it('substring with expressions', () => expand("${substring('lower',1,1+2*1)}").then(r => assert.equal(r,
+      'ow')));
 
-    it('toUpperCase', () => expand({
-      name: "${toUpperCase('lower')}"
-    }).then(r => assert.deepEqual(r, {
-      name: 'LOWER'
-    })));
-
-    it('toLowerCase', () => expand({
-      name: "${toLowerCase('UPPER')}"
-    }).then(r => assert.deepEqual(r, {
-      name: 'upper'
-    })));
-
-    it('substring', () => expand({
-      name: "${substring('lower',1,3)}"
-    }).then(r => assert.deepEqual(r, {
-      name: 'ow'
-    })));
-
-    it('replace', () => expand({
-      name: "${replace('lower','ow','12')}"
-    }).then(r => assert.deepEqual(r, {
-      name: 'l12er'
-    })));
-
-    it('substring with expressions', () => expand({
-      name: "${substring('lower',1,1+2*1)}"
-    }).then(r => assert.deepEqual(r, {
-      name: 'ow'
-    })));
-
-    it('substring with expressions', () => expand({
-      name: "${substring('lower',1,number('2')+1)}"
-    }).then(r => assert.deepEqual(r, {
-      name: 'ow'
-    })));
+    it('substring with expressions', () => expand("${substring('lower',1,number('2')+1)}").then(r => assert.equal(
+      r, 'ow')));
 
     it('encrypt/decrypt', () => expand("${decrypt('key',encrypt('key','secret'))}").then(r => assert.equal(
       r, 'secret')));
