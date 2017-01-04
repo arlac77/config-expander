@@ -85,6 +85,29 @@ describe('expander', () => {
       r, 'secret')));
   });
 
+  describe('promise expressions', () => {
+    it('two promises binop', () => expand(
+      "${document('fixtures/short.txt') + document('fixtures/short2.txt')}", {
+        constants: {
+          basedir: __dirname
+        }
+      }).then(r => assert.equal(r, new Buffer('line 1\nline 2\n'))));
+
+    it('left promise binop', () => expand(
+      "${document('fixtures/short.txt') + 'XX'}", {
+        constants: {
+          basedir: __dirname
+        }
+      }).then(r => assert.equal(r, new Buffer('line 1\nXX'))));
+
+    it('right promises binop', () => expand(
+      "${'XX' + document('fixtures/short.txt')}", {
+        constants: {
+          basedir: __dirname
+        }
+      }).then(r => assert.equal(r, new Buffer('XXline 1\n'))));
+  });
+
   describe('files', () => {
     it('has file content', () => expand({
       name: "${document('short.txt')}",

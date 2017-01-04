@@ -30,7 +30,17 @@ class BinOP extends AST {
 	constructor(a, b, exec) {
 		super();
 		Object.defineProperty(this, 'value', {
-			get: () => exec(a, b)
+			get: () => {
+				if (a.value instanceof Promise) {
+					if (b.value instanceof Promise) {
+						return Promise.all([a.value, b.value]).then(args => exec(...args.map(v => createValue(v))));
+					}
+					return a.value.then(a => exec(createValue(a), b));
+				} else if (b.value instanceof Promise) {
+					return b.value.then(b => exec(a, createValue(b)));
+				}
+				return exec(a, b);
+			}
 		});
 	}
 }

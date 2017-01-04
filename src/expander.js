@@ -11,11 +11,6 @@ import {
 from 'expression-expander';
 
 import {
-	createValue
-}
-from './util';
-
-import {
 	grammar
 }
 from './grammar';
