@@ -17,24 +17,24 @@
 config-expander
 -------------------
 
-Expands expressions in config json
+Expands expressions in config files
 
 # example
 
 ## file.js
 
 ```js
-const expand = require('config-expander').expand;
+const {expand} = require('config-expander');
 
 // expanding hole expressions at the value position (result is a number)
 
-expand({"key" : "${value}" },{ constants:{value: 77}}).then(r => console.log(JSON.stringify(r)));
+expand({"key" : "${value + 1}" },{ constants:{value: 77}}).then(r => console.log(JSON.stringify(r)));
 ```
 
 Output
 
 ```
-{ "key" : 77 }
+{ "key" : 78 }
 ```
 
 # API Reference

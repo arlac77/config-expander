@@ -1,9 +1,10 @@
 {
   "name": "config-expander",
   "version": "0.0.0-semantic-release",
-  "description": "expands configuration templates",
+  "description": "Expands expressions in config files",
   "keywords": [
-    "config"
+    "config",
+    "expression-evaluation"
   ],
   "main": "dist/expander.js",
   "module": "src/expander.js",
