@@ -25,7 +25,7 @@ export const functions = {
 		returns: 'blob',
 		apply: (context, args) => createValue(readFile(path.resolve(context.constants.basedir, args[0].value)))
 	},
-	directory: {
+	resolve: {
 		arguments: ['string'],
 		returns: 'string',
 		apply: (context, args) => createValue(path.resolve(context.constants.basedir, args[0].value))
@@ -113,6 +113,3 @@ export const functions = {
 		}
 	}
 };
-
-// BACKward compatibility only
-functions.file = functions.document;

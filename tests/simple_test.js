@@ -121,8 +121,8 @@ describe('expander', () => {
       name2: new Buffer('line 1\n')
     })));
 
-    it('has directory', () => expand({
-      name: "${directory('fixtures')}"
+    it('resolve file names', () => expand({
+      name: "${resolve('fixtures')}"
     }, {
       constants: {
         basedir: __dirname
