@@ -16,14 +16,32 @@ import {
 }
 from './functions';
 
+function Error(error) {
+	return createValue(Promise.reject(error));
+}
+
 class AST {
 	get value() {
 		return undefined;
 	}
 }
 
-function Error(error) {
-	return createValue(Promise.reject(error));
+class ArrayAccess extends AST {
+	constructor(array, index) {
+		super();
+		Object.defineProperty(this, 'value', {
+			get: () => array.value[index.value]
+		});
+	}
+}
+
+class ObjectAccess extends AST {
+	constructor(object, attribute) {
+		super();
+		Object.defineProperty(this, 'value', {
+			get: () => object.value[attribute.value]
+		});
+	}
 }
 
 class BinOP extends AST {
@@ -118,6 +136,15 @@ export const grammar = create({
 			}
 		},
 		infix: {
+			'.': {
+				precedence: 1,
+				combine: (left, right) => new ObjectAccess(left, right)
+			},
+			'[': {
+				precedence: 1,
+				combine: (left, right) => new ArrayAccess(left, right)
+			},
+			']': {},
 			',': {},
 			')': {},
 			'+': {

@@ -162,4 +162,32 @@ describe('expander', () => {
     it('include missing', () => expand("${include('fixtures/missing.json')}").catch(e => assert.equal(e.message,
       'ENOENT: no such file or directory, open \'/fixtures/missing.json\'')));
   });
+
+  describe('arrays', () => {
+    it('access', () => expand("${myArray[2-1]}", {
+      constants: {
+        myArray: ['a', 'b', 'c'],
+      }
+    }).then(r => assert.equal(r, 'b')));
+  });
+
+  describe('object paths', () => {
+    it('access one level', () => expand("${myObject.att1}", {
+      constants: {
+        myObject: {
+          att1: 'val1'
+        },
+      }
+    }).then(r => assert.equal(r, 'val1')));
+
+    it('access several levels', () => expand("${myObject.level1.level2}", {
+      constants: {
+        myObject: {
+          level1: {
+            level2: 'val1'
+          }
+        },
+      }
+    }).then(r => assert.equal(r, 'val1')));
+  });
 });
