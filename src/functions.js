@@ -38,11 +38,11 @@ export const functions = {
 				0].value);
 
 			return createValue(readFile(file).then(data =>
-				expand(JSON.parse(data), {
-					constants: {
+				expand(JSON.parse(data), Object.assign({}, context, {
+					constants: Object.assign({}, context.constants, {
 						basedir: path.dirname(file)
-					}
-				})
+					})
+				}))
 			));
 		}
 	},

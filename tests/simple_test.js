@@ -168,6 +168,7 @@ describe('expander', () => {
 
     it('can nest includes', () => expand("${include('fixtures/first.json')}", {
       constants: {
+        nameOfTheOther: 'other.json',
         basedir: __dirname
       }
     }).then(r => assert.deepEqual(r, {
