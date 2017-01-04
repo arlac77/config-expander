@@ -93,14 +93,14 @@ describe('expander', () => {
         }
       }).then(r => assert.equal(r, new Buffer('line 1\nline 2\n'))));
 
-    it('left promise binop', () => expand(
+    it('left only promise binop', () => expand(
       "${document('fixtures/short.txt') + 'XX'}", {
         constants: {
           basedir: __dirname
         }
       }).then(r => assert.equal(r, new Buffer('line 1\nXX'))));
 
-    it('right promises binop', () => expand(
+    it('right only promise binop', () => expand(
       "${'XX' + document('fixtures/short.txt')}", {
         constants: {
           basedir: __dirname
