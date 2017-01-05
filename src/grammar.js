@@ -2,7 +2,7 @@
 'use strict';
 
 import {
-	create
+	Parser
 }
 from 'pratt-parser';
 
@@ -83,7 +83,7 @@ class FCall extends AST {
 	}
 }
 
-export const grammar = create({
+export const grammar = new Parser({
 	identifier(value, properties, context) {
 			const path = context.path;
 
@@ -107,7 +107,6 @@ export const grammar = create({
 			if (c) {
 				properties.value.value = c;
 			} else {
-				properties.type.value = 'identifier';
 				properties.value.value = value;
 			}
 		},
