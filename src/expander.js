@@ -17,8 +17,8 @@ from './grammar';
 
 /**
  * Expands expressions in a configuration object
- * @param {Object} config
- * @param {Object} options
+ * @param {object} config
+ * @param {object} [options]
  * @returns {Promise} expanded configuration
  */
 export function expand(config, options = {}) {

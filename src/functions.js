@@ -89,9 +89,9 @@ export const functions = {
 		returns: 'string',
 		/**
 		 * Encrypt a plaintext value
-		 * @param {String} key
-		 * @param {String} plaintext
-		 * @return {String} encrypted value
+		 * @param {string} key
+		 * @param {string} plaintext
+		 * @return {string} encrypted value
 		 */
 		apply: (context, args) => {
 			const [key, plaintext] = args.map(a => a.value);
@@ -107,10 +107,10 @@ export const functions = {
 		arguments: ['string', 'string'],
 		returns: 'string',
 		/**
-		 * Decrypt a string
-		 * @param {String} key
-		 * @param {String} encrypted
-		 * @return {String} plaintext
+		 * Decrypt a former encrypted string 
+		 * @param {string} key
+		 * @param {string} encrypted
+		 * @return {string} plaintext
 		 */
 		apply: (context, args) => {
 			let [key, encryptdata] = args.map(a => a.value);
