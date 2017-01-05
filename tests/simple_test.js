@@ -95,6 +95,19 @@ describe('expander', () => {
     });
   });
 
+  describe('tenery expression', () => {
+    it('true 1st.', () => expand("${2 > 1 ? 22 : 11}").then(r => assert.equal(r, 22)));
+    it('false 2nd.', () => expand("${2 < 1 ? 22 : 11}").then(r => assert.equal(r, 11)));
+
+    describe('combined', () => {
+      it('false 2nd.', () => expand("${2 < 1 ? 22+1 : 11+1}").then(r => assert.equal(r, 12)));
+      it('true 2nd.', () => expand("${2*0 < 1 ? 22+1 : 11+1}").then(r => assert.equal(r, 23)));
+      it('true 2nd. with function call', () => expand("${'a'=='b' ? 22+1 : substring('abc',1,2)}").then(r =>
+        assert.equal(r,
+          'b')));
+    });
+  });
+
   describe('functions', () => {
     it('unknown function', () => expand("${thisFunctionIsUnknown()}")
       .then(e => assert.equal(e, {}))

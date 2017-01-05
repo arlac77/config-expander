@@ -63,6 +63,17 @@ class BinOP extends AST {
 	}
 }
 
+class TeneryOP extends AST {
+	constructor(exp, a, b) {
+		super();
+		Object.defineProperty(this, 'value', {
+			get: () => {
+				return exp.value ? a.value : b.value;
+			}
+		});
+	}
+}
+
 class FCall extends AST {
 	constructor(f, context, args) {
 		super();
@@ -170,6 +181,15 @@ export const grammar = create({
 			}
 		},
 		infix: {
+			'?': {
+				precedence: 20,
+				led(grammar, left) {
+					const e1 = grammar.expression(0);
+					grammar.advance(':');
+					const e2 = grammar.expression(0);
+					return new TeneryOP(left, e1, e2);
+				}
+			},
 			'.': {
 				precedence: 1,
 				combine: (left, right) => new ObjectAccess(left, right)
@@ -178,6 +198,7 @@ export const grammar = create({
 				precedence: 1,
 				combine: (left, right) => new ArrayAccess(left, right)
 			},
+			':': {},
 			']': {},
 			',': {},
 			')': {},
