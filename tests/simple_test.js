@@ -184,10 +184,23 @@ describe('expander', () => {
       constants: {
         myObject: {
           level1: {
-            level2: 'val1'
+            level2: 'val2'
           }
         },
       }
-    }).then(r => assert.equal(r, 'val1')));
+    }).then(r => assert.equal(r, 'val2')));
+  });
+  
+  describe('combined paths', () => {
+    it('access several levels', () => expand("${myObject.level1[1].level2}", {
+      constants: {
+        myObject: {
+          level1: [
+            {},
+            {level2: 'val2'}
+          ]
+        },
+      }
+    }).then(r => assert.equal(r, 'val2')));
   });
 });
