@@ -56,7 +56,7 @@ export const functions = {
 	},
 	string: {
 		arguments: ['string|buffer'],
-		returns: 'number',
+		returns: 'string',
 		apply: (context, args) => {
 			const v = args[0].value;
 			return createValue(v instanceof Buffer ? v.toString() : v);
@@ -107,7 +107,7 @@ export const functions = {
 		arguments: ['string', 'string'],
 		returns: 'string',
 		/**
-		 * Decrypt a former encrypted string 
+		 * Decrypt a former encrypted string
 		 * @param {string} key
 		 * @param {string} encrypted
 		 * @return {string} plaintext

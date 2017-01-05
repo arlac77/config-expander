@@ -135,6 +135,40 @@ export const grammar = create({
 				}
 			}
 		},
+		infixr: {
+			'&&': {
+				precedence: 30,
+				combine: (left, right) => new BinOP(left, right, (l, r) => l.value && r.value)
+			},
+			'||': {
+				precedence: 30,
+				combine: (left, right) => new BinOP(left, right, (l, r) => l.value || r.value)
+			},
+			'==': {
+				precedence: 40,
+				combine: (left, right) => new BinOP(left, right, (l, r) => l.value === r.value)
+			},
+			'!=': {
+				precedence: 40,
+				combine: (left, right) => new BinOP(left, right, (l, r) => l.value !== r.value)
+			},
+			'>=': {
+				precedence: 40,
+				combine: (left, right) => new BinOP(left, right, (l, r) => l.value >= r.value)
+			},
+			'<=': {
+				precedence: 40,
+				combine: (left, right) => new BinOP(left, right, (l, r) => l.value <= r.value)
+			},
+			'>': {
+				precedence: 40,
+				combine: (left, right) => new BinOP(left, right, (l, r) => l.value > r.value)
+			},
+			'<': {
+				precedence: 40,
+				combine: (left, right) => new BinOP(left, right, (l, r) => l.value < r.value)
+			}
+		},
 		infix: {
 			'.': {
 				precedence: 1,

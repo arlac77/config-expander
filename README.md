@@ -43,7 +43,7 @@ Output
 
 * <a name="module_config-expander.expand"></a>
 
-## config-expander.expand(config, options) ⇒ <code>Promise</code>
+## config-expander.expand(config, [options]) ⇒ <code>Promise</code>
 Expands expressions in a configuration object
 
 **Kind**: static method of <code>[config-expander](#module_config-expander)</code>  
@@ -51,36 +51,36 @@ Expands expressions in a configuration object
 
 | Param | Type |
 | --- | --- |
-| config | <code>Object</code> | 
-| options | <code>Object</code> | 
+| config | <code>object</code> | 
+| [options] | <code>object</code> | 
 
 
 * <a name="module_config-expander..functions.encrypt.apply"></a>
 
-## module:config-expander~functions.encrypt.apply(key, plaintext) ⇒ <code>String</code>
+## module:config-expander~functions.encrypt.apply(key, plaintext) ⇒ <code>string</code>
 Encrypt a plaintext value
 
 **Kind**: static method of <code>module:config-expander~functions.encrypt</code>  
-**Returns**: <code>String</code> - encrypted value  
+**Returns**: <code>string</code> - encrypted value  
 
 | Param | Type |
 | --- | --- |
-| key | <code>String</code> | 
-| plaintext | <code>String</code> | 
+| key | <code>string</code> | 
+| plaintext | <code>string</code> | 
 
 
 * <a name="module_config-expander..functions.decrypt.apply"></a>
 
-## module:config-expander~functions.decrypt.apply(key, encrypted) ⇒ <code>String</code>
-Decrypt a string
+## module:config-expander~functions.decrypt.apply(key, encrypted) ⇒ <code>string</code>
+Decrypt a former encrypted string
 
 **Kind**: static method of <code>module:config-expander~functions.decrypt</code>  
-**Returns**: <code>String</code> - plaintext  
+**Returns**: <code>string</code> - plaintext  
 
 | Param | Type |
 | --- | --- |
-| key | <code>String</code> | 
-| encrypted | <code>String</code> | 
+| key | <code>string</code> | 
+| encrypted | <code>string</code> | 
 
 
 * * *

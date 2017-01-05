@@ -59,12 +59,40 @@ describe('expander', () => {
   });
 
   describe('expression', () => {
-    it('str concat', () => expand("${'x' + 'y'}").then(r => assert.equal(r, 'xy')));
+    it('string concat', () => expand("${'x' + 'y'}").then(r => assert.equal(r, 'xy')));
     it('addition', () => expand("${1 + 2}").then(r => assert.equal(r, 3)));
     it('substraction', () => expand("${3 - 2}").then(r => assert.equal(r, 1)));
     it('multiplication', () => expand("${3*2)}").then(r => assert.equal(r, 6)));
     it('division', () => expand("${8/2)}").then(r => assert.equal(r, 4)));
     it('number', () => expand("${number('77')}").then(r => assert.equal(r, 77)));
+  });
+
+  describe('boolean expression', () => {
+    it('greater than false', () => expand("${1 > 2}").then(r => assert.equal(r, false)));
+    it('greater than true', () => expand("${2 > 1}").then(r => assert.equal(r, true)));
+    it('greater equal than false', () => expand("${1 >= 2}").then(r => assert.equal(r, false)));
+    it('greater equal than true', () => expand("${2 >= 1}").then(r => assert.equal(r, true)));
+    it('less than false', () => expand("${2 < 1}").then(r => assert.equal(r, false)));
+    it('less than true', () => expand("${1 < 2}").then(r => assert.equal(r, true)));
+    it('less equal than false', () => expand("${2 <= 1}").then(r => assert.equal(r, false)));
+    it('less equal than true', () => expand("${1 <= 2}").then(r => assert.equal(r, true)));
+    it('equal true', () => expand("${1 == 1}").then(r => assert.equal(r, true)));
+    it('equal false', () => expand("${1 == 2}").then(r => assert.equal(r, false)));
+    it('not equal true', () => expand("${2 != 1}").then(r => assert.equal(r, true)));
+    it('not equal false', () => expand("${2 != 2}").then(r => assert.equal(r, false)));
+    it('or false', () => expand("${0 || 0}").then(r => assert.equal(r, false)));
+    it('or true', () => expand("${1 || 0}").then(r => assert.equal(r, true)));
+
+    it('and false', () => expand("${1 && 0}").then(r => assert.equal(r, false)));
+    it('and true', () => expand("${1 && 1}").then(r => assert.equal(r, true)));
+
+    describe('combined', () => {
+      it('or true', () => expand("${1 > 2 || 1 > 0}").then(r => assert.equal(r, true)));
+      it('or false', () => expand("${1 > 2 || 1 < 0}").then(r => assert.equal(r, false)));
+
+      it('and false', () => expand("${1>0 && 0>1}").then(r => assert.equal(r, false)));
+      it('and true', () => expand("${1>0 && 2>0}").then(r => assert.equal(r, true)));
+    });
   });
 
   describe('functions', () => {
@@ -192,6 +220,16 @@ describe('expander', () => {
   });
 
   describe('combined paths', () => {
+    it('access objects first than array', () => expand("${myObject.level1.level2[1]}", {
+      constants: {
+        myObject: {
+          level1: {
+            level2: [1, 'val2']
+          }
+        },
+      }
+    }).then(r => assert.equal(r, 'val2')));
+
     xit('access several levels', () => expand("${myObject.level1[1].level2}", {
       constants: {
         myObject: {
