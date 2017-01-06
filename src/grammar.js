@@ -16,10 +16,6 @@ import {
 }
 from './functions';
 
-function Error(error) {
-	return createValue(Promise.reject(error));
-}
-
 class AST {
 	get value() {
 		return undefined;
@@ -106,8 +102,6 @@ export const grammar = new Parser({
 			const c = context.constants[value];
 			if (c) {
 				properties.value.value = c;
-			} else {
-				properties.value.value = value;
 			}
 		},
 		prefix: {
@@ -135,7 +129,7 @@ export const grammar = new Parser({
 							//console.log(`${f.arguments} <> ${args.map(a => a.type)}`);
 							return new FCall(f, grammar.context, args);
 						} else {
-							return Error(`Unknown function: '${left.value}'`);
+							grammar.error(`Unknown function: '${left.value}'`, left);
 						}
 					} else {
 						const e = grammar.expression(0);

@@ -111,7 +111,7 @@ describe('expander', () => {
   describe('functions', () => {
     it('unknown function', () => expand("${thisFunctionIsUnknown()}")
       .then(e => assert.equal(e, {}))
-      .catch(e => assert.equal(e, "Unknown function: 'thisFunctionIsUnknown'")));
+      .catch(e => assert.equal(e.message, "1,21: Unknown function: 'thisFunctionIsUnknown'")));
     it('toUpperCase', () => expand("${toUpperCase('lower')}").then(r => assert.equal(r, 'LOWER')));
     it('toLowerCase', () => expand("${toLowerCase('UPPER')}").then(r => assert.equal(r, 'upper')));
     it('substring', () => expand("${substring('lower',1,3)}").then(r => assert.equal(r, 'ow')));
