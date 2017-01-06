@@ -253,4 +253,8 @@ describe('expander', () => {
       }
     }).then(r => assert.equal(r, 'val2')));
   });
+
+  describe('array literals', () => {
+    xit('simple', () => expand("${[1,2,3]}").then(r => assert.deepEqual(r, [1, 2, 3])));
+  });
 });

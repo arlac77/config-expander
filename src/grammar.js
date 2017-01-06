@@ -139,6 +139,24 @@ export class ConfigParser extends Parser {
 								return e;
 							}
 						}
+					},
+					'[': {
+						nud(grammar, left) {
+							const values = [];
+
+							if (grammar.token.value !== ']') {
+								while (true) {
+									values.push(grammar.expression(0).value);
+
+									if (grammar.token.value !== ',') {
+										break;
+									}
+									grammar.advance(',');
+								}
+							}
+							grammar.advance(']');
+							return createValue(values);
+						}
 					}
 				},
 				infixr: {
