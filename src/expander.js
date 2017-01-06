@@ -11,7 +11,7 @@ import {
 from 'expression-expander';
 
 import {
-	grammar
+	ConfigParser
 }
 from './grammar';
 
@@ -29,16 +29,17 @@ export function expand(config, options = {}) {
 			}
 		};
 
+		const parser = new ConfigParser();
+
 		const ee = createContext({
 			evaluate: (expression, _context, path) => {
 				context.path = path;
-				const ast = grammar.parse(expression, context);
+				const ast = parser.parse(expression, context);
 				return ast.value;
 			}
 		});
 
-		const r = ee.expand(config);
-		return r instanceof Promise ? r : Promise.resolve(r);
+		return Promise.resolve(ee.expand(config));
 	} catch (e) {
 		return Promise.reject(e);
 	}
