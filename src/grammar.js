@@ -109,8 +109,6 @@ class ConfigTokenizer extends Tokenizer {
 		}
 
 		if (path[0].value.constants) {
-			console.log(path[0].value.constants);
-
 			const v = path[0].value.constants[value];
 			if (v !== undefined) {
 				properties.value.value = v;

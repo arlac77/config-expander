@@ -34,8 +34,7 @@ export const functions = {
 		arguments: ['string'],
 		returns: 'object',
 		apply: (context, args) => {
-			const file = path.resolve(context.constants.basedir, args[
-				0].value);
+			const file = path.resolve(context.constants.basedir, args[0].value);
 
 			return createValue(readFile(file).then(data =>
 				expand(JSON.parse(data), Object.assign({}, context, {
@@ -62,6 +61,11 @@ export const functions = {
 			return createValue(v instanceof Buffer ? v.toString() : v);
 		}
 	},
+	length: {
+		arguments: ['string'],
+		returns: 'integer',
+		apply: (context, args) => createValue(args[0].value.length)
+	},
 
 	substring: {
 		arguments: ['string', 'integer', 'integer'],
@@ -83,9 +87,9 @@ export const functions = {
 		returns: 'string',
 		apply: (context, args) => createValue(args[0].value.toLowerCase())
 	},
-	
+
 	split: {
-		arguments: ['string','string'],
+		arguments: ['string', 'string'],
 		returns: 'string[]',
 		apply: (context, args) => createValue(args[0].value.split(args[1].value))
 	},
