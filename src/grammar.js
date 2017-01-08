@@ -104,8 +104,6 @@ class ConfigTokenizer extends Tokenizer {
 			const ctx = path[path.length - 2];
 			if (ctx.value[value] !== undefined) {
 				properties.value.value = ctx.value[value];
-				console.log(properties);
-				console.log('A');
 				return [Object.create(IdentifierToken, properties), i - offset];
 			}
 		}
@@ -116,8 +114,6 @@ class ConfigTokenizer extends Tokenizer {
 			const v = path[0].value.constants[value];
 			if (v !== undefined) {
 				properties.value.value = v;
-				console.log(properties);
-				console.log('B');
 				return [Object.create(IdentifierToken, properties), i - offset];
 			}
 		}
