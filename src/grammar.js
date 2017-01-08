@@ -2,7 +2,7 @@
 'use strict';
 
 import {
-	Parser
+	Parser, Tokenizer, IdentifierToken
 }
 from 'pratt-parser';
 
@@ -79,159 +79,191 @@ class FCall extends AST {
 	}
 }
 
+class ConfigTokenizer extends Tokenizer {
+	makeIdentifier(chunk, offset, context, properties) {
+		let i = offset;
+		i += 1;
+		for (;;) {
+			const c = chunk[i];
+			if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||
+				(c >= '0' && c <= '9') || c === '_') {
+				i += 1;
+			} else {
+				break;
+			}
+		}
+
+		const value = chunk.substring(offset, i);
+
+		properties.value = {
+			value: value
+		};
+		const path = context.path;
+
+		if (path.length >= 2) {
+			const ctx = path[path.length - 2];
+			if (ctx.value[value] !== undefined) {
+				properties.value.value = ctx.value[value];
+				console.log(properties);
+				console.log('A');
+				return [Object.create(IdentifierToken, properties), i - offset];
+			}
+		}
+
+		if (path[0].value.constants) {
+			console.log(path[0].value.constants);
+
+			const v = path[0].value.constants[value];
+			if (v !== undefined) {
+				properties.value.value = v;
+				console.log(properties);
+				console.log('B');
+				return [Object.create(IdentifierToken, properties), i - offset];
+			}
+		}
+
+		const c = context.constants[value];
+		if (c) {
+			properties.value.value = c;
+		}
+
+		return [Object.create(IdentifierToken, properties), i - offset];
+	}
+}
+
 export class ConfigParser extends Parser {
 	constructor() {
-		super({
-			identifier(value, properties, context) {
-					const path = context.path;
-
-					if (path.length >= 2) {
-						const ctx = path[path.length - 2];
-
-						if (ctx.value[value] !== undefined) {
-							properties.value.value = ctx.value[value];
-							return;
-						}
-					}
-					if (path[0].value.constants) {
-						const v = path[0].value.constants[value];
-						if (v !== undefined) {
-							properties.value.value = v;
-							return;
-						}
-					}
-
-					const c = context.constants[value];
-					if (c) {
-						properties.value.value = c;
-					}
-				},
-				prefix: {
-					'(': {
-						precedence: 80,
-						led(grammar, left) {
-							if (left.type === 'identifier') {
-								const args = [];
-
-								if (grammar.token.value !== ')') {
-									while (true) {
-										args.push(grammar.expression(0));
-
-										if (grammar.token.value !== ',') {
-											break;
-										}
-										grammar.advance(',');
-									}
-								}
-
-								grammar.advance(')');
-
-								const f = functions[left.value];
-								if (f) {
-									//console.log(`${f.arguments} <> ${args.map(a => a.type)}`);
-									return new FCall(f, grammar.context, args);
-								} else {
-									grammar.error(`Unknown function: '${left.value}'`, left);
-								}
-							} else {
-								const e = grammar.expression(0);
-								grammar.advance(')');
-								return e;
-							}
-						}
-					},
-					'[': {
-						nud(grammar, left) {
-							const values = [];
-
-							if (grammar.token.value !== ']') {
-								while (true) {
-									values.push(grammar.expression(0).value);
-
-									if (grammar.token.value !== ',') {
-										break;
-									}
-									grammar.advance(',');
-								}
-							}
-							grammar.advance(']');
-							return createValue(values);
-						}
-					}
-				},
-				infixr: {
-					'&&': {
-						precedence: 30,
-						combine: (left, right) => new BinOP(left, right, (l, r) => l.value && r.value)
-					},
-					'||': {
-						precedence: 30,
-						combine: (left, right) => new BinOP(left, right, (l, r) => l.value || r.value)
-					},
-					'==': {
-						precedence: 40,
-						combine: (left, right) => new BinOP(left, right, (l, r) => l.value === r.value)
-					},
-					'!=': {
-						precedence: 40,
-						combine: (left, right) => new BinOP(left, right, (l, r) => l.value !== r.value)
-					},
-					'>=': {
-						precedence: 40,
-						combine: (left, right) => new BinOP(left, right, (l, r) => l.value >= r.value)
-					},
-					'<=': {
-						precedence: 40,
-						combine: (left, right) => new BinOP(left, right, (l, r) => l.value <= r.value)
-					},
-					'>': {
-						precedence: 40,
-						combine: (left, right) => new BinOP(left, right, (l, r) => l.value > r.value)
-					},
-					'<': {
-						precedence: 40,
-						combine: (left, right) => new BinOP(left, right, (l, r) => l.value < r.value)
-					}
-				},
-				infix: {
-					'?': {
-						precedence: 20,
-						led(grammar, left) {
-							const e1 = grammar.expression(0);
-							grammar.advance(':');
-							const e2 = grammar.expression(0);
-							return new TeneryOP(left, e1, e2);
-						}
-					},
-					'.': {
-						precedence: 1,
-						combine: (left, right) => new ObjectAccess(left, right)
-					},
-					'[': {
-						precedence: 1,
-						combine: (left, right) => new ArraySlice(left, right)
-					},
-					':': {},
-					']': {},
-					',': {},
-					')': {},
-					'+': {
-						precedence: 50,
-						combine: (left, right) => new BinOP(left, right, (l, r) => l.value + r.value)
-					},
-					'-': {
-						precedence: 50,
-						combine: (left, right) => new BinOP(left, right, (l, r) => l.value - r.value)
-					},
-					'*': {
-						precedence: 60,
-						combine: (left, right) => new BinOP(left, right, (l, r) => l.value * r.value)
-					},
-					'/': {
-						precedence: 60,
-						combine: (left, right) => new BinOP(left, right, (l, r) => l.value / r.value)
-					}
-				}
+		super(grammar, {
+			tokenizer: new ConfigTokenizer(grammar)
 		});
 	}
 }
+
+const grammar = {
+	prefix: {
+		'(': {
+			precedence: 80,
+			led(grammar, left) {
+				if (left.type === 'identifier') {
+					const args = [];
+
+					if (grammar.token.value !== ')') {
+						while (true) {
+							args.push(grammar.expression(0));
+
+							if (grammar.token.value !== ',') {
+								break;
+							}
+							grammar.advance(',');
+						}
+					}
+
+					grammar.advance(')');
+
+					const f = functions[left.value];
+					if (f) {
+						//console.log(`${f.arguments} <> ${args.map(a => a.type)}`);
+						return new FCall(f, grammar.context, args);
+					} else {
+						grammar.error(`Unknown function: '${left.value}'`, left);
+					}
+				} else {
+					const e = grammar.expression(0);
+					grammar.advance(')');
+					return e;
+				}
+			}
+		},
+		'[': {
+			nud(grammar, left) {
+				const values = [];
+
+				if (grammar.token.value !== ']') {
+					while (true) {
+						values.push(grammar.expression(0).value);
+
+						if (grammar.token.value !== ',') {
+							break;
+						}
+						grammar.advance(',');
+					}
+				}
+				grammar.advance(']');
+				return createValue(values);
+			}
+		}
+	},
+	infixr: {
+		'&&': {
+			precedence: 30,
+			combine: (left, right) => new BinOP(left, right, (l, r) => l.value && r.value)
+		},
+		'||': {
+			precedence: 30,
+			combine: (left, right) => new BinOP(left, right, (l, r) => l.value || r.value)
+		},
+		'==': {
+			precedence: 40,
+			combine: (left, right) => new BinOP(left, right, (l, r) => l.value === r.value)
+		},
+		'!=': {
+			precedence: 40,
+			combine: (left, right) => new BinOP(left, right, (l, r) => l.value !== r.value)
+		},
+		'>=': {
+			precedence: 40,
+			combine: (left, right) => new BinOP(left, right, (l, r) => l.value >= r.value)
+		},
+		'<=': {
+			precedence: 40,
+			combine: (left, right) => new BinOP(left, right, (l, r) => l.value <= r.value)
+		},
+		'>': {
+			precedence: 40,
+			combine: (left, right) => new BinOP(left, right, (l, r) => l.value > r.value)
+		},
+		'<': {
+			precedence: 40,
+			combine: (left, right) => new BinOP(left, right, (l, r) => l.value < r.value)
+		}
+	},
+	infix: {
+		'?': {
+			precedence: 20,
+			led(grammar, left) {
+				const e1 = grammar.expression(0);
+				grammar.advance(':');
+				const e2 = grammar.expression(0);
+				return new TeneryOP(left, e1, e2);
+			}
+		},
+		'.': {
+			precedence: 1,
+			combine: (left, right) => new ObjectAccess(left, right)
+		},
+		'[': {
+			precedence: 1,
+			combine: (left, right) => new ArraySlice(left, right)
+		},
+		':': {},
+		']': {},
+		',': {},
+		')': {},
+		'+': {
+			precedence: 50,
+			combine: (left, right) => new BinOP(left, right, (l, r) => l.value + r.value)
+		},
+		'-': {
+			precedence: 50,
+			combine: (left, right) => new BinOP(left, right, (l, r) => l.value - r.value)
+		},
+		'*': {
+			precedence: 60,
+			combine: (left, right) => new BinOP(left, right, (l, r) => l.value * r.value)
+		},
+		'/': {
+			precedence: 60,
+			combine: (left, right) => new BinOP(left, right, (l, r) => l.value / r.value)
+		}
+	}
+};
