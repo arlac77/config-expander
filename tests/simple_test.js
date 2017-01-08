@@ -109,17 +109,17 @@ describe('expander', () => {
   });
 
   describe('functions', () => {
-    it('unknown function', () => expand("${thisFunctionIsUnknown()}")
+    it('unknown function', () => expand("${  thisFunctionIsUnknown()}")
       .then(e => assert.equal(e, {}))
-      .catch(e => assert.equal(e.message, "1,21: Unknown function: 'thisFunctionIsUnknown'")));
+      .catch(e => assert.equal(e.message, "1,2: Unknown function: 'thisFunctionIsUnknown'")));
     it('toUpperCase', () => expand("${toUpperCase('lower')}").then(r => assert.equal(r, 'LOWER')));
     it('toLowerCase', () => expand("${toLowerCase('UPPER')}").then(r => assert.equal(r, 'upper')));
     it('substring', () => expand("${substring('lower',1,3)}").then(r => assert.equal(r, 'ow')));
     it('replace', () => expand("${replace('lower','ow','12')}").then(r => assert.equal(r, 'l12er')));
-  
-    it('split', () => expand("${split('1,2,3,4',',')}").then(r => assert.deepEqual(r, ['1','2','3','4'])));
-   
-  
+
+    it('split', () => expand("${split('1,2,3,4',',')}").then(r => assert.deepEqual(r, ['1', '2', '3', '4'])));
+
+
     it('substring with expressions', () => expand("${substring('lower',1,1+2*1)}").then(r => assert.equal(r,
       'ow')));
 
