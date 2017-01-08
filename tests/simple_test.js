@@ -116,6 +116,10 @@ describe('expander', () => {
     it('toLowerCase', () => expand("${toLowerCase('UPPER')}").then(r => assert.equal(r, 'upper')));
     it('substring', () => expand("${substring('lower',1,3)}").then(r => assert.equal(r, 'ow')));
     it('replace', () => expand("${replace('lower','ow','12')}").then(r => assert.equal(r, 'l12er')));
+  
+    it('split', () => expand("${split('1,2,3,4',',')}").then(r => assert.deepEqual(r, ['1','2','3','4'])));
+   
+  
     it('substring with expressions', () => expand("${substring('lower',1,1+2*1)}").then(r => assert.equal(r,
       'ow')));
 

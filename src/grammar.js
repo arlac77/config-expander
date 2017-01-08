@@ -22,7 +22,7 @@ class AST {
 	}
 }
 
-class ArrayAccess extends AST {
+class ArraySlice extends AST {
 	constructor(array, index) {
 		super();
 		Object.defineProperty(this, 'value', {
@@ -209,7 +209,7 @@ export class ConfigParser extends Parser {
 					},
 					'[': {
 						precedence: 1,
-						combine: (left, right) => new ArrayAccess(left, right)
+						combine: (left, right) => new ArraySlice(left, right)
 					},
 					':': {},
 					']': {},

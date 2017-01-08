@@ -83,6 +83,12 @@ export const functions = {
 		returns: 'string',
 		apply: (context, args) => createValue(args[0].value.toLowerCase())
 	},
+	
+	split: {
+		arguments: ['string','string'],
+		returns: 'string[]',
+		apply: (context, args) => createValue(args[0].value.split(args[1].value))
+	},
 
 	encrypt: {
 		arguments: ['string', 'string'],
