@@ -40,6 +40,15 @@ class ObjectAccess extends AST {
 	}
 }
 
+class SpreadOP extends AST {
+	constructor(a, b) {
+		super();
+		Object.defineProperty(this, 'value', {
+			get: () => createValue([a.value,b.value])
+		});
+	}
+}
+
 class BinOP extends AST {
 	constructor(a, b, exec) {
 		super();
@@ -188,6 +197,10 @@ const grammar = {
 		}
 	},
 	infixr: {
+	    '..': {
+			precedence: 30,
+			combine: (left, right) => new SpreadOP(left, right, (l, r) => l.value && r.value)
+		},
 		'&&': {
 			precedence: 30,
 			combine: (left, right) => new BinOP(left, right, (l, r) => l.value && r.value)
