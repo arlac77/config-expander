@@ -228,7 +228,7 @@ describe('expander', () => {
       }
     }).then(r => assert.equal(r, 'val1')));
 
-    it.only('access with promise', () => expand("${include('fixtures/other.json').key}", {
+    it('access with promise', () => expand("${include('fixtures/other.json').key}", {
       constants: {
         basedir: __dirname
       }
