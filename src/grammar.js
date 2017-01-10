@@ -35,7 +35,12 @@ class ObjectAccess extends AST {
 	constructor(object, attribute) {
 		super();
 		Object.defineProperty(this, 'value', {
-			get: () => object.value[attribute.value]
+			get: () => {
+				if (object.value instanceof Promise) {
+					return object.value.then(v => v[attribute.value]);
+				}
+				return object.value[attribute.value];
+			}
 		});
 	}
 }
@@ -44,7 +49,7 @@ class SpreadOP extends AST {
 	constructor(a, b) {
 		super();
 		Object.defineProperty(this, 'value', {
-			get: () => createValue([a.value,b.value])
+			get: () => createValue([a.value, b.value])
 		});
 	}
 }
@@ -197,7 +202,7 @@ const grammar = {
 		}
 	},
 	infixr: {
-	    '..': {
+		'..': {
 			precedence: 30,
 			combine: (left, right) => new SpreadOP(left, right, (l, r) => l.value && r.value)
 		},

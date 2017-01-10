@@ -228,6 +228,12 @@ describe('expander', () => {
       }
     }).then(r => assert.equal(r, 'val1')));
 
+    it.only('access with promise', () => expand("${include('fixtures/other.json').key}", {
+      constants: {
+        basedir: __dirname
+      }
+    }).then(r => assert.equal(r, 'value from other')));
+
     it('access several levels', () => expand("${myObject.level1.level2}", {
       constants: {
         myObject: {
