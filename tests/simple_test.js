@@ -228,11 +228,13 @@ describe('expander', () => {
       }
     }).then(r => assert.equal(r, 'val1')));
 
-    it('access with promise', () => expand("${include('fixtures/other.json').key}", {
+    it('access with promise', () => expand("${include('fixtures/with_sub.json').sub}", {
       constants: {
         basedir: __dirname
       }
-    }).then(r => assert.equal(r, 'value from other')));
+    }).then(r => assert.deepEqual(r, {
+      "key": "value in other sub"
+    })));
 
     it('access several levels', () => expand("${myObject.level1.level2}", {
       constants: {
