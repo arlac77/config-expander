@@ -2,7 +2,7 @@
 'use strict';
 
 import {
-	Parser, Tokenizer, IdentifierToken
+	Parser, IdentifierToken
 }
 from 'pratt-parser';
 
@@ -93,61 +93,71 @@ class FCall extends AST {
 	}
 }
 
-class ConfigTokenizer extends Tokenizer {
-	makeIdentifier(chunk, offset, context, properties) {
-		let i = offset;
-		i += 1;
-		for (;;) {
-			const c = chunk[i];
-			if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||
-				(c >= '0' && c <= '9') || c === '_') {
-				i += 1;
-			} else {
-				break;
-			}
-		}
-
-		const value = chunk.substring(offset, i);
-
-		properties.value = {
-			value: value
-		};
-		const path = context.path;
-
-		if (path.length >= 2) {
-			const ctx = path[path.length - 2];
-			if (ctx.value[value] !== undefined) {
-				properties.value.value = ctx.value[value];
-				return [Object.create(IdentifierToken, properties), i - offset];
-			}
-		}
-
-		if (path[0].value.constants) {
-			const v = path[0].value.constants[value];
-			if (v !== undefined) {
-				properties.value.value = v;
-				return [Object.create(IdentifierToken, properties), i - offset];
-			}
-		}
-
-		const c = context.constants[value];
-		if (c) {
-			properties.value.value = c;
-		}
-
-		return [Object.create(IdentifierToken, properties), i - offset];
-	}
-}
-
 export class ConfigParser extends Parser {
 	constructor() {
-		super(grammar, {
-			tokenizer: new ConfigTokenizer(grammar)
-		});
+		super(grammar);
 	}
 }
 
 const grammar = {
+	tokens: [{
+		token: Object.create(IdentifierToken, {
+			parseString: {
+				value: function (tokenizer, pp, properties) {
+					let i = pp.offset + 1;
+					for (;;) {
+						const c = pp.chunk[i];
+						if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||
+							(c >= '0' && c <= '9') || c === '_') {
+							i += 1;
+						} else {
+							break;
+						}
+					}
+
+					const value = pp.chunk.substring(pp.offset, i);
+					pp.offset = i;
+
+					const path = pp.context.path;
+
+					if (path.length >= 2) {
+						const ctx = path[path.length - 2];
+						if (ctx.value[value] !== undefined) {
+							properties.value = {
+								value: ctx.value[value]
+							};
+							return Object.create(this, properties);
+						}
+					}
+
+					if (path[0].value.constants) {
+						const v = path[0].value.constants[value];
+						if (v !== undefined) {
+							properties.value = {
+								value: v
+							};
+							return Object.create(this, properties);
+						}
+					}
+
+					const c = pp.context.constants[value];
+					if (c) {
+						properties.value = {
+							value: c
+						};
+					} else {
+						properties.value = {
+							value: value
+						};
+					}
+
+					return Object.create(this, properties);
+				}
+			}
+		}),
+		firstChar: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_",
+	}],
+
 	prefix: {
 		'(': {
 			precedence: 80,
@@ -173,7 +183,7 @@ const grammar = {
 						//console.log(`${f.arguments} <> ${args.map(a => a.type)}`);
 						return new FCall(f, grammar.context, args);
 					} else {
-						grammar.error(`Unknown function: '${left.value}'`, left);
+						grammar.error('Unknown function', left, left.value);
 					}
 				} else {
 					const e = grammar.expression(0);
