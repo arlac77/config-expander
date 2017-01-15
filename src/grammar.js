@@ -100,8 +100,8 @@ export class ConfigParser extends Parser {
 }
 
 const grammar = {
-	tokens: [{
-		token: Object.create(IdentifierToken, {
+	tokens: [
+		Object.create(IdentifierToken, {
 			parseString: {
 				value: function (tokenizer, pp, properties) {
 					let i = pp.offset + 1;
@@ -154,9 +154,8 @@ const grammar = {
 					return Object.create(this, properties);
 				}
 			}
-		}),
-		firstChar: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_",
-	}],
+		})
+	],
 
 	prefix: {
 		'(': {
