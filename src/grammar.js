@@ -2,7 +2,7 @@
 'use strict';
 
 import {
-	Parser, IdentifierToken
+	Parser, IdentifierToken, WhiteSpaceToken, NumberToken, StringToken
 }
 from 'pratt-parser';
 
@@ -101,6 +101,9 @@ export class ConfigParser extends Parser {
 
 const grammar = {
 	tokens: [
+		WhiteSpaceToken,
+		NumberToken,
+		StringToken,
 		Object.create(IdentifierToken, {
 			parseString: {
 				value: function (tokenizer, pp, properties) {
