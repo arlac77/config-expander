@@ -5,6 +5,8 @@
  * @module config-expander
  */
 
+const os = require('os');
+
 import {
 	createContext
 }
@@ -25,7 +27,8 @@ export function expand(config, options = {}) {
 	try {
 		const context = {
 			constants: options.constants || {
-				basedir: '/'
+				basedir: '/',
+				os: os
 			}
 		};
 

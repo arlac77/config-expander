@@ -37,9 +37,13 @@ class ObjectAccess extends AST {
 		Object.defineProperty(this, 'value', {
 			get: () => {
 				if (object.value instanceof Promise) {
-					return object.value.then(v => v[attribute.value]);
+					return object.value.then(v => {
+						const a = v[attribute.value];
+						return a instanceof Function ? a() : a;
+					});
 				}
-				return object.value[attribute.value];
+				const a = object.value[attribute.value];
+				return a instanceof Function ? a() : a;
 			}
 		});
 	}

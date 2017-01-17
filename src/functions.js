@@ -99,8 +99,6 @@ export const functions = {
 		returns: 'object?',
 		apply: (context, args) => {
 
-			console.log(`first`);
-
 			for (const arg of args) {
 
 				if (arg.value !== undefined) {

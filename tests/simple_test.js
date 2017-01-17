@@ -58,6 +58,13 @@ describe('expander', () => {
     })));
   });
 
+  describe('os', () => {
+    it('os.arch', () => expand('${os.arch}').then(r => assert.equal(r, 'x64')));
+    it('os.platform', () => expand('${os.platform}').then(r => assert.include(['aix', 'darwin', 'freebsd',
+      'linux', 'win32'
+    ], r)));
+  });
+
   describe('expression', () => {
     it('string concat', () => expand("${'x' + 'y'}").then(r => assert.equal(r, 'xy')));
     it('addition', () => expand("${1 + 2}").then(r => assert.equal(r, 3)));
