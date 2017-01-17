@@ -209,6 +209,10 @@ describe('expander', () => {
 
     it('include missing', () => expand("${include('fixtures/missing.json')}").catch(e => assert.equal(e.message,
       'ENOENT: no such file or directory, open \'/fixtures/missing.json\'')));
+
+    xit('optional include', () => expand("${first(include('fixtures/missing.json'))}").then(r => assert.equal(
+      r,
+      undefined)));
   });
 
   describe('arrays', () => {

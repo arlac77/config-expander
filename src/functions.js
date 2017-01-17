@@ -94,6 +94,29 @@ export const functions = {
 		apply: (context, args) => createValue(args[0].value.split(args[1].value))
 	},
 
+	first: {
+		arguments: ['object'],
+		returns: 'object?',
+		apply: (context, args) => {
+
+			console.log(`first`);
+
+			for (const arg of args) {
+
+				if (arg.value !== undefined) {
+					if (arg.value instanceof Promise) {
+						console.log(`is promise`);
+						return arg.value.then(r => r).catch(e => undefined);
+					} else {
+						return createValue(arg.value);
+					}
+				}
+			}
+
+			return undefined;
+		}
+	},
+
 	encrypt: {
 		arguments: ['string', 'string'],
 		returns: 'string',
