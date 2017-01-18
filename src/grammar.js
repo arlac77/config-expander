@@ -81,9 +81,7 @@ class TeneryOP extends AST {
 	constructor(exp, a, b) {
 		super();
 		Object.defineProperty(this, 'value', {
-			get: () => {
-				return exp.value ? a.value : b.value;
-			}
+			get: () => exp.value ? a.value : b.value
 		});
 	}
 }
@@ -256,6 +254,11 @@ const grammar = {
 		}
 	},
 	infix: {
+		'.': {
+			precedence: 80,
+			combine: (left, right) => new ObjectAccess(left, right)
+		},
+
 		'?': {
 			precedence: 20,
 			led(grammar, left) {
@@ -264,10 +267,6 @@ const grammar = {
 				const e2 = grammar.expression(0);
 				return new TeneryOP(left, e1, e2);
 			}
-		},
-		'.': {
-			precedence: 1,
-			combine: (left, right) => new ObjectAccess(left, right)
 		},
 		'[': {
 			precedence: 1,
