@@ -112,7 +112,8 @@ describe('expander', () => {
       it('true 2nd. with function call', () => expand("${'a'=='b' ? 22+1 : substring('abc',1,2)}").then(r =>
         assert.equal(r, 'b')));
 
-      it('true with property access', () => expand("${os.platform=='darwin' ? 1 : 0}").then(r =>
+      it('true with property access', () => expand(
+        "${os.platform=='darwin' || os.platform=='linux' ? 1 : 0}").then(r =>
         assert.equal(r, 1)));
     });
   });
