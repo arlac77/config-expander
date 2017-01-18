@@ -231,6 +231,13 @@ describe('expander', () => {
         myArray: ['a', 'b', 'c'],
       }
     }).then(r => assert.equal(r, 'b')));
+
+
+    it('access cascade', () => expand("${myArray[1]  [2]}", {
+      constants: {
+        myArray: ['a', [0, 0, 4711], 'c'],
+      }
+    }).then(r => assert.equal(r, 4711)));
   });
 
   describe('object paths', () => {
@@ -272,7 +279,7 @@ describe('expander', () => {
       }
     }).then(r => assert.equal(r, 'val2')));
 
-    xit('access several levels', () => expand("${myObject.level1[1].level2}", {
+    it('access several levels', () => expand("${myObject.level1[1].level2}", {
       constants: {
         myObject: {
           level1: [{}, {

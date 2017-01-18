@@ -258,6 +258,14 @@ const grammar = {
 			precedence: 80,
 			combine: (left, right) => new ObjectAccess(left, right)
 		},
+		'[': {
+			precedence: 80,
+			led(grammar, left) {
+				const right = grammar.expression(0);
+				grammar.advance(']');
+				return new ArraySlice(left, right);
+			}
+		},
 
 		'?': {
 			precedence: 20,
@@ -267,10 +275,6 @@ const grammar = {
 				const e2 = grammar.expression(0);
 				return new TeneryOP(left, e1, e2);
 			}
-		},
-		'[': {
-			precedence: 1,
-			combine: (left, right) => new ArraySlice(left, right)
 		},
 		':': {},
 		']': {},
