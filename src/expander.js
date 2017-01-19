@@ -21,15 +21,16 @@ from './grammar';
  * Expands expressions in a configuration object
  * @param {object} config
  * @param {object} [options]
+ *    constants object holding additional constants
  * @returns {Promise} expanded configuration
  */
 export function expand(config, options = {}) {
 	try {
 		const context = {
-			constants: options.constants || {
+			constants: Object.assign({
 				basedir: '/',
 				os: os
-			}
+			}, options.constants)
 		};
 
 		const parser = new ConfigParser();

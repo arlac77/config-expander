@@ -49,10 +49,24 @@ Expands expressions in a configuration object
 **Kind**: static method of <code>[config-expander](#module_config-expander)</code>  
 **Returns**: <code>Promise</code> - expanded configuration  
 
+| Param | Type | Description |
+| --- | --- | --- |
+| config | <code>object</code> |  |
+| [options] | <code>object</code> | constants object holding additional constants |
+
+
+* <a name="module_config-expander..functions.split.apply"></a>
+
+## module:config-expander~functions.split.apply(source, pattern) ⇒ <code>Array.&lt;string&gt;</code>
+split source string on pattern boundaries
+
+**Kind**: static method of <code>module:config-expander~functions.split</code>  
+**Returns**: <code>Array.&lt;string&gt;</code> - separated source  
+
 | Param | Type |
 | --- | --- |
-| config | <code>object</code> | 
-| [options] | <code>object</code> | 
+| source | <code>string</code> | 
+| pattern | <code>string</code> | 
 
 
 * <a name="module_config-expander..functions.encrypt.apply"></a>
