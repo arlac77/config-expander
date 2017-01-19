@@ -91,6 +91,12 @@ export const functions = {
 	split: {
 		arguments: ['string', 'string'],
 		returns: 'string[]',
+		/**
+		 * split source string on pattern boundaries
+		 * @param {string} source
+		 * @param {string} pattern
+		 * @return {string[]} separated source
+		 */
 		apply: (context, args) => createValue(args[0].value.split(args[1].value))
 	},
 
