@@ -128,7 +128,7 @@ describe('expander', () => {
     it('replace', () => expand("${replace('lower','ow','12')}").then(r => assert.equal(r, 'l12er')));
 
     it('length (string)', () => expand("${length('abc')}").then(r => assert.equal(r, 3)));
-    xit('length (array)', () => expand("${length([1,2,3])}").then(r => assert.equal(r, 3)));
+    it('length (array)', () => expand("${length([1,2,3])}").then(r => assert.equal(r, 3)));
 
     it('split', () => expand("${split('1,2,3,4',',')}").then(r => assert.deepEqual(r, ['1', '2', '3', '4'])));
 
@@ -291,6 +291,6 @@ describe('expander', () => {
   });
 
   describe('array literals', () => {
-    xit('simple', () => expand("${[1,2,3]}").then(r => assert.deepEqual(r, [1, 2, 3])));
+    it('simple', () => expand("${[1,2,3]}").then(r => assert.deepEqual(r, [1, 2, 3])));
   });
 });
