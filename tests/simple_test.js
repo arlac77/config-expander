@@ -233,7 +233,7 @@ describe('expander', () => {
     }).then(r => assert.equal(r, 'b')));
 
 
-    it('access cascade', () => expand("${myArray[1]  [2]}", {
+    it('access cascade', () => expand("${myArray[1][2]}", {
       constants: {
         myArray: ['a', [0, 0, 4711], 'c'],
       }
@@ -292,5 +292,6 @@ describe('expander', () => {
 
   describe('array literals', () => {
     it('simple', () => expand("${[1,2,3]}").then(r => assert.deepEqual(r, [1, 2, 3])));
+    it('nested', () => expand("${[1,['a'],3]}").then(r => assert.deepEqual(r, [1, ['a'], 3])));
   });
 });

@@ -105,12 +105,12 @@ export const functions = {
 		returns: 'object?',
 		apply: (context, args) => {
 
+			console.log(`first: ${args}`);
 			for (const arg of args) {
-
 				if (arg.value !== undefined) {
 					if (arg.value instanceof Promise) {
 						console.log(`is promise`);
-						return arg.value.then(r => r).catch(e => undefined);
+						return arg.value.then(r => r, e => undefined);
 					} else {
 						return createValue(arg.value);
 					}
