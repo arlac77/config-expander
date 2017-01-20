@@ -108,7 +108,8 @@ const grammar = {
 		StringToken,
 		Object.create(IdentifierToken, {
 			parseString: {
-				value: function (tokenizer, pp, properties) {
+				value: function (tokenizer, pp) {
+
 					let i = pp.offset + 1;
 					for (;;) {
 						const c = pp.chunk[i];
@@ -121,6 +122,8 @@ const grammar = {
 					}
 
 					const value = pp.chunk.substring(pp.offset, i);
+					const properties = pp.properties;
+
 					pp.offset = i;
 
 					const path = pp.context.path;
