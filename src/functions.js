@@ -104,20 +104,8 @@ export const functions = {
 		arguments: ['object'],
 		returns: 'object?',
 		apply: (context, args) => {
-
-			console.log(`first: ${args}`);
-			for (const arg of args) {
-				if (arg.value !== undefined) {
-					if (arg.value instanceof Promise) {
-						console.log(`is promise`);
-						return arg.value.then(r => r, e => undefined);
-					} else {
-						return createValue(arg.value);
-					}
-				}
-			}
-
-			return undefined;
+			args = args.filter(e => e !== undefined);
+			return args.length === 0 ? createValue(undefined) : args[0];
 		}
 	},
 
