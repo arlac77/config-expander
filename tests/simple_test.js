@@ -132,6 +132,8 @@ describe('expander', () => {
 
     it('split', () => expand("${split('1,2,3,4',',')}").then(r => assert.deepEqual(r, ['1', '2', '3', '4'])));
 
+    it('first', () => expand("${first(1,2,3)}").then(r => assert.equal(r, 1)));
+
 
     it('substring with expressions', () => expand("${substring('lower',1,1+2*1)}").then(r => assert.equal(r,
       'ow')));
