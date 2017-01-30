@@ -108,7 +108,7 @@ const grammar = {
 		StringToken,
 		Object.create(IdentifierToken, {
 			parseString: {
-				value: function (tokenizer, pp) {
+				value: function (pp) {
 
 					let i = pp.offset + 1;
 					for (;;) {
