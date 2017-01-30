@@ -77,11 +77,23 @@ export const functions = {
 		returns: 'string',
 		apply: (context, args) => createValue(args[0].value.replace(args[1].value, args[2].value))
 	},
+
+	/**
+	 * convert string into upper case
+	 * @param {string} source
+	 * @return {string} uppercase result
+	 */
 	toUpperCase: {
 		arguments: ['string'],
 		returns: 'string',
 		apply: (context, args) => createValue(args[0].value.toUpperCase())
 	},
+
+	/**
+	 * convert string into lower case
+	 * @param {string} source
+	 * @return {string} lowercase result
+	 */
 	toLowerCase: {
 		arguments: ['string'],
 		returns: 'string',
