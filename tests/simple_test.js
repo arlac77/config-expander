@@ -10,7 +10,7 @@ const chai = require('chai'),
   expect = chai.expect,
   should = chai.should();
 
-const expand = require('../dist/expander').expand;
+const {expand, createValue} = require('../dist/expander');
 
 describe('expander', () => {
 
@@ -143,6 +143,15 @@ describe('expander', () => {
 
     it('encrypt/decrypt', () => expand("${decrypt('key',encrypt('key','secret'))}").then(r => assert.equal(
       r, 'secret')));
+  });
+
+  describe('user defined functions', () => {
+    it('can call', () => expand(
+      "${myFunction()}", {
+        functions: {
+          myFunction: { apply: (context, args) => { return createValue(77); }}
+        }
+      }).then(r => assert.equal(r, 77)));
   });
 
   describe('promise function args', () => {

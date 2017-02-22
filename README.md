@@ -52,7 +52,7 @@ Expands expressions in a configuration object
 | Param | Type | Description |
 | --- | --- | --- |
 | config | <code>object</code> |  |
-| [options] | <code>object</code> | constants object holding additional constants |
+| [options] | <code>object</code> | constants object holding additional constants    functions object holding additional function |
 
 
 * <a name="module_config-expander..functions.split.apply"></a>

@@ -11,11 +11,6 @@ import {
 }
 from './util';
 
-import {
-	functions
-}
-from './functions';
-
 class AST {
 	get value() {
 		return undefined;
@@ -185,7 +180,7 @@ const grammar = {
 
 					grammar.advance(')');
 
-					const f = functions[left.value];
+					const f = grammar.context.functions[left.value];
 					if (f) {
 						//console.log(`${f.arguments} <> ${args.map(a => a.type)}`);
 						return new FCall(f, grammar.context, args);
