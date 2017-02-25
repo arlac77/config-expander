@@ -39,7 +39,7 @@ export function expand(config, options = {}) {
 	try {
 		const context = {
 			constants: Object.assign({
-				basedir: '/',
+				basedir: process.cwd(),
 				os: os
 			}, options.constants),
 			functions: Object.assign( {}, functions, options.functions)
