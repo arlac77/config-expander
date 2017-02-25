@@ -24,17 +24,26 @@ Expands expressions in config files
 ## file.js
 
 ```js
-const {expand} = require('config-expander');
+const { expand } = require('config-expander');
 
-// expanding hole expressions at the value position (result is a number)
+// expanding hole expressions at the value position (result key is a number)
+expand({"key" : "${value + 1}" },{ constants:{value: 77}})
+  .then(r => console.log(JSON.stringify(r)));
 
-expand({"key" : "${value + 1}" },{ constants:{value: 77}}).then(r => console.log(JSON.stringify(r)));
+// calculate port numbers
+expand({ constants: { base: 10000 }, http: { port: "${base + 1}" }})
+  .then(r => console.log(JSON.stringify(r)));
+
+// load config from file
+expand("${include('tests/fixtures/other.json')}",{ constants: { basedir: process.cwd() } })
+  .then(r => console.log(JSON.stringify(r)));
 ```
 
-Output
-
-```
+## Output
+```json
 { "key" : 78 }
+{ "constants": { "base": 10000 }, "http": { "port": 10001 }}
+{ "key": "value from other" }
 ```
 
 # API Reference
