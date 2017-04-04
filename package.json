@@ -37,10 +37,10 @@
     "jsdoc-to-markdown": "^3.0.0",
     "markdown-doctest": "^0.9.1",
     "mocha": "^3.2.0",
-    "rollup": "^0.41.4",
+    "rollup": "^0.41.6",
     "rollup-plugin-istanbul": "^1.1.0",
     "semantic-release": "^6.3.6",
-    "nyc": "^10.1.2"
+    "nyc": "^10.2.0"
   },
   "release": {
     "verifyRelease": "cracks"
@@ -50,7 +50,7 @@
   ],
   "license": "BSD-2-Clause",
   "engines": {
-    "node": ">=7.7.2"
+    "node": ">=7.8.0"
   },
   "config": {
     "commitizen": {
