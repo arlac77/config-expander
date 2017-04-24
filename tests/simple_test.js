@@ -10,7 +10,9 @@ const chai = require('chai'),
   expect = chai.expect,
   should = chai.should();
 
-const {expand, createValue} = require('../dist/expander');
+const {
+  expand, createValue
+} = require('../dist/expander');
 
 describe('expander', () => {
 
@@ -40,6 +42,12 @@ describe('expander', () => {
       },
       name: 1
     })));
+
+    it('external eval', () => expand('${constA}', {
+      constants: {
+        constA: '${2 + 2}'
+      }
+    }).then(r => assert.equal(r, 4)));
 
     it('double def', () => expand({
       constants: {
@@ -149,7 +157,11 @@ describe('expander', () => {
     it('can call', () => expand(
       "${myFunction()}", {
         functions: {
-          myFunction: { apply: (context, args) => { return createValue(77); }}
+          myFunction: {
+            apply: (context, args) => {
+              return createValue(77);
+            }
+          }
         }
       }).then(r => assert.equal(r, 77)));
   });
