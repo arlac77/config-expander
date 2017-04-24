@@ -130,6 +130,15 @@ describe('expander', () => {
     it('unknown function', () => expand("${  thisFunctionIsUnknown()}")
       .then(e => assert.equal(e, {}))
       .catch(e => assert.equal(e.message, '1,2: Unknown function "thisFunctionIsUnknown"')));
+
+    it('missing argument', () => expand("${toUpperCase()}")
+      .then(e => assert.equal(e, {}))
+      .catch(e => assert.equal(e.message, '1,0: Missing argument "toUpperCase"')));
+
+    xit('wrong argument type', () => expand("${toUpperCase(2)}")
+      .then(e => assert.equal(e, {}))
+      .catch(e => assert.equal(e.message, '1,0: Wrong argument type string != number "toUpperCase"')));
+
     it('toUpperCase', () => expand("${toUpperCase('lower')}").then(r => assert.equal(r, 'LOWER')));
     it('toLowerCase', () => expand("${toLowerCase('UPPER')}").then(r => assert.equal(r, 'upper')));
     it('substring', () => expand("${substring('lower',1,3)}").then(r => assert.equal(r, 'ow')));
@@ -158,6 +167,7 @@ describe('expander', () => {
       "${myFunction()}", {
         functions: {
           myFunction: {
+            arguments: [],
             apply: (context, args) => {
               return createValue(77);
             }

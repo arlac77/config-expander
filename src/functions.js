@@ -62,7 +62,7 @@ export const functions = {
 		}
 	},
 	length: {
-		arguments: ['string'],
+		arguments: ['string|object'],
 		returns: 'integer',
 		apply: (context, args) => createValue(args[0].value.length)
 	},
@@ -113,21 +113,21 @@ export const functions = {
 	},
 
 	first: {
-		arguments: ['object'],
+		arguments: ['object|number'],
 		returns: 'object?',
 		apply: (context, args) => {
 			args = args.filter(e => e !== undefined && e.value !== undefined);
 
-/*
-			const promises = args.filter(e => e.value instanceof Promise);
+			/*
+						const promises = args.filter(e => e.value instanceof Promise);
 
-			if(promises.length > 0) {
-				console.log(`has promises`);
-				return Promise.all(promises)
-					.then(all => all[0])
-					.catch(error => undefined);
-			}
-*/
+						if(promises.length > 0) {
+							console.log(`has promises`);
+							return Promise.all(promises)
+								.then(all => all[0])
+								.catch(error => undefined);
+						}
+			*/
 
 			return args.length === 0 ? createValue(undefined) : args[0];
 		}

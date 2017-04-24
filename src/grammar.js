@@ -84,6 +84,7 @@ class TeneryOP extends AST {
 class FCall extends AST {
 	constructor(f, context, args) {
 		super();
+
 		Object.defineProperty(this, 'value', {
 			get: () => Promise.all(args.map(a => a.value)).then(r => f.apply(context, r.map(v => createValue(v))).value)
 		});
@@ -182,8 +183,19 @@ const grammar = {
 
 					const f = grammar.context.functions[left.value];
 					if (f) {
-						//console.log(`${f.arguments} <> ${args.map(a => a.type)}`);
-						return new FCall(f, grammar.context, args);
+						if (f.arguments.length > args.length) {
+							grammar.error('Missing argument', left, left.value);
+						} else {
+							/*
+							const i = 0;
+							for (const a of f.arguments) {
+								if (!isOfType(a, args[i].value)) {
+									grammar.error(`Wrong argument type ${a} != ${typeof args[i].value}`, left, left.value);
+								}
+							}
+*/
+							return new FCall(f, grammar.context, args);
+						}
 					} else {
 						grammar.error('Unknown function', left, left.value);
 					}
@@ -296,3 +308,18 @@ const grammar = {
 		}
 	}
 };
+
+
+function isOfType(typeDescription, value) {
+	const tv = typeof value;
+
+	for (const t of typeDescription.split(/\|/)) {
+		if (t === tv) {
+			return true;
+		}
+		if (t === 'integer' && tv === 'number') {
+			return true;
+		}
+	}
+	return false;
+}
