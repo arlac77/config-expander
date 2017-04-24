@@ -186,13 +186,14 @@ const grammar = {
 						if (f.arguments && f.arguments.length > args.length) {
 							grammar.error('Missing argument', left, left.value);
 						} else {
-
-							let i = 0;
-							for (const a of f.arguments) {
-								if (!isOfType(a, args[i].value)) {
-									grammar.error(`Wrong argument type ${a} != ${typeof args[i].value}`, left, left.value);
+							if (f.arguments) {
+								let i = 0;
+								for (const a of f.arguments) {
+									if (!isOfType(a, args[i].value)) {
+										grammar.error(`Wrong argument type ${a} != ${typeof args[i].value}`, left, left.value);
+									}
+									i++;
 								}
-								i++;
 							}
 
 							return new FCall(f, grammar.context, args);
