@@ -183,7 +183,7 @@ const grammar = {
 
 					const f = grammar.context.functions[left.value];
 					if (f) {
-						if (f.arguments.length > args.length) {
+						if (f.arguments && f.arguments.length > args.length) {
 							grammar.error('Missing argument', left, left.value);
 						} else {
 
