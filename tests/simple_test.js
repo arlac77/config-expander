@@ -132,11 +132,9 @@ describe('expander', () => {
       .catch(e => assert.equal(e.message, '1,2: Unknown function "thisFunctionIsUnknown"')));
 
     it('missing argument', () => expand("${toUpperCase()}")
-      .then(e => assert.equal(e, {}))
       .catch(e => assert.equal(e.message, '1,0: Missing argument "toUpperCase"')));
 
-    xit('wrong argument type', () => expand("${toUpperCase(2)}")
-      .then(e => assert.equal(e, {}))
+    it('wrong argument type', () => expand("${toUpperCase(2)}")
       .catch(e => assert.equal(e.message, '1,0: Wrong argument type string != number "toUpperCase"')));
 
     it('toUpperCase', () => expand("${toUpperCase('lower')}").then(r => assert.equal(r, 'LOWER')));

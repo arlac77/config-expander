@@ -186,14 +186,15 @@ const grammar = {
 						if (f.arguments.length > args.length) {
 							grammar.error('Missing argument', left, left.value);
 						} else {
-							/*
-							const i = 0;
+
+							let i = 0;
 							for (const a of f.arguments) {
 								if (!isOfType(a, args[i].value)) {
 									grammar.error(`Wrong argument type ${a} != ${typeof args[i].value}`, left, left.value);
 								}
+								i++;
 							}
-*/
+
 							return new FCall(f, grammar.context, args);
 						}
 					} else {
@@ -321,5 +322,11 @@ function isOfType(typeDescription, value) {
 			return true;
 		}
 	}
+
+	// TODO how to handle promises ?
+	if (value instanceof Promise) {
+		return true;
+	}
+
 	return false;
 }
