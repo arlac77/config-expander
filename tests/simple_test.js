@@ -83,18 +83,18 @@ describe('expander', () => {
   });
 
   describe('boolean expression', () => {
-    it('greater than false', () => expand("${1 > 2}").then(r => assert.equal(r, false)));
-    it('greater than true', () => expand("${2 > 1}").then(r => assert.equal(r, true)));
-    it('greater equal than false', () => expand("${1 >= 2}").then(r => assert.equal(r, false)));
-    it('greater equal than true', () => expand("${2 >= 1}").then(r => assert.equal(r, true)));
-    it('less than false', () => expand("${2 < 1}").then(r => assert.equal(r, false)));
-    it('less than true', () => expand("${1 < 2}").then(r => assert.equal(r, true)));
-    it('less equal than false', () => expand("${2 <= 1}").then(r => assert.equal(r, false)));
-    it('less equal than true', () => expand("${1 <= 2}").then(r => assert.equal(r, true)));
-    it('equal true', () => expand("${1 == 1}").then(r => assert.equal(r, true)));
-    it('equal false', () => expand("${1 == 2}").then(r => assert.equal(r, false)));
-    it('not equal true', () => expand("${2 != 1}").then(r => assert.equal(r, true)));
-    it('not equal false', () => expand("${2 != 2}").then(r => assert.equal(r, false)));
+    it('greater than false', () => expand("${1 > 2}").then(r => assert.isFalse(r)));
+    it('greater than true', () => expand("${2 > 1}").then(r => assert.isTrue(r)));
+    it('greater equal than false', () => expand("${1 >= 2}").then(r => assert.isFalse(r)));
+    it('greater equal than true', () => expand("${2 >= 1}").then(r => assert.isTrue(r)));
+    it('less than false', () => expand("${2 < 1}").then(r => assert.isFalse(r)));
+    it('less than true', () => expand("${1 < 2}").then(r => assert.isTrue(r)));
+    it('less equal than false', () => expand("${2 <= 1}").then(r => assert.isFalse(r)));
+    it('less equal than true', () => expand("${1 <= 2}").then(r => assert.isTrue(r)));
+    it('equal true', () => expand("${1 == 1}").then(r => assert.isTrue(r)));
+    it('equal false', () => expand("${1 == 2}").then(r => assert.isFalse(r)));
+    it('not equal true', () => expand("${2 != 1}").then(r => assert.isTrue(r)));
+    it('not equal false', () => expand("${2 != 2}").then(r => assert.isFalse(r)));
     it('or false', () => expand("${0 || 0}").then(r => assert.equal(r, false)));
     it('or true', () => expand("${1 || 0}").then(r => assert.equal(r, true)));
 
@@ -102,11 +102,11 @@ describe('expander', () => {
     it('and true', () => expand("${1 && 1}").then(r => assert.equal(r, true)));
 
     describe('combined', () => {
-      it('or true', () => expand("${1 > 2 || 1 > 0}").then(r => assert.equal(r, true)));
-      it('or false', () => expand("${1 > 2 || 1 < 0}").then(r => assert.equal(r, false)));
+      it('or true', () => expand("${1 > 2 || 1 > 0}").then(r => assert.isTrue(r)));
+      it('or false', () => expand("${1 > 2 || 1 < 0}").then(r => assert.isFalse(r)));
 
-      it('and false', () => expand("${1>0 && 0>1}").then(r => assert.equal(r, false)));
-      it('and true', () => expand("${1>0 && 2>0}").then(r => assert.equal(r, true)));
+      it('and false', () => expand("${1>0 && 0>1}").then(r => assert.isFalse(r)));
+      it('and true', () => expand("${1>0 && 2>0}").then(r => assert.isTrue(r)));
     });
   });
 
@@ -127,15 +127,17 @@ describe('expander', () => {
   });
 
   describe('functions', () => {
-    it('unknown function', () => expand("${  thisFunctionIsUnknown()}")
-      .then(e => assert.equal(e, {}))
-      .catch(e => assert.equal(e.message, '1,2: Unknown function "thisFunctionIsUnknown"')));
+    describe('errors', () => {
+      it('unknown function', () => expand("${  thisFunctionIsUnknown()}")
+        .then(e => assert.equal(e, {}))
+        .catch(e => assert.equal(e.message, '1,2: Unknown function "thisFunctionIsUnknown"')));
 
-    it('missing argument', () => expand("${toUpperCase()}")
-      .catch(e => assert.equal(e.message, '1,0: Missing argument "toUpperCase"')));
+      it('missing argument', () => expand("${toUpperCase()}")
+        .catch(e => assert.equal(e.message, '1,0: Missing argument "toUpperCase"')));
 
-    it('wrong argument type', () => expand("${toUpperCase(2)}")
-      .catch(e => assert.equal(e.message, '1,0: Wrong argument type string != number "toUpperCase"')));
+      it('wrong argument type', () => expand("${toUpperCase(2)}")
+        .catch(e => assert.equal(e.message, '1,0: Wrong argument type string != number "toUpperCase"')));
+    });
 
     it('toUpperCase', () => expand("${toUpperCase('lower')}").then(r => assert.equal(r, 'LOWER')));
     it('toLowerCase', () => expand("${toLowerCase('UPPER')}").then(r => assert.equal(r, 'upper')));
@@ -285,7 +287,7 @@ describe('expander', () => {
         basedir: __dirname
       }
     }).then(r => assert.deepEqual(r, {
-      "key": "value in other sub"
+      key: 'value in other sub'
     })));
 
     it('access several levels', () => expand("${myObject.level1.level2}", {
