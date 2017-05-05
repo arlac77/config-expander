@@ -40,7 +40,7 @@
     "rollup": "^0.41.6",
     "rollup-plugin-istanbul": "^1.1.0",
     "semantic-release": "^6.3.6",
-    "nyc": "^10.3.0"
+    "nyc": "^10.3.2"
   },
   "release": {
     "verifyRelease": "cracks"
