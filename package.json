@@ -31,7 +31,7 @@
     "pratt-parser": "^7.0.6"
   },
   "devDependencies": {
-    "chai": "^4.0.1",
+    "chai": "^4.0.2",
     "cracks": "3.1.2",
     "cz-conventional-changelog": "^2.0.0",
     "jsdoc-to-markdown": "^3.0.0",
@@ -40,7 +40,7 @@
     "rollup": "^0.42.0",
     "rollup-plugin-istanbul": "^1.1.0",
     "semantic-release": "^6.3.6",
-    "nyc": "^11.0.1"
+    "nyc": "^11.0.2"
   },
   "release": {
     "verifyRelease": "cracks"
