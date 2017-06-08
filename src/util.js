@@ -1,15 +1,12 @@
-/* jslint node: true, esnext: true */
-'use strict';
-
 const fs = require('fs');
 
 export function readFile(path) {
-	return new Promise((fullfill, reject) => {
+	return new Promise((resolve, reject) => {
 		fs.readFile(path, (error, data) => {
 			if (error) {
 				reject(error);
 			} else {
-				fullfill(data);
+				resolve(data);
 			}
 		});
 	});
@@ -18,7 +15,7 @@ export function readFile(path) {
 export function createValue(value) {
 	return Object.create(null, {
 		value: {
-			value: value
+			value
 		}
 	});
 }

@@ -1,6 +1,3 @@
-/* jslint node: true, esnext: true */
-'use strict';
-
 import {
 	Parser, IdentifierToken, WhiteSpaceToken, NumberToken, StringToken
 }
@@ -91,12 +88,6 @@ class FCall extends AST {
 	}
 }
 
-export class ConfigParser extends Parser {
-	constructor() {
-		super(grammar);
-	}
-}
-
 const grammar = {
 	tokens: [
 		WhiteSpaceToken,
@@ -104,8 +95,7 @@ const grammar = {
 		StringToken,
 		Object.create(IdentifierToken, {
 			parseString: {
-				value: function (pp) {
-
+				value(pp) {
 					let i = pp.offset + 1;
 					for (;;) {
 						const c = pp.chunk[i];
@@ -151,7 +141,7 @@ const grammar = {
 						};
 					} else {
 						properties.value = {
-							value: value
+							value
 						};
 					}
 
@@ -209,7 +199,7 @@ const grammar = {
 			}
 		},
 		'[': {
-			nud(grammar, left) {
+			nud(grammar) {
 				const values = [];
 
 				if (grammar.token.value !== ']') {
@@ -311,6 +301,11 @@ const grammar = {
 	}
 };
 
+export class ConfigParser extends Parser {
+	constructor() {
+		super(grammar);
+	}
+}
 
 function isOfType(typeDescription, value) {
 	const tv = typeof value;

@@ -1,13 +1,6 @@
-/* jslint node: true, esnext: true */
-'use strict';
-
 /**
  * @module config-expander
  */
-
-const fs = require('fs'),
-	path = require('path'),
-	crypto = require('crypto');
 
 import {
 	readFile, createValue
@@ -18,6 +11,9 @@ import {
 	expand
 }
 from './expander';
+
+const path = require('path'),
+	crypto = require('crypto');
 
 export const functions = {
 	document: {
@@ -147,8 +143,7 @@ export const functions = {
 			const encipher = crypto.createCipher('aes-256-cbc', key);
 			let encryptdata = encipher.update(plaintext, 'utf8', 'binary');
 			encryptdata += encipher.final('binary');
-			const encode_encryptdata = new Buffer(encryptdata, 'binary').toString('base64');
-			return createValue(new Buffer(encryptdata, 'binary').toString('base64'));
+			return createValue(Buffer.from(encryptdata, 'binary').toString('base64'));
 		}
 	},
 
@@ -163,7 +158,7 @@ export const functions = {
 		 */
 		apply: (context, args) => {
 			let [key, encryptdata] = args.map(a => a.value);
-			encryptdata = new Buffer(encryptdata, 'base64').toString('binary');
+			encryptdata = Buffer.from(encryptdata, 'base64').toString('binary');
 			const decipher = crypto.createDecipher('aes-256-cbc', key);
 			let decoded = decipher.update(encryptdata, 'binary', 'utf8');
 			decoded += decipher.final('utf8');

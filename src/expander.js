@@ -1,11 +1,6 @@
-/* jslint node: true, esnext: true */
-'use strict';
-
 /**
  * @module config-expander
  */
-
-const os = require('os');
 
 import {
 	createContext
@@ -27,6 +22,8 @@ import {
 }
 from './util';
 
+const os = require('os');
+
 /**
  * Expands expressions in a configuration object
  * @param {object} config
@@ -40,9 +37,9 @@ export function expand(config, options = {}) {
 		const context = {
 			constants: Object.assign({
 				basedir: process.cwd(),
-				os: os
+				os
 			}, options.constants),
-			functions: Object.assign( {}, functions, options.functions)
+			functions: Object.assign({}, functions, options.functions)
 		};
 
 		const parser = new ConfigParser();
@@ -56,9 +53,11 @@ export function expand(config, options = {}) {
 		});
 
 		return Promise.resolve(ee.expand(config));
-	} catch (e) {
-		return Promise.reject(e);
+	} catch (err) {
+		return Promise.reject(err);
 	}
 }
 
-export { createValue };
+export {
+	createValue
+};
