@@ -1,9 +1,6 @@
 import test from 'ava';
 import { expand, createValue } from '../src/expander';
 
-const fs = require('fs');
-const path = require('path');
-
 test('null expansion', async t => {
   t.deepEqual(
     await expand({
@@ -122,7 +119,7 @@ test('user defined functions', async t =>
       functions: {
         myFunction: {
           arguments: [],
-          apply: (context, args) => {
+          apply: () => {
             return createValue(77);
           }
         }
@@ -154,7 +151,7 @@ test('two promises binop', async t =>
         }
       }
     )).toString(),
-    new Buffer('line 1\nline 2\n').toString()
+    'line 1\nline 2\n'
   ));
 
 test('left only promise binop', async t =>
@@ -164,7 +161,7 @@ test('left only promise binop', async t =>
         basedir: __dirname
       }
     })).toString(),
-    new Buffer('line 1\nXX').toString()
+    'line 1\nXX'
   ));
 
 test('array access', async t =>

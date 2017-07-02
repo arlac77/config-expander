@@ -1,7 +1,6 @@
 import test from 'ava';
-import { expand, createValue } from '../src/expander';
+import { expand } from '../src/expander';
 
-const fs = require('fs');
 const path = require('path');
 
 test('has file content', async t =>

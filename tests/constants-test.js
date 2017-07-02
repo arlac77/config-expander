@@ -1,5 +1,5 @@
 import test from 'ava';
-import { expand, createValue } from '../src/expander';
+import { expand } from '../src/expander';
 
 test('external constants', async t => {
   t.is(
