@@ -157,24 +157,80 @@ test('two promises binop', async t =>
     new Buffer('line 1\nline 2\n').toString()
   ));
 
+test('left only promise binop', async t =>
+  t.is(
+    (await expand("${document('../tests/fixtures/short.txt') + 'XX'}", {
+      constants: {
+        basedir: __dirname
+      }
+    })).toString(),
+    new Buffer('line 1\nXX').toString()
+  ));
+
+test('array access', async t =>
+  t.is(
+    await expand('${myArray[2-1]}', {
+      constants: {
+        myArray: ['a', 'b', 'c']
+      }
+    }),
+    'b'
+  ));
+
+test('array access cascade', async t =>
+  t.is(
+    await expand('${myArray[1][2]}', {
+      constants: {
+        myArray: ['a', [0, 0, 4711], 'c']
+      }
+    }),
+    4711
+  ));
+
+test('object paths one level', async t =>
+  t.is(
+    await expand('${myObject.att1}', {
+      constants: {
+        myObject: {
+          att1: 'val1'
+        }
+      }
+    }),
+    'val1'
+  ));
+
+test('object paths with promise', async t =>
+  t.deepEqual(
+    await expand("${include('../tests/fixtures/with_sub.json').sub}", {
+      constants: {
+        basedir: __dirname
+      }
+    }),
+    {
+      key: 'value in other sub'
+    }
+  ));
+
+test('object paths several levels', async t =>
+  t.deepEqual(
+    await expand('${myObject.level1.level2}', {
+      constants: {
+        myObject: {
+          level1: {
+            level2: 'val2'
+          }
+        }
+      }
+    }),
+    'val2'
+  ));
+
+test('array literals', async t =>
+  t.deepEqual(await expand('${[1,2,3]}'), [1, 2, 3]));
+test('array literals nested', async t =>
+  t.deepEqual(await expand("${[1,['a'],3]}"), [1, ['a'], 3]));
+
 /*
-  describe('promise expressions', () => {
-
-    it('left only promise binop', () =>
-      expand("${document('fixtures/short.txt') + 'XX'}", {
-        constants: {
-          basedir: __dirname
-        }
-      }).then(r => assert.equal(r, new Buffer('line 1\nXX'))));
-
-    it('right only promise binop', () =>
-      expand("${'XX' + document('fixtures/short.txt')}", {
-        constants: {
-          basedir: __dirname
-        }
-      }).then(r => assert.equal(r, new Buffer('XXline 1\n'))));
-  });
-
   describe('files', () => {
     it('has file content', () =>
       expand(
@@ -247,54 +303,6 @@ test('two promises binop', async t =>
     );
   });
 
-  describe('arrays', () => {
-    it('access', () =>
-      expand('${myArray[2-1]}', {
-        constants: {
-          myArray: ['a', 'b', 'c']
-        }
-      }).then(r => assert.equal(r, 'b')));
-
-    it('access cascade', () =>
-      expand('${myArray[1][2]}', {
-        constants: {
-          myArray: ['a', [0, 0, 4711], 'c']
-        }
-      }).then(r => assert.equal(r, 4711)));
-  });
-
-  describe('object paths', () => {
-    it('access one level', () =>
-      expand('${myObject.att1}', {
-        constants: {
-          myObject: {
-            att1: 'val1'
-          }
-        }
-      }).then(r => assert.equal(r, 'val1')));
-
-    it('access with promise', () =>
-      expand("${include('fixtures/with_sub.json').sub}", {
-        constants: {
-          basedir: __dirname
-        }
-      }).then(r =>
-        assert.deepEqual(r, {
-          key: 'value in other sub'
-        })
-      ));
-
-    it('access several levels', () =>
-      expand('${myObject.level1.level2}', {
-        constants: {
-          myObject: {
-            level1: {
-              level2: 'val2'
-            }
-          }
-        }
-      }).then(r => assert.equal(r, 'val2')));
-  });
 
   describe('combined paths', () => {
     it('access objects first than array', () =>
@@ -322,12 +330,4 @@ test('two promises binop', async t =>
         }
       }).then(r => assert.equal(r, 'val2')));
   });
-
-  describe('array literals', () => {
-    it('simple', () =>
-      expand('${[1,2,3]}').then(r => assert.deepEqual(r, [1, 2, 3])));
-    it('nested', () =>
-      expand("${[1,['a'],3]}").then(r => assert.deepEqual(r, [1, ['a'], 3])));
-  });
-});
 */
