@@ -84,92 +84,81 @@ test('substring', async t =>
 test('replace', async t =>
   t.is(await expand("${replace('lower','ow','12')}"), 'l12er'));
 
-/*
-  describe('functions', () => {
-    describe('errors', () => {
-      it('unknown function', () =>
-        expand('${  thisFunctionIsUnknown()}')
-          .then(e => assert.equal(e, {}))
-          .catch(e =>
-            assert.equal(
-              e.message,
-              '1,2: Unknown function "thisFunctionIsUnknown"'
-            )
-          ));
+test('unknown function', async t => {
+  const error = await t.throws(expand('${  thisFunctionIsUnknown()}'));
+  t.is(error.message, '1,2: Unknown function "thisFunctionIsUnknown"');
+});
 
-      it('missing argument', () =>
-        expand('${toUpperCase()}').catch(e =>
-          assert.equal(e.message, '1,0: Missing argument "toUpperCase"')
-        ));
+test('missing argument', async t => {
+  const error = await t.throws(expand('${toUpperCase()}'));
+  t.is(error.message, '1,0: Missing argument "toUpperCase"');
+});
 
-      it('wrong argument type', () =>
-        expand('${toUpperCase(2)}').catch(e =>
-          assert.equal(
-            e.message,
-            '1,0: Wrong argument type string != number "toUpperCase"'
-          )
-        ));
-    });
+test('wrong argument type', async t => {
+  const error = await t.throws(expand('${toUpperCase(2)}'));
+  t.is(
+    error.message,
+    '1,0: Wrong argument type string != number "toUpperCase"'
+  );
+});
 
-    it('length (string)', () =>
-      expand("${length('abc')}").then(r => assert.equal(r, 3)));
-    it('length (array)', () =>
-      expand('${length([1,2,3])}').then(r => assert.equal(r, 3)));
+test('length (string)', async t => t.is(await expand("${length('abc')}"), 3));
+test('length (array)', async t => t.is(await expand('${length([1,2,3])}'), 3));
 
-    it('split', () =>
-      expand("${split('1,2,3,4',',')}").then(r =>
-        assert.deepEqual(r, ['1', '2', '3', '4'])
-      ));
+test('first', async t => t.is(await expand('${first(1,2,3)}'), 1));
 
-    it('first', () => expand('${first(1,2,3)}').then(r => assert.equal(r, 1)));
+test('split', async t =>
+  t.deepEqual(await expand("${split('1,2,3,4',',')}"), ['1', '2', '3', '4']));
 
-    it('substring with expressions', () =>
-      expand("${substring('lower',1,1+2*1)}").then(r => assert.equal(r, 'ow')));
+test('substring with expressions', async t =>
+  t.is(await expand("${substring('lower',1,1+2*1)}"), 'ow'));
 
-    it('substring with expressions', () =>
-      expand("${substring('lower',1,number('2')+1)}").then(r =>
-        assert.equal(r, 'ow')
-      ));
+test('encrypt/decrypt', async t =>
+  t.is(await expand("${decrypt('key',encrypt('key','secret'))}"), 'secret'));
 
-    it('encrypt/decrypt', () =>
-      expand("${decrypt('key',encrypt('key','secret'))}").then(r =>
-        assert.equal(r, 'secret')
-      ));
-  });
-
-  describe('user defined functions', () => {
-    it('can call', () =>
-      expand('${myFunction()}', {
-        functions: {
-          myFunction: {
-            arguments: [],
-            apply: (context, args) => {
-              return createValue(77);
-            }
+test('user defined functions', async t =>
+  t.is(
+    await expand('${myFunction()}', {
+      functions: {
+        myFunction: {
+          arguments: [],
+          apply: (context, args) => {
+            return createValue(77);
           }
         }
-      }).then(r => assert.equal(r, 77)));
-  });
+      }
+    }),
+    77
+  ));
 
-  describe('promise function args', () => {
-    it('one promise arg', () =>
-      expand("${substring(string(document('fixtures/short.txt')),0,4)}", {
+test('function promise arg', async t =>
+  t.is(
+    await expand(
+      "${substring(string(document('../tests/fixtures/short.txt')),0,4)}",
+      {
         constants: {
           basedir: __dirname
         }
-      }).then(r => assert.equal(r, 'line')));
-  });
+      }
+    ),
+    'line'
+  ));
 
-  describe('promise expressions', () => {
-    it('two promises binop', () =>
-      expand(
-        "${document('fixtures/short.txt') + document('fixtures/short2.txt')}",
-        {
-          constants: {
-            basedir: __dirname
-          }
+test('two promises binop', async t =>
+  t.is(
+    (await expand(
+      "${document('../tests/fixtures/short.txt') + document('../tests/fixtures/short2.txt')}",
+      {
+        constants: {
+          basedir: __dirname
         }
-      ).then(r => assert.equal(r, new Buffer('line 1\nline 2\n'))));
+      }
+    )).toString(),
+    new Buffer('line 1\nline 2\n').toString()
+  ));
+
+/*
+  describe('promise expressions', () => {
 
     it('left only promise binop', () =>
       expand("${document('fixtures/short.txt') + 'XX'}", {
