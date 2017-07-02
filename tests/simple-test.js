@@ -230,104 +230,33 @@ test('array literals', async t =>
 test('array literals nested', async t =>
   t.deepEqual(await expand("${[1,['a'],3]}"), [1, ['a'], 3]));
 
-/*
-  describe('files', () => {
-    it('has file content', () =>
-      expand(
-        {
-          name: "${document('short.txt')}",
-          name2: "${document('short.txt')}"
-        },
-        {
-          constants: {
-            basedir: path.join(__dirname, 'fixtures')
+test('access objects first than array', async t =>
+  t.deepEqual(
+    await expand('${myObject.level1.level2[1]}', {
+      constants: {
+        myObject: {
+          level1: {
+            level2: [1, 'val2']
           }
         }
-      ).then(r =>
-        assert.deepEqual(r, {
-          name: new Buffer('line 1\n'),
-          name2: new Buffer('line 1\n')
-        })
-      ));
+      }
+    }),
+    'val2'
+  ));
 
-    it('resolve file names', () =>
-      expand(
-        {
-          name: "${resolve('fixtures')}"
-        },
-        {
-          constants: {
-            basedir: __dirname
-          }
-        }
-      ).then(r =>
-        assert.deepEqual(r, {
-          name: path.join(__dirname, 'fixtures')
-        })
-      ));
-
-    it('can include', () =>
-      expand("${include('fixtures/other.json')}", {
-        constants: {
-          basedir: __dirname
-        }
-      }).then(r =>
-        assert.deepEqual(r, {
-          key: 'value from other'
-        })
-      ));
-
-    it('can nest includes', () =>
-      expand("${include('fixtures/first.json')}", {
-        constants: {
-          nameOfTheOther: 'other.json',
-          basedir: __dirname
-        }
-      }).then(r =>
-        assert.deepEqual(r, {
-          first_key: {
-            key: 'value from other'
-          }
-        })
-      ));
-
-    it('include missing', () =>
-      expand("${include('fixtures/missing.json')}").catch(e =>
-        assert.include(e.message, "ENOENT: no such file or directory, open '")
-      ));
-
-    xit('optional include', () =>
-      expand("${first(include('fixtures/missing.json'))}").then(r =>
-        assert.equal(r, undefined)
-      )
-    );
-  });
-
-
-  describe('combined paths', () => {
-    it('access objects first than array', () =>
-      expand('${myObject.level1.level2[1]}', {
-        constants: {
-          myObject: {
-            level1: {
-              level2: [1, 'val2']
+test('access objects first than array', async t =>
+  t.deepEqual(
+    await expand('${myObject.level1[1].level2}', {
+      constants: {
+        myObject: {
+          level1: [
+            {},
+            {
+              level2: 'val2'
             }
-          }
+          ]
         }
-      }).then(r => assert.equal(r, 'val2')));
-
-    it('access several levels', () =>
-      expand('${myObject.level1[1].level2}', {
-        constants: {
-          myObject: {
-            level1: [
-              {},
-              {
-                level2: 'val2'
-              }
-            ]
-          }
-        }
-      }).then(r => assert.equal(r, 'val2')));
-  });
-*/
+      }
+    }),
+    'val2'
+  ));
