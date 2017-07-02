@@ -1,0 +1,366 @@
+import test from 'ava';
+import { expand, createValue } from '../src/expander';
+
+const fs = require('fs');
+const path = require('path');
+
+test('os', async t => {
+  t.is(await expand('${os.arch}'), 'x64');
+  t.is(
+    ['aix', 'darwin', 'freebsd', 'linux', 'win32'].includes(
+      (await expand('${os.platform}')) === true
+    ),
+    true
+  );
+});
+
+/*
+  describe('os', () => {
+    it('os.platform', () =>
+      expand('${os.platform}').then(r =>
+        assert.include(['aix', 'darwin', 'freebsd', 'linux', 'win32'], r)
+      ));
+  });
+
+  describe('expression', () => {
+    it('string concat', () =>
+      expand("${'x' + 'y'}").then(r => assert.equal(r, 'xy')));
+    it('addition', () => expand('${1 + 2}').then(r => assert.equal(r, 3)));
+    it('substraction', () => expand('${3 - 2}').then(r => assert.equal(r, 1)));
+    it('multiplication', () => expand('${3*2)}').then(r => assert.equal(r, 6)));
+    it('division', () => expand('${8/2)}').then(r => assert.equal(r, 4)));
+    it('number', () =>
+      expand("${number('77')}").then(r => assert.equal(r, 77)));
+  });
+
+  describe('boolean expression', () => {
+    it('greater than false', () =>
+      expand('${1 > 2}').then(r => assert.isFalse(r)));
+    it('greater than true', () =>
+      expand('${2 > 1}').then(r => assert.isTrue(r)));
+    it('greater equal than false', () =>
+      expand('${1 >= 2}').then(r => assert.isFalse(r)));
+    it('greater equal than true', () =>
+      expand('${2 >= 1}').then(r => assert.isTrue(r)));
+    it('less than false', () =>
+      expand('${2 < 1}').then(r => assert.isFalse(r)));
+    it('less than true', () => expand('${1 < 2}').then(r => assert.isTrue(r)));
+    it('less equal than false', () =>
+      expand('${2 <= 1}').then(r => assert.isFalse(r)));
+    it('less equal than true', () =>
+      expand('${1 <= 2}').then(r => assert.isTrue(r)));
+    it('equal true', () => expand('${1 == 1}').then(r => assert.isTrue(r)));
+    it('equal false', () => expand('${1 == 2}').then(r => assert.isFalse(r)));
+    it('not equal true', () => expand('${2 != 1}').then(r => assert.isTrue(r)));
+    it('not equal false', () =>
+      expand('${2 != 2}').then(r => assert.isFalse(r)));
+    it('or false', () => expand('${0 || 0}').then(r => assert.equal(r, false)));
+    it('or true', () => expand('${1 || 0}').then(r => assert.equal(r, true)));
+
+    it('and false', () =>
+      expand('${1 && 0}').then(r => assert.equal(r, false)));
+    it('and true', () => expand('${1 && 1}').then(r => assert.equal(r, true)));
+
+    describe('combined', () => {
+      it('or true', () =>
+        expand('${1 > 2 || 1 > 0}').then(r => assert.isTrue(r)));
+      it('or false', () =>
+        expand('${1 > 2 || 1 < 0}').then(r => assert.isFalse(r)));
+
+      it('and false', () =>
+        expand('${1>0 && 0>1}').then(r => assert.isFalse(r)));
+      it('and true', () => expand('${1>0 && 2>0}').then(r => assert.isTrue(r)));
+    });
+  });
+
+  describe('tenery expression', () => {
+    it('true 1st.', () =>
+      expand('${2 > 1 ? 22 : 11}').then(r => assert.equal(r, 22)));
+    it('false 2nd.', () =>
+      expand('${2 < 1 ? 22 : 11}').then(r => assert.equal(r, 11)));
+
+    describe('combined', () => {
+      it('false 2nd.', () =>
+        expand('${2 < 1 ? 22+1 : 11+1}').then(r => assert.equal(r, 12)));
+      it('true 2nd.', () =>
+        expand('${2*0 < 1 ? 22+1 : 11+1}').then(r => assert.equal(r, 23)));
+      it('true 2nd. with function call', () =>
+        expand("${'a'=='b' ? 22+1 : substring('abc',1,2)}").then(r =>
+          assert.equal(r, 'b')
+        ));
+
+      it('true with property access', () =>
+        expand(
+          "${os.platform=='darwin' || os.platform=='linux' ? 1 : 0}"
+        ).then(r => assert.equal(r, 1)));
+    });
+  });
+
+  describe('functions', () => {
+    describe('errors', () => {
+      it('unknown function', () =>
+        expand('${  thisFunctionIsUnknown()}')
+          .then(e => assert.equal(e, {}))
+          .catch(e =>
+            assert.equal(
+              e.message,
+              '1,2: Unknown function "thisFunctionIsUnknown"'
+            )
+          ));
+
+      it('missing argument', () =>
+        expand('${toUpperCase()}').catch(e =>
+          assert.equal(e.message, '1,0: Missing argument "toUpperCase"')
+        ));
+
+      it('wrong argument type', () =>
+        expand('${toUpperCase(2)}').catch(e =>
+          assert.equal(
+            e.message,
+            '1,0: Wrong argument type string != number "toUpperCase"'
+          )
+        ));
+    });
+
+    it('toUpperCase', () =>
+      expand("${toUpperCase('lower')}").then(r => assert.equal(r, 'LOWER')));
+    it('toLowerCase', () =>
+      expand("${toLowerCase('UPPER')}").then(r => assert.equal(r, 'upper')));
+    it('substring', () =>
+      expand("${substring('lower',1,3)}").then(r => assert.equal(r, 'ow')));
+    it('replace', () =>
+      expand("${replace('lower','ow','12')}").then(r =>
+        assert.equal(r, 'l12er')
+      ));
+
+    it('length (string)', () =>
+      expand("${length('abc')}").then(r => assert.equal(r, 3)));
+    it('length (array)', () =>
+      expand('${length([1,2,3])}').then(r => assert.equal(r, 3)));
+
+    it('split', () =>
+      expand("${split('1,2,3,4',',')}").then(r =>
+        assert.deepEqual(r, ['1', '2', '3', '4'])
+      ));
+
+    it('first', () => expand('${first(1,2,3)}').then(r => assert.equal(r, 1)));
+
+    it('substring with expressions', () =>
+      expand("${substring('lower',1,1+2*1)}").then(r => assert.equal(r, 'ow')));
+
+    it('substring with expressions', () =>
+      expand("${substring('lower',1,number('2')+1)}").then(r =>
+        assert.equal(r, 'ow')
+      ));
+
+    it('encrypt/decrypt', () =>
+      expand("${decrypt('key',encrypt('key','secret'))}").then(r =>
+        assert.equal(r, 'secret')
+      ));
+  });
+
+  describe('user defined functions', () => {
+    it('can call', () =>
+      expand('${myFunction()}', {
+        functions: {
+          myFunction: {
+            arguments: [],
+            apply: (context, args) => {
+              return createValue(77);
+            }
+          }
+        }
+      }).then(r => assert.equal(r, 77)));
+  });
+
+  describe('promise function args', () => {
+    it('one promise arg', () =>
+      expand("${substring(string(document('fixtures/short.txt')),0,4)}", {
+        constants: {
+          basedir: __dirname
+        }
+      }).then(r => assert.equal(r, 'line')));
+  });
+
+  describe('promise expressions', () => {
+    it('two promises binop', () =>
+      expand(
+        "${document('fixtures/short.txt') + document('fixtures/short2.txt')}",
+        {
+          constants: {
+            basedir: __dirname
+          }
+        }
+      ).then(r => assert.equal(r, new Buffer('line 1\nline 2\n'))));
+
+    it('left only promise binop', () =>
+      expand("${document('fixtures/short.txt') + 'XX'}", {
+        constants: {
+          basedir: __dirname
+        }
+      }).then(r => assert.equal(r, new Buffer('line 1\nXX'))));
+
+    it('right only promise binop', () =>
+      expand("${'XX' + document('fixtures/short.txt')}", {
+        constants: {
+          basedir: __dirname
+        }
+      }).then(r => assert.equal(r, new Buffer('XXline 1\n'))));
+  });
+
+  describe('files', () => {
+    it('has file content', () =>
+      expand(
+        {
+          name: "${document('short.txt')}",
+          name2: "${document('short.txt')}"
+        },
+        {
+          constants: {
+            basedir: path.join(__dirname, 'fixtures')
+          }
+        }
+      ).then(r =>
+        assert.deepEqual(r, {
+          name: new Buffer('line 1\n'),
+          name2: new Buffer('line 1\n')
+        })
+      ));
+
+    it('resolve file names', () =>
+      expand(
+        {
+          name: "${resolve('fixtures')}"
+        },
+        {
+          constants: {
+            basedir: __dirname
+          }
+        }
+      ).then(r =>
+        assert.deepEqual(r, {
+          name: path.join(__dirname, 'fixtures')
+        })
+      ));
+
+    it('can include', () =>
+      expand("${include('fixtures/other.json')}", {
+        constants: {
+          basedir: __dirname
+        }
+      }).then(r =>
+        assert.deepEqual(r, {
+          key: 'value from other'
+        })
+      ));
+
+    it('can nest includes', () =>
+      expand("${include('fixtures/first.json')}", {
+        constants: {
+          nameOfTheOther: 'other.json',
+          basedir: __dirname
+        }
+      }).then(r =>
+        assert.deepEqual(r, {
+          first_key: {
+            key: 'value from other'
+          }
+        })
+      ));
+
+    it('include missing', () =>
+      expand("${include('fixtures/missing.json')}").catch(e =>
+        assert.include(e.message, "ENOENT: no such file or directory, open '")
+      ));
+
+    xit('optional include', () =>
+      expand("${first(include('fixtures/missing.json'))}").then(r =>
+        assert.equal(r, undefined)
+      )
+    );
+  });
+
+  describe('arrays', () => {
+    it('access', () =>
+      expand('${myArray[2-1]}', {
+        constants: {
+          myArray: ['a', 'b', 'c']
+        }
+      }).then(r => assert.equal(r, 'b')));
+
+    it('access cascade', () =>
+      expand('${myArray[1][2]}', {
+        constants: {
+          myArray: ['a', [0, 0, 4711], 'c']
+        }
+      }).then(r => assert.equal(r, 4711)));
+  });
+
+  describe('object paths', () => {
+    it('access one level', () =>
+      expand('${myObject.att1}', {
+        constants: {
+          myObject: {
+            att1: 'val1'
+          }
+        }
+      }).then(r => assert.equal(r, 'val1')));
+
+    it('access with promise', () =>
+      expand("${include('fixtures/with_sub.json').sub}", {
+        constants: {
+          basedir: __dirname
+        }
+      }).then(r =>
+        assert.deepEqual(r, {
+          key: 'value in other sub'
+        })
+      ));
+
+    it('access several levels', () =>
+      expand('${myObject.level1.level2}', {
+        constants: {
+          myObject: {
+            level1: {
+              level2: 'val2'
+            }
+          }
+        }
+      }).then(r => assert.equal(r, 'val2')));
+  });
+
+  describe('combined paths', () => {
+    it('access objects first than array', () =>
+      expand('${myObject.level1.level2[1]}', {
+        constants: {
+          myObject: {
+            level1: {
+              level2: [1, 'val2']
+            }
+          }
+        }
+      }).then(r => assert.equal(r, 'val2')));
+
+    it('access several levels', () =>
+      expand('${myObject.level1[1].level2}', {
+        constants: {
+          myObject: {
+            level1: [
+              {},
+              {
+                level2: 'val2'
+              }
+            ]
+          }
+        }
+      }).then(r => assert.equal(r, 'val2')));
+  });
+
+  describe('array literals', () => {
+    it('simple', () =>
+      expand('${[1,2,3]}').then(r => assert.deepEqual(r, [1, 2, 3])));
+    it('nested', () =>
+      expand("${[1,['a'],3]}").then(r => assert.deepEqual(r, [1, ['a'], 3])));
+  });
+});
+*/

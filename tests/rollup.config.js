@@ -3,7 +3,7 @@ import multiEntry from 'rollup-plugin-multi-entry';
 
 export default {
   entry: 'tests/**/*-test.js',
-  external: ['ava'],
+  external: ['ava', 'expression-expander', 'pratt-parser'],
   plugins: [
     babel({
       babelrc: false,
