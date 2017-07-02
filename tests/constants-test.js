@@ -1,17 +1,6 @@
 import test from 'ava';
 import { expand, createValue } from '../src/expander';
 
-test('null expansion', async t => {
-  t.deepEqual(
-    await expand({
-      name: 'a1'
-    }),
-    {
-      name: 'a1'
-    }
-  );
-});
-
 test('external constants', async t => {
   t.is(
     await expand('${constA}', {

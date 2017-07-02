@@ -4,98 +4,87 @@ import { expand, createValue } from '../src/expander';
 const fs = require('fs');
 const path = require('path');
 
-test('os', async t => {
-  t.is(await expand('${os.arch}'), 'x64');
-  t.is(
-    ['aix', 'darwin', 'freebsd', 'linux', 'win32'].includes(
-      (await expand('${os.platform}')) === true
-    ),
-    true
+test('null expansion', async t => {
+  t.deepEqual(
+    await expand({
+      name: 'a1'
+    }),
+    {
+      name: 'a1'
+    }
   );
 });
 
+test('os', async t => {
+  t.is(await expand('${os.arch}'), 'x64');
+  t.truthy(
+    ['aix', 'darwin', 'freebsd', 'linux', 'win32'].includes(
+      await expand('${os.platform}')
+    )
+  );
+});
+
+test('string concat', async t => t.is(await expand("${'x' + 'y'}"), 'xy'));
+test('addition', async t => t.is(await expand('${1 + 2}'), 3));
+test('substraction', async t => t.is(await expand('${3 - 2}'), 1));
+test('multiplication', async t => t.is(await expand('${3 * 2}'), 6));
+test('division', async t => t.is(await expand('${8/2}'), 4));
+test('number', async t => t.is(await expand("${number('77')}"), 77));
+
+test('greater than false', async t => t.falsy(await expand('${1 > 2}')));
+test('greater than true', async t => t.truthy(await expand('${2 > 1}')));
+test('greater equal false', async t => t.falsy(await expand('${1 >= 2}')));
+test('greater equal true', async t => t.truthy(await expand('${2 >= 1}')));
+test('less than false', async t => t.falsy(await expand('${2 < 1}')));
+test('less than true', async t => t.truthy(await expand('${1 < 2}')));
+
+test('less equal than false', async t => t.falsy(await expand('${2 <= 1}')));
+test('less equal than true', async t => t.truthy(await expand('${1 <= 2}')));
+
+test('equal true', async t => t.truthy(await expand('${1 == 1}')));
+test('equal false', async t => t.falsy(await expand('${1 == 2}')));
+
+test('not equal true', async t => t.truthy(await expand('${2 != 1}')));
+test('not equal false', async t => t.falsy(await expand('${2 != 2}')));
+
+test('or false', async t => t.falsy(await expand('${0 || 0}')));
+test('or true', async t => t.truthy(await expand('${1 || 0}')));
+
+test('and false', async t => t.falsy(await expand('${1 && 0}')));
+test('and true', async t => t.truthy(await expand('${1 && 1}')));
+
+test('or true cobined', async t => t.truthy(await expand('${1 > 2 || 1 > 0}')));
+test('or false cobined', async t => t.falsy(await expand('${1 > 2 || 1 < 0}')));
+
+test('and false cobined', async t => t.falsy(await expand('${1>0 && 0>1}')));
+test('and true cobined', async t => t.truthy(await expand('${1>0 && 2>0}')));
+
+test('tenery true 1st.', async t =>
+  t.is(await expand('${2 > 1 ? 22 : 11}'), 22));
+test('tenery false 2nd.', async t =>
+  t.is(await expand('${2 < 1 ? 22 : 11}'), 11));
+test('tenery combined false 2nd.', async t =>
+  t.is(await expand('${2 < 1 ? 22+1 : 11+1}'), 12));
+test('tenery combined true 2nd.', async t =>
+  t.is(await expand('${2*0 < 1 ? 22+1 : 11+1}'), 23));
+test('tenery combined true 2nd. with function call', async t =>
+  t.is(await expand("${'a'=='b' ? 22+1 : substring('abc',1,2)}"), 'b'));
+test('tenery combined true with property access', async t =>
+  t.is(
+    await expand("${os.platform=='darwin' || os.platform=='linux' ? 1 : 0}"),
+    1
+  ));
+
+test('toUpperCase', async t =>
+  t.is(await expand("${toUpperCase('lower')}"), 'LOWER'));
+test('toLowerCase', async t =>
+  t.is(await expand("${toLowerCase('UPPER')}"), 'upper'));
+test('substring', async t =>
+  t.is(await expand("${substring('lower',1,3)}"), 'ow'));
+test('replace', async t =>
+  t.is(await expand("${replace('lower','ow','12')}"), 'l12er'));
+
 /*
-  describe('os', () => {
-    it('os.platform', () =>
-      expand('${os.platform}').then(r =>
-        assert.include(['aix', 'darwin', 'freebsd', 'linux', 'win32'], r)
-      ));
-  });
-
-  describe('expression', () => {
-    it('string concat', () =>
-      expand("${'x' + 'y'}").then(r => assert.equal(r, 'xy')));
-    it('addition', () => expand('${1 + 2}').then(r => assert.equal(r, 3)));
-    it('substraction', () => expand('${3 - 2}').then(r => assert.equal(r, 1)));
-    it('multiplication', () => expand('${3*2)}').then(r => assert.equal(r, 6)));
-    it('division', () => expand('${8/2)}').then(r => assert.equal(r, 4)));
-    it('number', () =>
-      expand("${number('77')}").then(r => assert.equal(r, 77)));
-  });
-
-  describe('boolean expression', () => {
-    it('greater than false', () =>
-      expand('${1 > 2}').then(r => assert.isFalse(r)));
-    it('greater than true', () =>
-      expand('${2 > 1}').then(r => assert.isTrue(r)));
-    it('greater equal than false', () =>
-      expand('${1 >= 2}').then(r => assert.isFalse(r)));
-    it('greater equal than true', () =>
-      expand('${2 >= 1}').then(r => assert.isTrue(r)));
-    it('less than false', () =>
-      expand('${2 < 1}').then(r => assert.isFalse(r)));
-    it('less than true', () => expand('${1 < 2}').then(r => assert.isTrue(r)));
-    it('less equal than false', () =>
-      expand('${2 <= 1}').then(r => assert.isFalse(r)));
-    it('less equal than true', () =>
-      expand('${1 <= 2}').then(r => assert.isTrue(r)));
-    it('equal true', () => expand('${1 == 1}').then(r => assert.isTrue(r)));
-    it('equal false', () => expand('${1 == 2}').then(r => assert.isFalse(r)));
-    it('not equal true', () => expand('${2 != 1}').then(r => assert.isTrue(r)));
-    it('not equal false', () =>
-      expand('${2 != 2}').then(r => assert.isFalse(r)));
-    it('or false', () => expand('${0 || 0}').then(r => assert.equal(r, false)));
-    it('or true', () => expand('${1 || 0}').then(r => assert.equal(r, true)));
-
-    it('and false', () =>
-      expand('${1 && 0}').then(r => assert.equal(r, false)));
-    it('and true', () => expand('${1 && 1}').then(r => assert.equal(r, true)));
-
-    describe('combined', () => {
-      it('or true', () =>
-        expand('${1 > 2 || 1 > 0}').then(r => assert.isTrue(r)));
-      it('or false', () =>
-        expand('${1 > 2 || 1 < 0}').then(r => assert.isFalse(r)));
-
-      it('and false', () =>
-        expand('${1>0 && 0>1}').then(r => assert.isFalse(r)));
-      it('and true', () => expand('${1>0 && 2>0}').then(r => assert.isTrue(r)));
-    });
-  });
-
-  describe('tenery expression', () => {
-    it('true 1st.', () =>
-      expand('${2 > 1 ? 22 : 11}').then(r => assert.equal(r, 22)));
-    it('false 2nd.', () =>
-      expand('${2 < 1 ? 22 : 11}').then(r => assert.equal(r, 11)));
-
-    describe('combined', () => {
-      it('false 2nd.', () =>
-        expand('${2 < 1 ? 22+1 : 11+1}').then(r => assert.equal(r, 12)));
-      it('true 2nd.', () =>
-        expand('${2*0 < 1 ? 22+1 : 11+1}').then(r => assert.equal(r, 23)));
-      it('true 2nd. with function call', () =>
-        expand("${'a'=='b' ? 22+1 : substring('abc',1,2)}").then(r =>
-          assert.equal(r, 'b')
-        ));
-
-      it('true with property access', () =>
-        expand(
-          "${os.platform=='darwin' || os.platform=='linux' ? 1 : 0}"
-        ).then(r => assert.equal(r, 1)));
-    });
-  });
-
   describe('functions', () => {
     describe('errors', () => {
       it('unknown function', () =>
@@ -121,17 +110,6 @@ test('os', async t => {
           )
         ));
     });
-
-    it('toUpperCase', () =>
-      expand("${toUpperCase('lower')}").then(r => assert.equal(r, 'LOWER')));
-    it('toLowerCase', () =>
-      expand("${toLowerCase('UPPER')}").then(r => assert.equal(r, 'upper')));
-    it('substring', () =>
-      expand("${substring('lower',1,3)}").then(r => assert.equal(r, 'ow')));
-    it('replace', () =>
-      expand("${replace('lower','ow','12')}").then(r =>
-        assert.equal(r, 'l12er')
-      ));
 
     it('length (string)', () =>
       expand("${length('abc')}").then(r => assert.equal(r, 3)));
