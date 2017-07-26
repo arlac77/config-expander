@@ -11,11 +11,12 @@ const os = require('os');
 
 /**
  * Expands expressions in a configuration object
- * @param {object} config
- * @param {object} [options]
- *    constants object holding additional constants
- *    functions object holding additional function
- * @returns {Promise} expanded configuration
+ * @param config {object} config source
+ * @param [options] {object} - the options
+ * @param [options.constants] {object} - holding additional constants
+ * @param [options.functions] {object} - holding additional functions
+ * @returns {Promise}
+ * @fulfil {object} - expanded configuration
  */
 export function expand(config, options = {}) {
   try {

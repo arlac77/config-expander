@@ -82,7 +82,7 @@ export const functions = {
 
   /**
 	 * convert string into upper case
-	 * @param {string} source
+	 * @param source {string} input value
 	 * @return {string} uppercase result
 	 */
   toUpperCase: {
@@ -93,7 +93,7 @@ export const functions = {
 
   /**
 	 * convert string into lower case
-	 * @param {string} source
+	 * @param source {string} input value
 	 * @return {string} lowercase result
 	 */
   toLowerCase: {
@@ -107,8 +107,8 @@ export const functions = {
     returns: 'string[]',
     /**
 		 * split source string on pattern boundaries
-		 * @param {string} source
-		 * @param {string} pattern
+		 * @param source {string}
+		 * @param pattern {string}
 		 * @return {string[]} separated source
 		 */
     apply: (context, args) => createValue(args[0].value.split(args[1].value))
@@ -140,8 +140,8 @@ export const functions = {
     returns: 'string',
     /**
 		 * Encrypt a plaintext value
-		 * @param {string} key
-		 * @param {string} plaintext
+		 * @param key {string}
+		 * @param plaintext {string} input value
 		 * @return {string} encrypted value
 		 */
     apply: (context, args) => {
@@ -158,8 +158,8 @@ export const functions = {
     returns: 'string',
     /**
 		 * Decrypt a former encrypted string
-		 * @param {string} key
-		 * @param {string} encrypted
+		 * @param key {string}
+		 * @param encrypted {string}
 		 * @return {string} plaintext
 		 */
     apply: (context, args) => {

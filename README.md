@@ -51,26 +51,12 @@ expand("${include('tests/fixtures/other.json')}")
 - config-expander
 - config-expander
 
-* <a name="module_config-expander.expand"></a>
+* <a name="module_config-expander.functions.split.apply"></a>
 
-## config-expander.expand(config, [options]) ⇒ <code>Promise</code>
-Expands expressions in a configuration object
-
-**Kind**: static method of <code>[config-expander](#module_config-expander)</code>  
-**Returns**: <code>Promise</code> - expanded configuration  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| config | <code>object</code> |  |
-| [options] | <code>object</code> | constants object holding additional constants    functions object holding additional function |
-
-
-* <a name="module_config-expander..functions.split.apply"></a>
-
-## module:config-expander~functions.split.apply(source, pattern) ⇒ <code>Array.&lt;string&gt;</code>
+## module:config-expander.functions.split.apply(source, pattern) ⇒ <code>Array.&lt;string&gt;</code>
 split source string on pattern boundaries
 
-**Kind**: static method of <code>module:config-expander~functions.split</code>  
+**Kind**: static method of <code>module:config-expander.functions.split</code>  
 **Returns**: <code>Array.&lt;string&gt;</code> - separated source  
 
 | Param | Type |
@@ -79,32 +65,48 @@ split source string on pattern boundaries
 | pattern | <code>string</code> | 
 
 
-* <a name="module_config-expander..functions.encrypt.apply"></a>
+* <a name="module_config-expander.functions.encrypt.apply"></a>
 
-## module:config-expander~functions.encrypt.apply(key, plaintext) ⇒ <code>string</code>
+## module:config-expander.functions.encrypt.apply(key, plaintext) ⇒ <code>string</code>
 Encrypt a plaintext value
 
-**Kind**: static method of <code>module:config-expander~functions.encrypt</code>  
+**Kind**: static method of <code>module:config-expander.functions.encrypt</code>  
 **Returns**: <code>string</code> - encrypted value  
 
-| Param | Type |
-| --- | --- |
-| key | <code>string</code> | 
-| plaintext | <code>string</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| key | <code>string</code> |  |
+| plaintext | <code>string</code> | input value |
 
 
-* <a name="module_config-expander..functions.decrypt.apply"></a>
+* <a name="module_config-expander.functions.decrypt.apply"></a>
 
-## module:config-expander~functions.decrypt.apply(key, encrypted) ⇒ <code>string</code>
+## module:config-expander.functions.decrypt.apply(key, encrypted) ⇒ <code>string</code>
 Decrypt a former encrypted string
 
-**Kind**: static method of <code>module:config-expander~functions.decrypt</code>  
+**Kind**: static method of <code>module:config-expander.functions.decrypt</code>  
 **Returns**: <code>string</code> - plaintext  
 
 | Param | Type |
 | --- | --- |
 | key | <code>string</code> | 
 | encrypted | <code>string</code> | 
+
+
+* <a name="module_config-expander..expand"></a>
+
+## config-expander~expand(config, [options]) ⇒ <code>Promise</code>
+Expands expressions in a configuration object
+
+**Kind**: inner method of [<code>config-expander</code>](#module_config-expander)  
+**Fulfil**: <code>object</code> - expanded configuration  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| config | <code>object</code> | config source |
+| [options] | <code>object</code> | the options |
+| [options.constants] | <code>object</code> | holding additional constants |
+| [options.functions] | <code>object</code> | holding additional functions |
 
 
 * * *
