@@ -18,33 +18,29 @@ const os = require('os');
  * @returns {Promise}
  * @fulfil {object} - expanded configuration
  */
-export function expand(config, options = {}) {
-  try {
-    const context = {
-      constants: Object.assign(
-        {
-          basedir: process.cwd(),
-          os
-        },
-        options.constants
-      ),
-      functions: Object.assign({}, functions, options.functions)
-    };
+export async function expand(config, options = {}) {
+  const context = {
+    constants: Object.assign(
+      {
+        basedir: process.cwd(),
+        os
+      },
+      options.constants
+    ),
+    functions: Object.assign({}, functions, options.functions)
+  };
 
-    const parser = new ConfigParser();
+  const parser = new ConfigParser();
 
-    const ee = createContext({
-      evaluate: (expression, _unusedContext, path) => {
-        context.path = path;
-        const ast = parser.parse(expression, context);
-        return ast.value;
-      }
-    });
+  const ee = createContext({
+    evaluate: (expression, _unusedContext, path) => {
+      context.path = path;
+      const ast = parser.parse(expression, context);
+      return ast.value;
+    }
+  });
 
-    return Promise.resolve(ee.expand(config));
-  } catch (err) {
-    return Promise.reject(err);
-  }
+  return ee.expand(config);
 }
 
 export { createValue };
