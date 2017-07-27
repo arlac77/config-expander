@@ -23,6 +23,12 @@ export const functions = {
     apply: (context, args) =>
       createValue(path.resolve(context.constants.basedir, args[0].value))
   },
+
+  /**
+   * include definition form a file
+   * @param file {string} file name to be included
+   * @return {string} content of the file
+   */
   include: {
     arguments: ['string'],
     returns: 'object',
