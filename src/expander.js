@@ -11,6 +11,9 @@ const os = require('os');
 
 /**
  * Expands expressions in a configuration object
+ * Predefined constants:
+ * - os
+ * - basedir
  * @param config {object} config source
  * @param [options] {object} - the options
  * @param [options.constants] {object} - additional constants

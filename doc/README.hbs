@@ -17,7 +17,6 @@
 
 config-expander
 -------------------
-
 Expands expressions in config files
 
 # example
