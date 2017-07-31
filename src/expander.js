@@ -13,8 +13,8 @@ const os = require('os');
  * Expands expressions in a configuration object
  * @param config {object} config source
  * @param [options] {object} - the options
- * @param [options.constants] {object} - holding additional constants
- * @param [options.functions] {object} - holding additional functions
+ * @param [options.constants] {object} - additional constants
+ * @param [options.functions] {object} - additional functions
  * @returns {Promise}
  * @fulfil {object} - expanded configuration
  */

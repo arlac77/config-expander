@@ -2,11 +2,15 @@
  * @module config-expander
  */
 
-import { readFile, createValue } from './util';
+import { createValue } from './util';
 import { expand } from './expander';
 
-const path = require('path'),
-  crypto = require('crypto');
+const path = require('path');
+const fs = require('fs');
+const crypto = require('crypto');
+const { promisify } = require('util');
+
+const readFile = promisify(fs.readFile);
 
 export const functions = {
   document: {
