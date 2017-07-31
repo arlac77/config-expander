@@ -93,22 +93,6 @@ Decrypt a former encrypted string
 | encrypted | <code>string</code> | 
 
 
-* <a name="module_config-expander..expand"></a>
-
-## config-expander~expand(config, [options]) ⇒ <code>Promise</code>
-Expands expressions in a configuration object
-
-**Kind**: inner method of [<code>config-expander</code>](#module_config-expander)  
-**Fulfil**: <code>object</code> - expanded configuration  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| config | <code>object</code> | config source |
-| [options] | <code>object</code> | the options |
-| [options.constants] | <code>object</code> | holding additional constants |
-| [options.functions] | <code>object</code> | holding additional functions |
-
-
 * * *
 
 # install
