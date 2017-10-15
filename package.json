@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "ava": "^0.22.0",
-    "babel-preset-stage-3": "^6.24.1",
+    "babel-preset-latest": "^6.24.1",
     "cracks": "3.1.2",
     "jsdoc-babel": "^0.3.0",
     "jsdoc-to-markdown": "^3.0.0",
@@ -79,7 +79,7 @@
       "build/test-bundle.js"
     ],
     "presets": [
-      "stage-3"
+      "latest"
     ],
     "require": [
       "babel-register"
