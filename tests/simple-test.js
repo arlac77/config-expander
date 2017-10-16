@@ -257,3 +257,9 @@ test('access objects first than array', async t =>
     }),
     'val2'
   ));
+
+test.skip('condition', async t =>
+  t.deepEqual(await expand([{ '${if true}': { a: 1, b: 2 } }]), [
+    { a: 1, b: 2 }
+  ])
+);
