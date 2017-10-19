@@ -258,6 +258,10 @@ test('access objects first than array', async t =>
     'val2'
   ));
 
+test.skip('split with array access', async t =>
+  t.is(await expand("${split('a:b:c:d',':')[2]}"), 'c')
+);
+
 test.skip('condition', async t =>
   t.deepEqual(await expand([{ '${if true}': { a: 1, b: 2 } }]), [
     { a: 1, b: 2 }
