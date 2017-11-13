@@ -2,15 +2,17 @@
   "name": "config-expander",
   "version": "0.0.0-semantic-release",
   "description": "Expands expressions in config files",
-  "keywords": ["config", "expression-evaluation"],
+  "keywords": [
+    "config",
+    "expression-evaluation"
+  ],
   "main": "dist/expander.js",
   "module": "src/expander.js",
   "scripts": {
     "cover": "nyc --temp-directory build/nyc ava",
     "test": "ava",
     "semantic-release": "semantic-release",
-    "docs":
-      "jsdoc2md --configure doc/jsdoc.json -l off -t doc/README.hbs -f src/*.js >README.md",
+    "docs": "jsdoc2md --configure doc/jsdoc.json -l off -t doc/README.hbs -f src/*.js >README.md",
     "pretest": "rollup -c tests/rollup.config.js",
     "posttest": "npm run prepare && markdown-doctest",
     "precover": "rollup -c tests/rollup.config.js",
@@ -30,6 +32,7 @@
   },
   "devDependencies": {
     "ava": "^0.23.0",
+    "babel-preset-env": "^1.6.1",
     "cracks": "3.1.2",
     "jsdoc-babel": "^0.3.0",
     "jsdoc-to-markdown": "^3.0.1",
@@ -43,15 +46,22 @@
   "release": {
     "verifyRelease": "cracks"
   },
-  "contributors": ["Markus Felten <markus.felten@gmx.de>"],
+  "contributors": [
+    "Markus Felten <markus.felten@gmx.de>"
+  ],
   "license": "BSD-2-Clause",
   "engines": {
     "node": ">=8.9.1"
   },
   "author": "Markus Felten <markus.felten@gmx.de>",
   "nyc": {
-    "include": ["build/*-test.js", "src/**/*.js"],
-    "reporter": ["lcov"],
+    "include": [
+      "build/*-test.js",
+      "src/**/*.js"
+    ],
+    "reporter": [
+      "lcov"
+    ],
     "report-dir": "./build/coverage"
   },
   "template": {
@@ -63,8 +73,14 @@
     "space": true
   },
   "ava": {
-    "files": ["build/*test.js"],
-    "presets": [null],
-    "require": ["babel-register"]
+    "files": [
+      "build/*test.js"
+    ],
+    "presets": [
+      null
+    ],
+    "require": [
+      "babel-register"
+    ]
   }
 }

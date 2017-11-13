@@ -46,6 +46,35 @@ expand("${include('tests/fixtures/other.json')}")
 { "key": "value from other" }
 ```
 
+
+# Examples
+## read config file (json)
+```js
+const configuration await expand("${include('" + '/path/to/the/config.json' + "')}")
+```
+
+## load key file
+```json
+{
+  "ca" : "${document(os.home + '/ca.pem')}"
+}
+```
+
+## calculate port numbers
+```json
+{
+  "http-port" : "${base + 0}",
+  "https-port" : "${base + 1}"
+}
+```
+
+## conditions
+```json
+{
+  "copy-cmd" : "${os.platform == 'win32' ? 'copy' : 'cp'}"
+}
+```
+
 # API Reference
 {{#modules~}}
 - {{name}}
