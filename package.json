@@ -40,7 +40,7 @@
     "semantic-release": "^9.1.1",
     "xo": "^0.19.0"
   },
-  "_release": {
+  "release": {
     "verifyRelease": "cracks"
   },
   "contributors": ["Markus Felten <markus.felten@gmx.de>"],
