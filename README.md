@@ -49,6 +49,7 @@ expand("${include('tests/fixtures/other.json')}")
 
 # Examples
 ## read config file (json)
+<!-- skip-example -->
 ```js
 const configuration await expand("${include('" + '/path/to/the/config.json' + "')}")
 ```

@@ -54,10 +54,20 @@
     "node": ">=8.9.1"
   },
   "author": "Markus Felten <markus.felten@gmx.de>",
+  "ava": {
+    "files": [
+      "build/*-test.js"
+    ],
+    "presets": [
+      "env"
+    ],
+    "require": [
+      "babel-register"
+    ]
+  },
   "nyc": {
     "include": [
-      "build/*-test.js",
-      "src/**/*.js"
+      "build/*-test.js"
     ],
     "reporter": [
       "lcov"
@@ -71,14 +81,5 @@
   },
   "xo": {
     "space": true
-  },
-  "ava": {
-    "files": [
-      "build/*test.js"
-    ],
-    "presets": [],
-    "require": [
-      "babel-register"
-    ]
   }
 }
