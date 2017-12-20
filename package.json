@@ -12,11 +12,12 @@
     "cover": "nyc --temp-directory build/nyc ava",
     "test": "ava",
     "semantic-release": "semantic-release",
-    "docs": "jsdoc2md --configure doc/jsdoc.json -l off -t doc/README.hbs -f src/*.js >README.md",
+    "docs": "documentation readme src/expander.js --section=API",
     "pretest": "rollup -c tests/rollup.config.js",
     "posttest": "npm run prepare && markdown-doctest",
     "precover": "rollup -c tests/rollup.config.js",
-    "prepare": "rollup -c"
+    "prepare": "rollup -c",
+    "lint": "documentation lint src/expander.js"
   },
   "repository": {
     "type": "git",
@@ -32,16 +33,14 @@
   },
   "devDependencies": {
     "ava": "^0.24.0",
-    "babel-preset-env": "^1.6.1",
     "cracks": "3.1.2",
-    "jsdoc-babel": "^0.3.0",
-    "jsdoc-to-markdown": "^3.0.2",
     "markdown-doctest": "^0.9.1",
     "nyc": "^11.4.1",
     "rollup": "^0.52.3",
     "rollup-plugin-multi-entry": "^2.0.2",
     "semantic-release": "^11.0.2",
-    "xo": "^0.19.0"
+    "xo": "^0.19.0",
+    "documentation": "^5.3.5"
   },
   "release": {
     "verifyRelease": "cracks"
