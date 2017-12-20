@@ -83,6 +83,12 @@ export const functions = {
     apply: (context, args) =>
       createValue(args[0].value.substring(args[1].value, args[2].value))
   },
+
+  /**
+   * Replace strang
+   * @param source {string} input value
+   * @return {string} replaced content
+   */
   replace: {
     arguments: ['string', 'string', 'string'],
     returns: 'string',
@@ -91,10 +97,10 @@ export const functions = {
   },
 
   /**
-	 * convert string into upper case
-	 * @param source {string} input value
-	 * @return {string} uppercase result
-	 */
+   * convert string into upper case
+   * @param source {string} input value
+   * @return {string} uppercase result
+   */
   toUpperCase: {
     arguments: ['string'],
     returns: 'string',
@@ -102,10 +108,10 @@ export const functions = {
   },
 
   /**
-	 * convert string into lower case
-	 * @param source {string} input value
-	 * @return {string} lowercase result
-	 */
+   * convert string into lower case
+   * @param source {string} input value
+   * @return {string} lowercase result
+   */
   toLowerCase: {
     arguments: ['string'],
     returns: 'string',
@@ -116,11 +122,11 @@ export const functions = {
     arguments: ['string', 'string'],
     returns: 'string[]',
     /**
-		 * split source string on pattern boundaries
-		 * @param source {string}
-		 * @param pattern {string}
-		 * @return {string[]} separated source
-		 */
+     * split source string on pattern boundaries
+     * @param source {string}
+     * @param pattern {string}
+     * @return {string[]} separated source
+     */
     apply: (context, args) => createValue(args[0].value.split(args[1].value))
   },
 
@@ -149,11 +155,11 @@ export const functions = {
     arguments: ['string', 'string'],
     returns: 'string',
     /**
-		 * Encrypt a plaintext value
-		 * @param key {string}
-		 * @param plaintext {string} input value
-		 * @return {string} encrypted value
-		 */
+     * Encrypt a plaintext value
+     * @param key {string}
+     * @param plaintext {string} input value
+     * @return {string} encrypted value
+     */
     apply: (context, args) => {
       const [key, plaintext] = args.map(a => a.value);
       const encipher = crypto.createCipher('aes-256-cbc', key);
@@ -167,11 +173,11 @@ export const functions = {
     arguments: ['string', 'string'],
     returns: 'string',
     /**
-		 * Decrypt a former encrypted string
-		 * @param key {string}
-		 * @param encrypted {string}
-		 * @return {string} plaintext
-		 */
+     * Decrypt a former encrypted string
+     * @param key {string}
+     * @param encrypted {string}
+     * @return {string} plaintext
+     */
     apply: (context, args) => {
       let [key, encryptdata] = args.map(a => a.value);
       encryptdata = Buffer.from(encryptdata, 'base64').toString('binary');

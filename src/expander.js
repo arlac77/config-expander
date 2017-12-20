@@ -6,6 +6,7 @@ import { createContext } from 'expression-expander';
 import { ConfigParser } from './grammar';
 import { functions } from './functions';
 import { createValue } from './util';
+export { createValue };
 
 const os = require('os');
 
@@ -14,12 +15,12 @@ const os = require('os');
  * Predefined constants:
  * - os
  * - basedir
- * @param config {object} config source
- * @param [options] {object} - the options
- * @param [options.constants] {object} - additional constants
- * @param [options.functions] {object} - additional functions
+ * @param config {Object} config source
+ * @param [options] {Object} - the options
+ * @param [options.constants] {Object} - additional constants
+ * @param [options.functions] {Object} - additional functions
  * @returns {Promise}
- * @fulfil {object} - expanded configuration
+ * @fulfil {Object} - expanded configuration
  */
 export async function expand(config, options = {}) {
   const context = {
@@ -45,5 +46,3 @@ export async function expand(config, options = {}) {
 
   return ee.expand(config);
 }
-
-export { createValue };
