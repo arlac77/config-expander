@@ -92,20 +92,16 @@ const configuration await expand("${include('" + '/path/to/the/config.json' + "'
 
 ### Table of Contents
 
--   [config-expander](#config-expander)
--   [config-expander](#config-expander-1)
 -   [expand](#expand)
--   [include](#include)
--   [replace](#replace)
--   [toUpperCase](#touppercase)
--   [toLowerCase](#tolowercase)
--   [apply](#apply)
--   [apply](#apply-1)
--   [apply](#apply-2)
-
-## config-expander
-
-## config-expander
+-   [config-expander](#config-expander)
+-   [functions](#functions)
+    -   [include](#include)
+    -   [replace](#replace)
+    -   [toUpperCase](#touppercase)
+    -   [toLowerCase](#tolowercase)
+    -   [split](#split)
+    -   [encrypt](#encrypt)
+    -   [decrypt](#decrypt)
 
 ## expand
 
@@ -117,89 +113,89 @@ Predefined constants:
 
 **Parameters**
 
--   `config`  {Object} config source
--   `options`  {Object} - the options
-    -   `options.constants`  {Object} - additional constants
-    -   `options.functions`  {Object} - additional functions
+-   `config` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** config source
+-   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** the options (optional, default `{}`)
+    -   `options.constants` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** additional constants
+    -   `options.functions` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** additional functions
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)** resolves to the expanded configuration
 
-## include
+## config-expander
+
+## functions
+
+knwon functions
+
+### include
 
 include definition form a file
 
 **Parameters**
 
--   `file`  {string} file name to be included
+-   `file` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** file name to be included
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** content of the file
 
-## replace
+### replace
 
 Replace strang
 
 **Parameters**
 
--   `source`  {string} input value
+-   `source` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** input value
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** replaced content
 
-## toUpperCase
+### toUpperCase
 
 convert string into upper case
 
 **Parameters**
 
--   `source`  {string} input value
+-   `source` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** input value
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** uppercase result
 
-## toLowerCase
+### toLowerCase
 
 convert string into lower case
 
 **Parameters**
 
--   `source`  {string} input value
+-   `source` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** input value
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** lowercase result
 
-## apply
+### split
 
 split source string on pattern boundaries
 
 **Parameters**
 
--   `context`  
--   `args`  
--   `source`  {string}
--   `pattern`  {string}
+-   `source` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `pattern` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** separated source
 
-## apply
+### encrypt
 
 Encrypt a plaintext value
 
 **Parameters**
 
--   `context`  
--   `args`  
--   `key`  {string}
--   `plaintext`  {string} input value
+-   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `plaintext` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** input value
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** encrypted value
 
-## apply
+### decrypt
 
 Decrypt a former encrypted string
 
 **Parameters**
 
--   `context`  
--   `args`  
--   `key`  {string}
--   `encrypted`  {string}
+-   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `encrypted` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** plaintext
 

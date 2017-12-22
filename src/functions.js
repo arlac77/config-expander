@@ -12,6 +12,9 @@ const { promisify } = require('util');
 
 const readFile = promisify(fs.readFile);
 
+/**
+ * knwon functions
+ */
 export const functions = {
   document: {
     arguments: ['string'],
@@ -30,7 +33,7 @@ export const functions = {
 
   /**
    * include definition form a file
-   * @param file {string} file name to be included
+   * @param {string} file file name to be included
    * @return {string} content of the file
    */
   include: {
@@ -86,7 +89,7 @@ export const functions = {
 
   /**
    * Replace strang
-   * @param source {string} input value
+   * @param {string} source input value
    * @return {string} replaced content
    */
   replace: {
@@ -98,7 +101,7 @@ export const functions = {
 
   /**
    * convert string into upper case
-   * @param source {string} input value
+   * @param {string} source input value
    * @return {string} uppercase result
    */
   toUpperCase: {
@@ -109,7 +112,7 @@ export const functions = {
 
   /**
    * convert string into lower case
-   * @param source {string} input value
+   * @param {string} source input value
    * @return {string} lowercase result
    */
   toLowerCase: {
@@ -118,15 +121,15 @@ export const functions = {
     apply: (context, args) => createValue(args[0].value.toLowerCase())
   },
 
+  /**
+   * split source string on pattern boundaries
+   * @param {string} source
+   * @param {string} pattern
+   * @return {string[]} separated source
+   */
   split: {
     arguments: ['string', 'string'],
     returns: 'string[]',
-    /**
-     * split source string on pattern boundaries
-     * @param source {string}
-     * @param pattern {string}
-     * @return {string[]} separated source
-     */
     apply: (context, args) => createValue(args[0].value.split(args[1].value))
   },
 
@@ -151,15 +154,15 @@ export const functions = {
     }
   },
 
+  /**
+   * Encrypt a plaintext value
+   * @param {string} key
+   * @param {string} plaintext input value
+   * @return {string} encrypted value
+   */
   encrypt: {
     arguments: ['string', 'string'],
     returns: 'string',
-    /**
-     * Encrypt a plaintext value
-     * @param key {string}
-     * @param plaintext {string} input value
-     * @return {string} encrypted value
-     */
     apply: (context, args) => {
       const [key, plaintext] = args.map(a => a.value);
       const encipher = crypto.createCipher('aes-256-cbc', key);
@@ -169,15 +172,15 @@ export const functions = {
     }
   },
 
+  /**
+   * Decrypt a former encrypted string
+   * @param {string} key
+   * @param {string} encrypted
+   * @return {string} plaintext
+   */
   decrypt: {
     arguments: ['string', 'string'],
     returns: 'string',
-    /**
-     * Decrypt a former encrypted string
-     * @param key {string}
-     * @param encrypted {string}
-     * @return {string} plaintext
-     */
     apply: (context, args) => {
       let [key, encryptdata] = args.map(a => a.value);
       encryptdata = Buffer.from(encryptdata, 'base64').toString('binary');

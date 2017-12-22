@@ -1,7 +1,3 @@
-/**
- * @module config-expander
- */
-
 import { createContext } from 'expression-expander';
 import { ConfigParser } from './grammar';
 import { functions } from './functions';
@@ -15,12 +11,11 @@ const os = require('os');
  * Predefined constants:
  * - os
  * - basedir
- * @param config {Object} config source
- * @param [options] {Object} - the options
- * @param [options.constants] {Object} - additional constants
- * @param [options.functions] {Object} - additional functions
- * @returns {Promise}
- * @fulfil {Object} - expanded configuration
+ * @param {Object} config config source
+ * @param {Object} options the options
+ * @param {Object} options.constants additional constants
+ * @param {Object} options.functions additional functions
+ * @returns {Promise} resolves to the expanded configuration
  */
 export async function expand(config, options = {}) {
   const context = {
