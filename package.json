@@ -1,13 +1,18 @@
 {
   "name": "config-expander",
   "version": "0.0.0-semantic-release",
+  "main": "dist/expander.js",
+  "module": "src/expander.js",
   "description": "Expands expressions in config files",
   "keywords": [
     "config",
     "expression-evaluation"
   ],
-  "main": "dist/expander.js",
-  "module": "src/expander.js",
+  "author": "Markus Felten <markus.felten@gmx.de>",
+  "contributors": [
+    "Markus Felten <markus.felten@gmx.de>"
+  ],
+  "license": "BSD-2-Clause",
   "scripts": {
     "cover": "nyc --temp-directory build/nyc ava",
     "test": "ava",
@@ -19,14 +24,6 @@
     "prepare": "rollup -c",
     "lint": "documentation lint src/expander.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/arlac77/config-expander.git"
-  },
-  "bugs": {
-    "url": "https://github.com/arlac77/config-expander/issues"
-  },
-  "homepage": "https://github.com/arlac77/config-expander#readme",
   "dependencies": {
     "expression-expander": "^6.0.1",
     "pratt-parser": "^7.0.9"
@@ -42,17 +39,20 @@
     "xo": "^0.19.0",
     "documentation": "^5.3.5"
   },
-  "release": {
-    "verifyRelease": "cracks"
-  },
-  "contributors": [
-    "Markus Felten <markus.felten@gmx.de>"
-  ],
-  "license": "BSD-2-Clause",
   "engines": {
     "node": ">=8.9.3"
   },
-  "author": "Markus Felten <markus.felten@gmx.de>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arlac77/config-expander.git"
+  },
+  "bugs": {
+    "url": "https://github.com/arlac77/config-expander/issues"
+  },
+  "homepage": "https://github.com/arlac77/config-expander#readme",
+  "release": {
+    "verifyRelease": "cracks"
+  },
   "ava": {
     "files": [
       "build/*-test.js"
@@ -73,12 +73,12 @@
     ],
     "report-dir": "./build/coverage"
   },
+  "xo": {
+    "space": true
+  },
   "template": {
     "repository": {
       "url": "https://github.com/arlac77/npm-package-template.git"
     }
-  },
-  "xo": {
-    "space": true
   }
 }
