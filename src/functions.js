@@ -189,5 +189,19 @@ export const functions = {
       decoded += decipher.final('utf8');
       return createValue(decoded);
     }
+  },
+  /**
+   * Call programm
+   * @param {string} executable path
+   * @param {string[]} arguments
+   * @return {string} stdout
+   */
+  exec: {
+    arguments: ['string', 'string'],
+    returns: 'string',
+    apply: (context, args) => {
+      let [path, params] = args.map(a => a.value);
+      return createValue('bad');
+    }
   }
 };
