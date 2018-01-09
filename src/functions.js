@@ -9,8 +9,29 @@ const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
 const { promisify } = require('util');
+const { spawn } = require('child_process');
 
 const readFile = promisify(fs.readFile);
+
+/**
+ * @typedef {Object} Value
+ * @property {string} type
+ * @property {Object} value
+ */
+
+/**
+ * @callback Apply
+ * @param {Context} Context
+ * @param {Value[]} args
+ */
+
+/**
+ * @typedef {Object} ConfigFunction
+ * @property {string[]} arguments
+ * @property {string} returns
+ * @property {Apply} apply
+ *
+ */
 
 /**
  * knwon functions
@@ -194,14 +215,23 @@ export const functions = {
    * Call programm
    * @param {string} executable path
    * @param {string[]} arguments
+   * @param {Object} [options]
    * @return {string} stdout
    */
-  exec: {
-    arguments: ['string', 'string'],
+  spawn: {
+    arguments: ['string', 'object' /*, 'object?'*/],
     returns: 'string',
     apply: (context, args) => {
-      let [path, params] = args.map(a => a.value);
-      return createValue('bad');
+      let [exec, params, options] = args.map(a => a.value);
+
+      return createValue(
+        new Promise((resolve, reject) => {
+          const s = spawn(exec, params, options);
+          let stdout = '';
+          s.stdout.on('data', data => (stdout += data));
+          s.on('close', code => resolve(stdout));
+        })
+      );
     }
   }
 };

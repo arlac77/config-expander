@@ -94,6 +94,7 @@ const configuration await expand("${include('" + '/path/to/the/config.json' + "'
 
 -   [expand](#expand)
 -   [config-expander](#config-expander)
+-   [Apply](#apply)
 -   [functions](#functions)
     -   [include](#include)
     -   [replace](#replace)
@@ -102,6 +103,9 @@ const configuration await expand("${include('" + '/path/to/the/config.json' + "'
     -   [split](#split)
     -   [encrypt](#encrypt)
     -   [decrypt](#decrypt)
+    -   [spawn](#spawn)
+-   [Value](#value)
+-   [ConfigFunction](#configfunction)
 
 ## expand
 
@@ -121,6 +125,15 @@ Predefined constants:
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)** resolves to the expanded configuration
 
 ## config-expander
+
+## Apply
+
+Type: [Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)
+
+**Parameters**
+
+-   `Context` **Context** 
+-   `args` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Value](#value)>** 
 
 ## functions
 
@@ -198,6 +211,37 @@ Decrypt a former encrypted string
 -   `encrypted` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** plaintext
+
+### spawn
+
+Call programm
+
+**Parameters**
+
+-   `executable` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** path
+-   `arguments` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** 
+-   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** 
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** stdout
+
+## Value
+
+Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
+
+**Properties**
+
+-   `type` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `value` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+## ConfigFunction
+
+Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
+
+**Properties**
+
+-   `arguments` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** 
+-   `returns` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `apply` **[Apply](#apply)** 
 
 # install
 
