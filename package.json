@@ -49,7 +49,7 @@
     "url": "https://github.com/arlac77/config-expander/issues"
   },
   "homepage": "https://github.com/arlac77/config-expander#readme",
-  "release": {
+  "xrelease": {
     "verifyRelease": "cracks"
   },
   "ava": {
