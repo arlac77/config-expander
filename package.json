@@ -30,7 +30,6 @@
   },
   "devDependencies": {
     "ava": "^0.24.0",
-    "cracks": "3.1.2",
     "markdown-doctest": "^0.9.1",
     "nyc": "^11.4.1",
     "rollup": "^0.53.4",
@@ -49,9 +48,6 @@
     "url": "https://github.com/arlac77/config-expander/issues"
   },
   "homepage": "https://github.com/arlac77/config-expander#readme",
-  "xrelease": {
-    "verifyRelease": "cracks"
-  },
   "ava": {
     "files": [
       "build/*-test.js"
@@ -79,5 +75,8 @@
     "repository": {
       "url": "https://github.com/arlac77/npm-package-template.git"
     }
+  },
+  "xrelease": {
+    "verifyRelease": "cracks"
   }
 }
