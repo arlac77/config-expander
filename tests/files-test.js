@@ -1,7 +1,6 @@
 import test from 'ava';
 import { expand } from '../src/expander';
-
-const path = require('path');
+import path from 'path';
 
 test('has file content', async t =>
   t.deepEqual(

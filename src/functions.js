@@ -1,15 +1,11 @@
-/**
- * @module config-expander
- */
-
 import { createValue } from './util';
 import { expand } from './expander';
+import { promisify } from 'util';
+import { spawn } from 'child_process';
 
-const path = require('path');
-const fs = require('fs');
-const crypto = require('crypto');
-const { promisify } = require('util');
-const { spawn } = require('child_process');
+import path from 'path';
+import fs from 'fs';
+import crypto from 'crypto';
 
 const readFile = promisify(fs.readFile);
 

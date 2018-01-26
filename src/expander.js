@@ -4,7 +4,7 @@ import { functions } from './functions';
 import { createValue } from './util';
 export { createValue };
 
-const os = require('os');
+import os from 'os';
 
 /**
  * Expands expressions in a configuration object
