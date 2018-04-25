@@ -1,6 +1,6 @@
 import test from 'ava';
 import { expand } from '../src/expander';
-import path from 'path';
+import { join } from 'path';
 
 test('has file content', async t =>
   t.deepEqual(
@@ -12,7 +12,7 @@ test('has file content', async t =>
         },
         {
           constants: {
-            basedir: path.join(__dirname, '..', 'tests', 'fixtures')
+            basedir: join(__dirname, '..', 'tests', 'fixtures')
           }
         }
       )
@@ -24,10 +24,10 @@ test('has file content', async t =>
   t.is(
     await expand("${resolve('fixtures')}", {
       constants: {
-        basedir: path.join(__dirname, '..', 'tests')
+        basedir: join(__dirname, '..', 'tests')
       }
     }),
-    path.join(__dirname, '..', 'tests', 'fixtures')
+    join(__dirname, '..', 'tests', 'fixtures')
   ));
 
 test('can include', async t =>
@@ -63,7 +63,7 @@ test('include missing', async t => {
   );
   t.is(
     error.message,
-    `ENOENT: no such file or directory, open '${path.join(
+    `ENOENT: no such file or directory, open '${join(
       __dirname,
       '..',
       '../tests/fixtures/missing.json'

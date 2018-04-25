@@ -3,11 +3,11 @@ import { expand } from './expander';
 import { promisify } from 'util';
 import { spawn } from 'child_process';
 
-import path from 'path';
-import fs from 'fs';
+import { dirname, resolve } from 'path';
+import { readFile } from 'fs';
 import crypto from 'crypto';
 
-const readFile = promisify(fs.readFile);
+const pReadFile = promisify(readFile);
 
 /**
  * @typedef {Object} Value
@@ -37,15 +37,13 @@ export const functions = {
     arguments: ['string'],
     returns: 'buffer',
     apply: (context, args) =>
-      createValue(
-        readFile(path.resolve(context.constants.basedir, args[0].value))
-      )
+      createValue(pReadFile(resolve(context.constants.basedir, args[0].value)))
   },
   resolve: {
     arguments: ['string'],
     returns: 'string',
     apply: (context, args) =>
-      createValue(path.resolve(context.constants.basedir, args[0].value))
+      createValue(resolve(context.constants.basedir, args[0].value))
   },
 
   /**
@@ -57,15 +55,15 @@ export const functions = {
     arguments: ['string'],
     returns: 'object',
     apply: (context, args) => {
-      const file = path.resolve(context.constants.basedir, args[0].value);
+      const file = resolve(context.constants.basedir, args[0].value);
 
       return createValue(
-        readFile(file).then(data =>
+        pReadFile(file).then(data =>
           expand(
             JSON.parse(data),
             Object.assign({}, context, {
               constants: Object.assign({}, context.constants, {
-                basedir: path.dirname(file)
+                basedir: dirname(file)
               })
             })
           )
