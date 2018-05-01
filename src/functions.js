@@ -5,7 +5,7 @@ import { spawn } from 'child_process';
 
 import { dirname, resolve } from 'path';
 import { readFile } from 'fs';
-import crypto from 'crypto';
+import { createCipher, createDecipher } from 'crypto';
 
 const pReadFile = promisify(readFile);
 
@@ -180,7 +180,7 @@ export const functions = {
     returns: 'string',
     apply: (context, args) => {
       const [key, plaintext] = args.map(a => a.value);
-      const encipher = crypto.createCipher('aes-256-cbc', key);
+      const encipher = createCipher('aes-256-cbc', key);
       let encryptdata = encipher.update(plaintext, 'utf8', 'binary');
       encryptdata += encipher.final('binary');
       return createValue(Buffer.from(encryptdata, 'binary').toString('base64'));
@@ -199,7 +199,7 @@ export const functions = {
     apply: (context, args) => {
       let [key, encryptdata] = args.map(a => a.value);
       encryptdata = Buffer.from(encryptdata, 'base64').toString('binary');
-      const decipher = crypto.createDecipher('aes-256-cbc', key);
+      const decipher = createDecipher('aes-256-cbc', key);
       let decoded = decipher.update(encryptdata, 'binary', 'utf8');
       decoded += decipher.final('utf8');
       return createValue(decoded);
