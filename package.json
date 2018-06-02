@@ -1,6 +1,9 @@
 {
   "name": "config-expander",
   "version": "0.0.0-semantic-release",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/expander.js",
   "module": "src/expander.js",
   "description": "Expands expressions in config files",
