@@ -92,18 +92,30 @@ const configuration await expand("${include('" + '/path/to/the/config.json' + "'
 ### Table of Contents
 
 -   [expand](#expand)
+    -   [Parameters](#parameters)
 -   [Value](#value)
+    -   [Properties](#properties)
 -   [ConfigFunction](#configfunction)
+    -   [Properties](#properties-1)
 -   [functions](#functions)
     -   [include](#include)
+        -   [Parameters](#parameters-1)
     -   [replace](#replace)
+        -   [Parameters](#parameters-2)
     -   [toUpperCase](#touppercase)
+        -   [Parameters](#parameters-3)
     -   [toLowerCase](#tolowercase)
+        -   [Parameters](#parameters-4)
     -   [split](#split)
+        -   [Parameters](#parameters-5)
     -   [encrypt](#encrypt)
+        -   [Parameters](#parameters-6)
     -   [decrypt](#decrypt)
+        -   [Parameters](#parameters-7)
     -   [spawn](#spawn)
+        -   [Parameters](#parameters-8)
 -   [Apply](#apply)
+    -   [Parameters](#parameters-9)
 
 ## expand
 
@@ -113,7 +125,7 @@ Predefined constants:
 -   os
 -   basedir
 
-**Parameters**
+### Parameters
 
 -   `config` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** config source
 -   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** the options (optional, default `{}`)
@@ -126,7 +138,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
 
-**Properties**
+### Properties
 
 -   `type` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `value` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
@@ -135,7 +147,7 @@ Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
 
-**Properties**
+### Properties
 
 -   `arguments` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** 
 -   `returns` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
@@ -149,7 +161,7 @@ knwon functions
 
 include definition form a file
 
-**Parameters**
+#### Parameters
 
 -   `file` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** file name to be included
 
@@ -159,7 +171,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Replace strang
 
-**Parameters**
+#### Parameters
 
 -   `source` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** input value
 
@@ -169,7 +181,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 convert string into upper case
 
-**Parameters**
+#### Parameters
 
 -   `source` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** input value
 
@@ -179,7 +191,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 convert string into lower case
 
-**Parameters**
+#### Parameters
 
 -   `source` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** input value
 
@@ -189,7 +201,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 split source string on pattern boundaries
 
-**Parameters**
+#### Parameters
 
 -   `source` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `pattern` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
@@ -200,7 +212,7 @@ Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Gl
 
 Encrypt a plaintext value
 
-**Parameters**
+#### Parameters
 
 -   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `plaintext` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** input value
@@ -211,7 +223,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Decrypt a former encrypted string
 
-**Parameters**
+#### Parameters
 
 -   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `encrypted` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
@@ -222,7 +234,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Call programm
 
-**Parameters**
+#### Parameters
 
 -   `executable` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** path
 -   `arguments` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** 
@@ -234,7 +246,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Type: [Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)
 
-**Parameters**
+### Parameters
 
 -   `Context` **Context** 
 -   `args` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Value](#value)>** 
