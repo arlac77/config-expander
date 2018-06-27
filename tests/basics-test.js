@@ -200,11 +200,12 @@ test('object paths with promise', async t =>
   t.deepEqual(
     await expand("${include('../tests/fixtures/with_sub.json').sub}", {
       constants: {
-        basedir: __dirname
+        basedir: __dirname,
+        c1: 'vc1'
       }
     }),
     {
-      key: 'value in other sub'
+      key: 'value in other sub vc1'
     }
   ));
 
@@ -259,11 +260,9 @@ test('access objects first than array', async t =>
   ));
 
 test.skip('split with array access', async t =>
-  t.is(await expand("${split('a:b:c:d',':')[2]}"), 'c')
-);
+  t.is(await expand("${split('a:b:c:d',':')[2]}"), 'c'));
 
 test.skip('condition', async t =>
   t.deepEqual(await expand([{ '${if true}': { a: 1, b: 2 } }]), [
     { a: 1, b: 2 }
-  ])
-);
+  ]));
