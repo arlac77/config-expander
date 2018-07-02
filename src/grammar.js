@@ -71,7 +71,7 @@ class BinOP extends AST {
   }
 }
 
-class TeneryOP extends AST {
+class TerneryOP extends AST {
   constructor(exp, a, b) {
     super();
     Object.defineProperty(this, 'value', {
@@ -297,7 +297,7 @@ const grammar = {
         const e1 = grammar.expression(0);
         grammar.advance(':');
         const e2 = grammar.expression(0);
-        return new TeneryOP(left, e1, e2);
+        return new TerneryOP(left, e1, e2);
       }
     },
     ':': {},
