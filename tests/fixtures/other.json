@@ -1,3 +1,3 @@
 {
-  "key": "value from other"
+  "key": "value from other ${c1}"
 }

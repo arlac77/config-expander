@@ -58,16 +58,22 @@ export const functions = {
       const file = resolve(context.constants.basedir, args[0].value);
 
       return createValue(
-        pReadFile(file).then(data =>
-          expand(
-            JSON.parse(data),
+        pReadFile(file).then(data => {
+          const json = JSON.parse(data);
+          return expand(
+            json,
             Object.assign({}, context, {
-              constants: Object.assign({}, context.constants, {
-                basedir: dirname(file)
-              })
+              constants: Object.assign(
+                {},
+                context.constants,
+                {
+                  basedir: dirname(file)
+                },
+                json.constants
+              )
             })
-          )
-        )
+          );
+        })
       );
     }
   },

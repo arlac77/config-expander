@@ -34,26 +34,25 @@ test('can include', async t =>
   t.deepEqual(
     await expand("${include('../tests/fixtures/other.json')}", {
       constants: {
-        basedir: __dirname
+        basedir: __dirname,
+        c1: 'x'
       }
     }),
     {
-      key: 'value from other'
+      key: 'value from other x'
     }
   ));
 
 test('can nest includes', async t =>
   t.deepEqual(
-    await expand("${include('../tests/fixtures/first.json')}", {
+    (await expand("${include('../tests/fixtures/first.json')}", {
       constants: {
         nameOfTheOther: 'other.json',
         basedir: __dirname
       }
-    }),
+    })).first_key,
     {
-      first_key: {
-        key: 'value from other'
-      }
+      key: 'value from other v1'
     }
   ));
 

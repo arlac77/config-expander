@@ -134,7 +134,7 @@ const grammar = {
           }
 
           for (const p of path) {
-            if (p.value.constants) {
+            if (p.value.constants !== undefined) {
               const v = p.value.constants[value];
               if (v !== undefined) {
                 properties.value = {
@@ -146,13 +146,13 @@ const grammar = {
           }
 
           const c = pp.context.constants[value];
-          if (c) {
+          if (c === undefined) {
             properties.value = {
-              value: c
+              value
             };
           } else {
             properties.value = {
-              value
+              value: c
             };
           }
 
