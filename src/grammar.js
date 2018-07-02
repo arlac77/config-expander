@@ -133,13 +133,15 @@ const grammar = {
             }
           }
 
-          if (path[0].value.constants) {
-            const v = path[0].value.constants[value];
-            if (v !== undefined) {
-              properties.value = {
-                value: v
-              };
-              return Object.create(this, properties);
+          for (const p of path) {
+            if (p.value.constants) {
+              const v = p.value.constants[value];
+              if (v !== undefined) {
+                properties.value = {
+                  value: v
+                };
+                return Object.create(this, properties);
+              }
             }
           }
 
