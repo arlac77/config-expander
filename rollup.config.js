@@ -4,7 +4,8 @@ import commonjs from 'rollup-plugin-commonjs';
 export default {
   output: {
     file: pkg.main,
-    format: 'cjs'
+    format: 'cjs',
+    interop: false
   },
   plugins: [resolve(), commonjs()],
   external: [
