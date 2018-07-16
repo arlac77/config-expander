@@ -18,7 +18,13 @@ export default {
     'expression-expander',
     'pratt-parser'
   ],
-  plugins: [multiEntry(), resolve(), commonjs()],
+  plugins: [multiEntry(), resolve(), commonjs(), istanbul({
+    exclude: ['tests/**/*-test.js']
+  }), babel({
+    babelrc: false,
+    presets: ['env'],
+    exclude: 'node_modules/**'
+  })],
 
   output: {
     file: 'build/bundle-test.js',
