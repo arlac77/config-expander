@@ -1,5 +1,4 @@
 import istanbul from 'rollup-plugin-istanbul';
-
 import multiEntry from 'rollup-plugin-multi-entry';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
@@ -17,9 +16,14 @@ export default {
     'expression-expander',
     'pratt-parser'
   ],
-  plugins: [multiEntry(), resolve(), commonjs(), istanbul({
-    exclude: ['tests/**/*-test.js']
-  })],
+  plugins: [
+    multiEntry(),
+    resolve(),
+    commonjs(),
+    istanbul({
+      exclude: ['tests/**/*-test.js']
+    })
+  ],
 
   output: {
     file: 'build/bundle-test.js',
