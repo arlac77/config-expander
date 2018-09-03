@@ -29,7 +29,7 @@
     "travis-deploy-once": "travis-deploy-once"
   },
   "dependencies": {
-    "expression-expander": "^6.1.0",
+    "expression-expander": "^6.1.2",
     "pratt-parser": "^7.0.9"
   },
   "devDependencies": {
