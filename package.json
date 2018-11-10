@@ -17,7 +17,7 @@
   ],
   "license": "BSD-2-Clause",
   "scripts": {
-    "cover": "c8 --temp-directory build/coverage ava && c8 report -r lcov --temp-directory build/coverage && nyc --temp-directory build/nyc ava",
+    "cover": "c8 --temp-directory build/coverage ava && c8 report -r lcov --temp-directory build/coverage",
     "test": "ava",
     "semantic-release": "semantic-release",
     "docs": "documentation readme src/expander.js --section=API",
@@ -58,24 +58,13 @@
   "homepage": "https://github.com/arlac77/config-expander#readme",
   "ava": {
     "files": [
-      "build/*-test.js"
+      "tests/*-test.js"
     ],
     "presets": [
-      "env"
     ],
     "require": [
-      "babel-register"
+      "esm"
     ]
-  },
-  "nyc": {
-    "include": [
-      "build/*-test.js",
-      "src/**/*.js"
-    ],
-    "reporter": [
-      "lcov"
-    ],
-    "report-dir": "./build/coverage"
   },
   "xo": {
     "space": true
