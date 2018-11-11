@@ -60,8 +60,7 @@
     "files": [
       "tests/*-test.js"
     ],
-    "presets": [
-    ],
+    "presets": [],
     "require": [
       "esm"
     ]

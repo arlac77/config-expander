@@ -1,13 +1,11 @@
-import { createValue } from './util';
-import { expand } from './expander';
-import { promisify } from 'util';
-import { spawn } from 'child_process';
-
-import { dirname, resolve } from 'path';
-import { readFile } from 'fs';
-import { createCipher, createDecipher } from 'crypto';
-
-const pReadFile = promisify(readFile);
+import { createValue } from "./util";
+import { expand } from "./expander";
+import { promisify } from "util";
+import { spawn } from "child_process";
+import { dirname, resolve } from "path";
+const { readFile } = require("fs").promises;
+const { createCipher, createDecipher } = require("crypto");
+//import { createCipher, createDecipher } from "crypto";
 
 /**
  * @typedef {Object} Value
@@ -34,14 +32,14 @@ const pReadFile = promisify(readFile);
  */
 export const functions = {
   document: {
-    arguments: ['string'],
-    returns: 'buffer',
+    arguments: ["string"],
+    returns: "buffer",
     apply: (context, args) =>
-      createValue(pReadFile(resolve(context.constants.basedir, args[0].value)))
+      createValue(readFile(resolve(context.constants.basedir, args[0].value)))
   },
   resolve: {
-    arguments: ['string'],
-    returns: 'string',
+    arguments: ["string"],
+    returns: "string",
     apply: (context, args) =>
       createValue(resolve(context.constants.basedir, args[0].value))
   },
@@ -52,13 +50,13 @@ export const functions = {
    * @return {string} content of the file
    */
   include: {
-    arguments: ['string'],
-    returns: 'object',
+    arguments: ["string"],
+    returns: "object",
     apply: (context, args) => {
       const file = resolve(context.constants.basedir, args[0].value);
 
       return createValue(
-        pReadFile(file).then(data => {
+        readFile(file).then(data => {
           const json = JSON.parse(data);
           return expand(
             json,
@@ -78,32 +76,32 @@ export const functions = {
     }
   },
   number: {
-    arguments: ['string|number'],
-    returns: 'number',
+    arguments: ["string|number"],
+    returns: "number",
     apply: (context, args) => {
       const v = args[0].value;
       return createValue(
-        parseFloat(v) === v ? v : parseFloat(v.replace(/[a-z]+/, ''))
+        parseFloat(v) === v ? v : parseFloat(v.replace(/[a-z]+/, ""))
       );
     }
   },
   string: {
-    arguments: ['string|buffer'],
-    returns: 'string',
+    arguments: ["string|buffer"],
+    returns: "string",
     apply: (context, args) => {
       const v = args[0].value;
       return createValue(v instanceof Buffer ? v.toString() : v);
     }
   },
   length: {
-    arguments: ['string|object'],
-    returns: 'integer',
+    arguments: ["string|object"],
+    returns: "integer",
     apply: (context, args) => createValue(args[0].value.length)
   },
 
   substring: {
-    arguments: ['string', 'integer', 'integer'],
-    returns: 'string',
+    arguments: ["string", "integer", "integer"],
+    returns: "string",
     apply: (context, args) =>
       createValue(args[0].value.substring(args[1].value, args[2].value))
   },
@@ -114,8 +112,8 @@ export const functions = {
    * @return {string} replaced content
    */
   replace: {
-    arguments: ['string', 'string', 'string'],
-    returns: 'string',
+    arguments: ["string", "string", "string"],
+    returns: "string",
     apply: (context, args) =>
       createValue(args[0].value.replace(args[1].value, args[2].value))
   },
@@ -126,8 +124,8 @@ export const functions = {
    * @return {string} uppercase result
    */
   toUpperCase: {
-    arguments: ['string'],
-    returns: 'string',
+    arguments: ["string"],
+    returns: "string",
     apply: (context, args) => createValue(args[0].value.toUpperCase())
   },
 
@@ -137,8 +135,8 @@ export const functions = {
    * @return {string} lowercase result
    */
   toLowerCase: {
-    arguments: ['string'],
-    returns: 'string',
+    arguments: ["string"],
+    returns: "string",
     apply: (context, args) => createValue(args[0].value.toLowerCase())
   },
 
@@ -149,14 +147,14 @@ export const functions = {
    * @return {string[]} separated source
    */
   split: {
-    arguments: ['string', 'string'],
-    returns: 'string[]',
+    arguments: ["string", "string"],
+    returns: "string[]",
     apply: (context, args) => createValue(args[0].value.split(args[1].value))
   },
 
   first: {
-    arguments: ['object|number'],
-    returns: 'object?',
+    arguments: ["object|number"],
+    returns: "object?",
     apply: (context, args) => {
       args = args.filter(e => e !== undefined && e.value !== undefined);
 
@@ -182,14 +180,14 @@ export const functions = {
    * @return {string} encrypted value
    */
   encrypt: {
-    arguments: ['string', 'string'],
-    returns: 'string',
+    arguments: ["string", "string"],
+    returns: "string",
     apply: (context, args) => {
       const [key, plaintext] = args.map(a => a.value);
-      const encipher = createCipher('aes-256-cbc', key);
-      let encryptdata = encipher.update(plaintext, 'utf8', 'binary');
-      encryptdata += encipher.final('binary');
-      return createValue(Buffer.from(encryptdata, 'binary').toString('base64'));
+      const encipher = createCipher("aes-256-cbc", key);
+      let encryptdata = encipher.update(plaintext, "utf8", "binary");
+      encryptdata += encipher.final("binary");
+      return createValue(Buffer.from(encryptdata, "binary").toString("base64"));
     }
   },
 
@@ -200,14 +198,14 @@ export const functions = {
    * @return {string} plaintext
    */
   decrypt: {
-    arguments: ['string', 'string'],
-    returns: 'string',
+    arguments: ["string", "string"],
+    returns: "string",
     apply: (context, args) => {
       let [key, encryptdata] = args.map(a => a.value);
-      encryptdata = Buffer.from(encryptdata, 'base64').toString('binary');
-      const decipher = createDecipher('aes-256-cbc', key);
-      let decoded = decipher.update(encryptdata, 'binary', 'utf8');
-      decoded += decipher.final('utf8');
+      encryptdata = Buffer.from(encryptdata, "base64").toString("binary");
+      const decipher = createDecipher("aes-256-cbc", key);
+      let decoded = decipher.update(encryptdata, "binary", "utf8");
+      decoded += decipher.final("utf8");
       return createValue(decoded);
     }
   },
@@ -219,17 +217,17 @@ export const functions = {
    * @return {string} stdout
    */
   spawn: {
-    arguments: ['string', 'object' /*, 'object?'*/],
-    returns: 'string',
+    arguments: ["string", "object" /*, 'object?'*/],
+    returns: "string",
     apply: (context, args) => {
       let [exec, params, options] = args.map(a => a.value);
 
       return createValue(
         new Promise((resolve, reject) => {
           const s = spawn(exec, params, options);
-          let stdout = '';
-          s.stdout.on('data', data => (stdout += data));
-          s.on('close', code => resolve(stdout));
+          let stdout = "";
+          s.stdout.on("data", data => (stdout += data));
+          s.on("close", code => resolve(stdout));
         })
       );
     }
