@@ -60,12 +60,12 @@
     "files": [
       "tests/*-test.js"
     ],
-    "presets": [
-    ],
+    "presets": [],
     "require": [
       "esm"
     ]
   },
+  "nyc": "-",
   "xo": {
     "space": true
   },
