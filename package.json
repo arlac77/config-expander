@@ -65,7 +65,6 @@
       "esm"
     ]
   },
-  "nyc": "-",
   "xo": {
     "space": true
   },
