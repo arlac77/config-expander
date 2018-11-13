@@ -63,7 +63,9 @@
     "presets": [],
     "require": [
       "esm"
-    ]
+    ],
+    "babel": false,
+    "compileEnhancements": false
   },
   "template": {
     "repository": {
