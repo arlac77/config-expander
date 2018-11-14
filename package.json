@@ -58,7 +58,8 @@
   "homepage": "https://github.com/arlac77/config-expander#readme",
   "ava": {
     "files": [
-      "tests/*-test.js"
+      "tests/*-test.js",
+      "tests/*-test.mjs"
     ],
     "presets": [],
     "require": [
