@@ -61,7 +61,6 @@
       "tests/*-test.js",
       "tests/*-test.mjs"
     ],
-    "presets": [],
     "require": [
       "esm"
     ],
