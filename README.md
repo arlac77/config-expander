@@ -95,27 +95,27 @@ const configuration await expand("${include('" + '/path/to/the/config.json' + "'
     -   [Parameters](#parameters)
 -   [Value](#value)
     -   [Properties](#properties)
+-   [Apply](#apply)
+    -   [Parameters](#parameters-1)
 -   [ConfigFunction](#configfunction)
     -   [Properties](#properties-1)
 -   [functions](#functions)
     -   [include](#include)
-        -   [Parameters](#parameters-1)
-    -   [replace](#replace)
         -   [Parameters](#parameters-2)
-    -   [toUpperCase](#touppercase)
+    -   [replace](#replace)
         -   [Parameters](#parameters-3)
-    -   [toLowerCase](#tolowercase)
+    -   [toUpperCase](#touppercase)
         -   [Parameters](#parameters-4)
-    -   [split](#split)
+    -   [toLowerCase](#tolowercase)
         -   [Parameters](#parameters-5)
-    -   [encrypt](#encrypt)
+    -   [split](#split)
         -   [Parameters](#parameters-6)
-    -   [decrypt](#decrypt)
+    -   [encrypt](#encrypt)
         -   [Parameters](#parameters-7)
-    -   [spawn](#spawn)
+    -   [decrypt](#decrypt)
         -   [Parameters](#parameters-8)
--   [Apply](#apply)
-    -   [Parameters](#parameters-9)
+    -   [spawn](#spawn)
+        -   [Parameters](#parameters-9)
 
 ## expand
 
@@ -142,6 +142,15 @@ Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 -   `type` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `value` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+## Apply
+
+Type: [Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)
+
+### Parameters
+
+-   `Context` **Context** 
+-   `args` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Value](#value)>** 
 
 ## ConfigFunction
 
@@ -241,15 +250,6 @@ Call programm
 -   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** 
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** stdout
-
-## Apply
-
-Type: [Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)
-
-### Parameters
-
--   `Context` **Context** 
--   `args` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Value](#value)>** 
 
 # install
 
