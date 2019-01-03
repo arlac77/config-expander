@@ -12,14 +12,6 @@ export default {
     interop: false
   },
   plugins: [resolve(), commonjs(), cleanup()],
-  external: [
-    "os",
-    "util",
-    "child_process",
-    "path",
-    "fs",
-    "crypto",
-    "pratt-parser"
-  ],
+  external: ["os", "util", "child_process", "path", "fs", "crypto"],
   input: pkg.module
 };
