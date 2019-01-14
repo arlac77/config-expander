@@ -23,8 +23,10 @@ Expands expressions in config files
 
 ## file.js
 
+<!-- skip-example -->
+
 ```js
-const { expand } = require('config-expander');
+import { expand } =  from 'config-expander';
 
 // expanding hole expressions at the value position (result key is a number)
 expand({ key: '${value + 1}' }, { constants: { value: 77 } }).then(r =>

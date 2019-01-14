@@ -1,6 +1,9 @@
 import test from "ava";
 import { expand } from "../src/expander";
-import { join } from "path";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+
+const here = dirname(fileURLToPath(import.meta.url));
 
 test("has file content", async t =>
   t.deepEqual(
@@ -12,7 +15,7 @@ test("has file content", async t =>
         },
         {
           constants: {
-            basedir: join(__dirname, "..", "tests", "fixtures")
+            basedir: join(here, "..", "tests", "fixtures")
           }
         }
       )
@@ -24,17 +27,17 @@ test("has file content #2", async t =>
   t.is(
     await expand("${resolve('fixtures')}", {
       constants: {
-        basedir: join(__dirname, "..", "tests")
+        basedir: join(here, "..", "tests")
       }
     }),
-    join(__dirname, "..", "tests", "fixtures")
+    join(here, "..", "tests", "fixtures")
   ));
 
 test("can include", async t =>
   t.deepEqual(
     await expand("${include('../tests/fixtures/other.json')}", {
       constants: {
-        basedir: __dirname,
+        basedir: here,
         c1: "x"
       }
     }),
@@ -48,7 +51,7 @@ test("can nest includes", async t =>
     (await expand("${include('../tests/fixtures/first.json')}", {
       constants: {
         nameOfTheOther: "other.json",
-        basedir: __dirname
+        basedir: here
       }
     })).first_key,
     {
@@ -61,7 +64,7 @@ test("include missing", async t => {
     async () => expand("${include('../tests/fixtures/missing.json')}"),
     {
       message: `ENOENT: no such file or directory, open '${join(
-        __dirname,
+        here,
         "..",
         "../tests/fixtures/missing.json"
       )}'`

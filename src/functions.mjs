@@ -3,9 +3,8 @@ import { expand } from "./expander";
 import { promisify } from "util";
 import { spawn } from "child_process";
 import { dirname, resolve } from "path";
-const { readFile } = require("fs").promises;
-const { createCipher, createDecipher } = require("crypto");
-//import { createCipher, createDecipher } from "crypto";
+import fs from 'fs';
+import crypto from "crypto";
 
 /**
  * @typedef {Object} Value
@@ -35,7 +34,7 @@ export const functions = {
     arguments: ["string"],
     returns: "buffer",
     apply: (context, args) =>
-      createValue(readFile(resolve(context.constants.basedir, args[0].value)))
+      createValue(fs.promises.readFile(resolve(context.constants.basedir, args[0].value)))
   },
   resolve: {
     arguments: ["string"],
@@ -56,7 +55,7 @@ export const functions = {
       const file = resolve(context.constants.basedir, args[0].value);
 
       return createValue(
-        readFile(file).then(data => {
+        fs.promises.readFile(file).then(data => {
           const json = JSON.parse(data);
           return expand(
             json,
@@ -184,7 +183,7 @@ export const functions = {
     returns: "string",
     apply: (context, args) => {
       const [key, plaintext] = args.map(a => a.value);
-      const encipher = createCipher("aes-256-cbc", key);
+      const encipher = crypto.createCipher("aes-256-cbc", key);
       let encryptdata = encipher.update(plaintext, "utf8", "binary");
       encryptdata += encipher.final("binary");
       return createValue(Buffer.from(encryptdata, "binary").toString("base64"));
@@ -203,7 +202,7 @@ export const functions = {
     apply: (context, args) => {
       let [key, encryptdata] = args.map(a => a.value);
       encryptdata = Buffer.from(encryptdata, "base64").toString("binary");
-      const decipher = createDecipher("aes-256-cbc", key);
+      const decipher = crypto.createDecipher("aes-256-cbc", key);
       let decoded = decipher.update(encryptdata, "binary", "utf8");
       decoded += decipher.final("utf8");
       return createValue(decoded);

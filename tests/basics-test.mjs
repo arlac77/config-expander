@@ -1,5 +1,9 @@
 import test from "ava";
 import { expand, createValue } from "../src/expander";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+
+const here = dirname(fileURLToPath(import.meta.url));
 
 test("null expansion", async t => {
   t.deepEqual(
@@ -131,7 +135,7 @@ test("function promise arg", async t =>
       "${substring(string(document('../tests/fixtures/short.txt')),0,4)}",
       {
         constants: {
-          basedir: __dirname
+          basedir: here
         }
       }
     ),
@@ -144,7 +148,7 @@ test("two promises binop", async t =>
       "${document('../tests/fixtures/short.txt') + document('../tests/fixtures/short2.txt')}",
       {
         constants: {
-          basedir: __dirname
+          basedir: here
         }
       }
     )).toString(),
@@ -155,7 +159,7 @@ test("left only promise binop", async t =>
   t.is(
     (await expand("${document('../tests/fixtures/short.txt') + 'XX'}", {
       constants: {
-        basedir: __dirname
+        basedir: here
       }
     })).toString(),
     "line 1\nXX"
@@ -197,7 +201,7 @@ test("object paths with promise", async t =>
   t.deepEqual(
     await expand("${include('../tests/fixtures/with_sub.json').sub}", {
       constants: {
-        basedir: __dirname,
+        basedir: here,
         c1: "vc1"
       }
     }),
