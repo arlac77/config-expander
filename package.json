@@ -4,8 +4,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "dist/expander.js",
-  "module": "src/expander.js",
+  "main": "src/expander.mjs",
+  "module": "src/expander.mjs",
   "description": "Expands expressions in config files",
   "keywords": [
     "config",
@@ -18,9 +18,9 @@
   "license": "BSD-2-Clause",
   "scripts": {
     "cover": "c8 --temp-directory build/coverage ava && c8 report -r lcov --temp-directory build/coverage",
-    "docs": "documentation readme src/expander.js --section=API",
-    "lint": "documentation lint src/expander.js",
-    "posttest": "markdown-doctest && npm run prepare",
+    "docs": "documentation readme src/expander.mjs --section=API",
+    "lint": "documentation lint src/expander.mjs",
+    "posttest": "markdown-doctest",
     "test": "ava"
   },
   "dependencies": {
