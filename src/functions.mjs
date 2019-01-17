@@ -1,6 +1,5 @@
 import { createValue } from "./util";
 import { expand } from "./expander";
-import { promisify } from "util";
 import { spawn } from "child_process";
 import { dirname, resolve } from "path";
 import fs from 'fs';
