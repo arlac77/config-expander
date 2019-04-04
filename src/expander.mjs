@@ -1,10 +1,10 @@
-import { createContext } from 'expression-expander';
-import { ConfigParser } from './grammar';
-import { functions } from './functions';
-import { createValue } from './util';
+import { createContext } from "expression-expander";
+import { ConfigParser } from "./grammar";
+import { functions } from "./functions";
+import { createValue, merge } from "./util";
 export { createValue };
 
-import os from 'os';
+import os from "os";
 
 /**
  * Expands expressions in a configuration object
@@ -14,6 +14,7 @@ import os from 'os';
  * @param {Object} config config source
  * @param {Object} options the options
  * @param {Object} options.constants additional constants
+ * @param {Object} options.default default configuration
  * @param {Object} options.functions additional functions
  * @returns {Promise} resolves to the expanded configuration
  */
@@ -39,5 +40,7 @@ export async function expand(config, options = {}) {
     }
   });
 
-  return ee.expand(config);
+  return options.default !== undefined
+    ? merge(options.default, await ee.expand(config))
+    : ee.expand(config);
 }
