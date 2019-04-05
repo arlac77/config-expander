@@ -104,6 +104,7 @@ test("length (string)", async t => t.is(await expand("${length('abc')}"), 3));
 test("length (array)", async t => t.is(await expand("${length([1,2,3])}"), 3));
 
 test("first", async t => t.is(await expand("${first(1,2,3)}"), 1));
+test.only("first missing", async t => t.is(await expand("${first(env.MISSING,'b')}"), 'b'));
 
 test("split", async t =>
   t.deepEqual(await expand("${split('1,2,3,4',',')}"), ["1", "2", "3", "4"]));

@@ -151,7 +151,7 @@ export const functions = {
   },
 
   first: {
-    arguments: ["object|number"],
+    arguments: ["object|number|undefined"],
     returns: "object?",
     apply: (context, args) => {
       args = args.filter(e => e !== undefined && e.value !== undefined);
