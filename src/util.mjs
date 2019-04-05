@@ -11,15 +11,14 @@ export function createValue(value) {
  */
 export function merge(a, b) {
   if (b !== undefined) {
-
-    if(Array.isArray(a)) {
-        if(Array.isArray(b)) {
-          return [...a,...b];
-        }
-        return [...a,b];
+    if (Array.isArray(a)) {
+      if (Array.isArray(b)) {
+        return [...a, ...b];
+      }
+      return [...a, b];
     }
 
-    if(Array.isArray(b)) {
+    if (Array.isArray(b)) {
       return b;
     }
 
@@ -28,6 +27,9 @@ export function merge(a, b) {
       case "number":
         return b;
       case "object":
+        if (a === undefined) {
+          a = {};
+        }
         Object.keys(b).forEach(k => (a[k] = merge(a[k], b[k])));
     }
   }
