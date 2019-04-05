@@ -105,7 +105,7 @@ export const functions = {
   },
 
   /**
-   * Replace strang
+   * Replace string
    * @param {string} source input value
    * @return {string} replaced content
    */

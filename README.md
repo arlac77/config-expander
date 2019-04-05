@@ -190,7 +190,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### replace
 
-Replace strang
+Replace string
 
 #### Parameters
 
