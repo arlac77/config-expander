@@ -1,24 +1,30 @@
-import test from 'ava';
-import { expand } from '../src/expander';
+import test from "ava";
+import { expand } from "../src/expander";
 
-test('external constants', async t => {
+test("env", async t => {
+  process.env.VAR1 = "value 1";
+
+  t.is(await expand("${env.VAR1}"), "value 1");
+});
+
+test("external constants", async t => {
   t.is(
-    await expand('${constA}', {
+    await expand("${constA}", {
       constants: {
-        constA: 'constAValue'
+        constA: "constAValue"
       }
     }),
-    'constAValue'
+    "constAValue"
   );
 });
 
-test('internal constants', async t => {
+test("internal constants", async t => {
   t.deepEqual(
     await expand({
       constants: {
         A: 1
       },
-      name: '${A}'
+      name: "${A}"
     }),
     {
       constants: {
@@ -29,25 +35,25 @@ test('internal constants', async t => {
   );
 });
 
-test('external eval constants', async t => {
+test("external eval constants", async t => {
   t.is(
-    await expand('${constA}', {
+    await expand("${constA}", {
       constants: {
-        constA: '${2 + 2}'
+        constA: "${2 + 2}"
       }
     }),
     4
   );
 });
 
-test('double def constants', async t => {
+test("double def constants", async t => {
   t.deepEqual(
     await expand(
       {
         constants: {
           A: 2
         },
-        name: '${A}'
+        name: "${A}"
       },
       {
         constants: {

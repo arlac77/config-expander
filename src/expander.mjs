@@ -7,10 +7,15 @@ export { createValue };
 import os from "os";
 
 /**
+ * Predefined constants
+ * @typedef {Object} defaultConstants
+ * @property {Object} env environment variables from process.env
+ * @property {Object} os os module
+ * @property {string} basedir filesystem configuration start point
+ */
+
+/**
  * Expands expressions in a configuration object
- * Predefined constants:
- * - os
- * - basedir
  * @param {Object} config config source
  * @param {Object} options the options
  * @param {Object} options.constants additional constants
@@ -23,6 +28,7 @@ export async function expand(config, options = {}) {
     constants: Object.assign(
       {
         basedir: process.cwd(),
+        env: process.env,
         os
       },
       options.constants
@@ -41,6 +47,6 @@ export async function expand(config, options = {}) {
   });
 
   return options.default !== undefined
-    ? merge(options.default, await ee.expand(config))
+    ? merge(await ee.expand(options.default), await ee.expand(config))
     : ee.expand(config);
 }

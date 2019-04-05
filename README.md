@@ -90,14 +90,16 @@ const configuration await expand("${include('" + '/path/to/the/config.json' + "'
 
 ### Table of Contents
 
+-   [defaultConstants](#defaultconstants)
+    -   [Properties](#properties)
 -   [expand](#expand)
     -   [Parameters](#parameters)
 -   [Value](#value)
-    -   [Properties](#properties)
+    -   [Properties](#properties-1)
 -   [Apply](#apply)
     -   [Parameters](#parameters-1)
 -   [ConfigFunction](#configfunction)
-    -   [Properties](#properties-1)
+    -   [Properties](#properties-2)
 -   [functions](#functions)
     -   [include](#include)
         -   [Parameters](#parameters-2)
@@ -118,13 +120,21 @@ const configuration await expand("${include('" + '/path/to/the/config.json' + "'
 -   [merge](#merge)
     -   [Parameters](#parameters-10)
 
+## defaultConstants
+
+Predefined constants
+
+Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
+
+### Properties
+
+-   `env` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** environment variables from process.env
+-   `os` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** os module
+-   `basedir` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** filesystem configuration start point
+
 ## expand
 
 Expands expressions in a configuration object
-Predefined constants:
-
--   os
--   basedir
 
 ### Parameters
 
