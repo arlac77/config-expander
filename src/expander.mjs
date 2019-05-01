@@ -1,10 +1,11 @@
+import os from "os";
+
 import { createContext } from "expression-expander";
-import { ConfigParser } from "./grammar";
-import { functions } from "./functions";
-import { createValue, merge } from "./util";
+import { ConfigParser } from "./grammar.mjs";
+import { functions } from "./functions.mjs";
+import { createValue, merge } from "./util.mjs";
 export { createValue };
 
-import os from "os";
 
 /**
  * Predefined constants

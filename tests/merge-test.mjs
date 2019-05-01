@@ -1,5 +1,5 @@
 import test from "ava";
-import { expand } from "../src/expander";
+import { expand } from "../src/expander.mjs";
 
 test("merge", async t =>
   t.deepEqual(

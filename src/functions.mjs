@@ -1,9 +1,9 @@
-import { createValue } from "./util";
-import { expand } from "./expander";
-import { spawn } from "child_process";
 import { dirname, resolve } from "path";
 import fs from 'fs';
 import crypto from "crypto";
+import { spawn } from "child_process";
+import { createValue } from "./util.mjs";
+import { expand } from "./expander.mjs";
 
 /**
  * @typedef {Object} Value

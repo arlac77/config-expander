@@ -1,7 +1,7 @@
 import test from "ava";
-import { expand, createValue } from "../src/expander";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import { expand, createValue } from "../src/expander.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 

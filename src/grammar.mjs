@@ -6,7 +6,7 @@ import {
   StringToken
 } from 'pratt-parser';
 
-import { createValue } from './util';
+import { createValue } from './util.mjs';
 
 class AST {
   get value() {
