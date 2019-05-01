@@ -1,6 +1,7 @@
 {
   "name": "config-expander",
   "version": "0.0.0-semantic-release",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
@@ -68,6 +69,5 @@
   },
   "xrelease": {
     "verifyRelease": "cracks"
-  },
-  "type": "module"
+  }
 }
