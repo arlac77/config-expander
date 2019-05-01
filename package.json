@@ -68,5 +68,6 @@
   },
   "xrelease": {
     "verifyRelease": "cracks"
-  }
+  },
+  "type": "module"
 }
