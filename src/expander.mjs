@@ -3,9 +3,8 @@ import os from "os";
 import { createContext } from "expression-expander";
 import { ConfigParser } from "./grammar.mjs";
 import { functions } from "./functions.mjs";
-import { createValue, merge } from "./util.mjs";
-export { createValue };
-
+import { createValue, merge, removeSensibleValues } from "./util.mjs";
+export { createValue, removeSensibleValues };
 
 /**
  * Predefined constants
