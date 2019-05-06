@@ -268,6 +268,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 ## merge
 
 merge from b into a
+When a and b are arrays of values only the none duplaces are appendend to a
 
 ### Parameters
 
@@ -283,7 +284,7 @@ genreates a new object tree by removing sensible values like credentials from it
 ### Parameters
 
 -   `object` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
--   `toBeRemoved`   (optional, default `key=>key.match(/pass|auth|key|user/)`)
+-   `toBeRemoved`   (optional, default `key=>key.match(/pass|auth|key|user|secret/)`)
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** object tree free of sensible data
 

@@ -8,6 +8,7 @@ export function createValue(value) {
 
 /**
  * merge from b into a
+ * When a and b are arrays of values only the none duplaces are appendend to a
  * @param {any} a
  * @param {any} b
  * @return {any} merged b into a
@@ -16,7 +17,7 @@ export function merge(a, b) {
   if (b !== undefined) {
     if (Array.isArray(a)) {
       if (Array.isArray(b)) {
-        return [...a, ...b];
+        return [...a,...a.filter(x => !b.includes(x))]
       }
       return [...a, b];
     }

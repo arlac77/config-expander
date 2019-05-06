@@ -13,3 +13,8 @@ test("merge", async t =>
       a2: { b1: 7 }
     }
   ));
+
+test("merge array", async t =>
+  t.deepEqual(await expand({ x: ["a", "b"] }, { default: { x: ["a", "b"] } }), {
+    x: ["a", "b"]
+  }));
