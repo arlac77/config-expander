@@ -6,8 +6,9 @@ test("removeSensibleValues", t => {
     removeSensibleValues({
       a: { value: 7 },
       key: "secure",
-      password: "secure"
+      password: "secure",
+      secret: "secure"
     }),
-    { a: { value: 7 }, key: "...", password: "..." }
+    { a: { value: 7 }, key: "...", password: "...", secret: "..." }
   );
 });

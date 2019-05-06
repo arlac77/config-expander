@@ -46,7 +46,7 @@ export function merge(a, b) {
  */
 export function removeSensibleValues(
   object,
-  toBeRemoved = key => key.match(/pass|auth|key|user/)
+  toBeRemoved = key => key.match(/pass|auth|key|user|secret/)
 ) {
   if (
     object === undefined ||
