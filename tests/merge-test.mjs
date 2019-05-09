@@ -15,6 +15,14 @@ test("merge", async t =>
   ));
 
 test("merge array", async t =>
-  t.deepEqual(await expand({ x: ["a", "b"] }, { default: { x: ["a", "b"] } }), {
-    x: ["a", "b"]
-  }));
+  t.deepEqual(
+    await expand(
+      { analyse: { skip: ["!test", "!tests"] } },
+      { default: { analyse: { skip: ["!test", "!tests"] } } }
+    ),
+    {
+      analyse: {
+        skip: ["!test", "!tests"]
+      }
+    }
+  ));
