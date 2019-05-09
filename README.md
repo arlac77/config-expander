@@ -279,7 +279,7 @@ Returns **any** merged b into a
 
 ## removeSensibleValues
 
-genreates a new object tree by removing sensible values like credentials from it
+genereates a new object tree by removing sensible values like credentials from it
 
 ### Parameters
 

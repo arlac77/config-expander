@@ -14,34 +14,38 @@ export function createValue(value) {
  * @return {any} merged b into a
  */
 export function merge(a, b) {
-  if (b !== undefined) {
-    if (Array.isArray(a)) {
-      if (Array.isArray(b)) {
-        return [...a,...a.filter(x => !b.includes(x))]
-      }
-      return [...a, b];
-    }
-
-    if (Array.isArray(b)) {
-      return b;
-    }
-
-    switch (typeof b) {
-      case "string":
-      case "number":
-        return b;
-      case "object":
-        if (a === undefined) {
-          a = {};
-        }
-        Object.keys(b).forEach(k => (a[k] = merge(a[k], b[k])));
-    }
+  if (b === undefined || b === null) {
+    return a;
   }
+
+  if (Array.isArray(a)) {
+    if (Array.isArray(b)) {
+      return [...a, ...a.filter(x => !b.includes(x))];
+    }
+    return [...a, b];
+  }
+
+  if (Array.isArray(b)) {
+    return b;
+  }
+
+  switch (typeof b) {
+    case "string":
+    case "number":
+    case "boolean":
+      return b;
+    case "object":
+      if (a === undefined || a === null) {
+        a = {};
+      }
+      Object.keys(b).forEach(k => (a[k] = merge(a[k], b[k])));
+  }
+
   return a;
 }
 
 /**
- * genreates a new object tree by removing sensible values like credentials from it
+ * genereates a new object tree by removing sensible values like credentials from it
  * @param {Object} object
  * @return {Object} object tree free of sensible data
  */
