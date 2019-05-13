@@ -30,7 +30,7 @@ export function merge(a, b) {
   }
 
   switch (typeof b) {
-    case: "function":
+    case "function":
     case "string":
     case "number":
     case "boolean":
