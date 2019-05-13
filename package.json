@@ -25,7 +25,7 @@
     "test": "ava"
   },
   "dependencies": {
-    "expression-expander": "^7.0.1",
+    "expression-expander": "^7.0.2",
     "pratt-parser": "^8.0.0"
   },
   "devDependencies": {
