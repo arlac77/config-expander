@@ -20,7 +20,7 @@ export function merge(a, b) {
 
   if (Array.isArray(a)) {
     if (Array.isArray(b)) {
-      return [...a, ...a.filter(x => !b.includes(x))];
+      return [...a, ...a.filter(x => !b.find(e => equal(e, x)))];
     }
     return [...a, b];
   }
@@ -43,4 +43,27 @@ export function merge(a, b) {
   }
 
   return a;
+}
+
+export function equal(x, y) {
+  const xType = typeof x;
+  const yType = typeof y;
+
+  if (xType === "object" && yType === "object" && (x !== null && y !== null)) {
+    const xKeys = Object.keys(x);
+    const yKeys = Object.keys(y);
+    const xValues = Object.values(x);
+    const yValues = Object.values(y);
+
+    if (xKeys.length !== yKeys.length) return false;
+
+    for (let i = 0; i < xKeys.length; i++)
+      if (xKeys[i] !== yKeys[i]) return false;
+
+    for (let i = 0; i < xValues.length; i++)
+      if (!equal(xValues[i], yValues[i])) return false;
+  } else {
+    if (x !== y) return false;
+  }
+  return true;
 }
