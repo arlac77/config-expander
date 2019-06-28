@@ -119,8 +119,6 @@ const configuration await expand("${include('" + '/path/to/the/config.json' + "'
         -   [Parameters](#parameters-9)
 -   [merge](#merge)
     -   [Parameters](#parameters-10)
--   [removeSensibleValues](#removesensiblevalues)
-    -   [Parameters](#parameters-11)
 
 ## defaultConstants
 
@@ -276,17 +274,6 @@ When a and b are arrays of values only the none duplaces are appendend to a
 -   `b` **any** 
 
 Returns **any** merged b into a
-
-## removeSensibleValues
-
-genereates a new object tree by removing sensible values like credentials from it
-
-### Parameters
-
--   `object` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
--   `toBeRemoved`   (optional, default `key=>key.match(/pass|auth|key|user|secret/)`)
-
-Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** object tree free of sensible data
 
 # install
 

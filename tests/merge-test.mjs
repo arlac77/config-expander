@@ -23,6 +23,32 @@ test("merge complex array", async t =>
     [{ a: 1 }, { b: 2 }]
   ));
 
+test("merge complex array 2", async t =>
+  t.deepEqual(
+    await expand([
+      {
+        "type": "github-repository-provider"
+      },
+      {
+        "type": "gitea-repository-provider"
+      }
+    ], {
+        default: [
+          {
+            "type": "github-repository-provider"
+          }
+        ]
+      }),
+    [
+      {
+        "type": "github-repository-provider"
+      },
+      {
+        "type": "gitea-repository-provider"
+      }
+    ]
+  ));
+
 test("merge array", async t =>
   t.deepEqual(
     await expand(
@@ -51,9 +77,9 @@ test("merge array", async t =>
   ));
 
 
-test("eq1",t =>{
-  t.true(equal(1,1));
-  t.true(equal([1],[1]));
-  t.true(equal([{a:1}],[{a:1}]));
-  t.false(equal([{a:1}],[{b:1}]));
+test("eq1", t => {
+  t.true(equal(1, 1));
+  t.true(equal([1], [1]));
+  t.true(equal([{ a: 1 }], [{ a: 1 }]));
+  t.false(equal([{ a: 1 }], [{ b: 1 }]));
 });

@@ -20,7 +20,7 @@ export function merge(a, b) {
 
   if (Array.isArray(a)) {
     if (Array.isArray(b)) {
-      return [...a, ...a.filter(x => !b.find(e => equal(e, x)))];
+      return [...a, ...b.filter(x => !a.find(e => equal(e, x)))];
     }
     return [...a, b];
   }
