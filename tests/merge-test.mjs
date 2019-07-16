@@ -15,6 +15,17 @@ test("merge", async t =>
     }
   ));
 
+test("merge Buffer", async t =>
+  t.deepEqual(
+    await expand(
+      { buffer: Buffer.from([0x07, 0x06]) },
+      {
+        default: { buffer: Buffer.from([0x05, 0x04]) }
+      }
+    ),
+    { buffer: Buffer.from([0x07, 0x06]) }
+  ));
+
 test("merge complex array", async t =>
   t.deepEqual(
     await expand([{ a: 1 }, { b: 2 }], {
@@ -25,26 +36,29 @@ test("merge complex array", async t =>
 
 test("merge complex array 2", async t =>
   t.deepEqual(
-    await expand([
+    await expand(
+      [
+        {
+          type: "github-repository-provider"
+        },
+        {
+          type: "gitea-repository-provider"
+        }
+      ],
       {
-        "type": "github-repository-provider"
-      },
-      {
-        "type": "gitea-repository-provider"
-      }
-    ], {
         default: [
           {
-            "type": "github-repository-provider"
+            type: "github-repository-provider"
           }
         ]
-      }),
+      }
+    ),
     [
       {
-        "type": "github-repository-provider"
+        type: "github-repository-provider"
       },
       {
-        "type": "gitea-repository-provider"
+        type: "gitea-repository-provider"
       }
     ]
   ));
@@ -75,7 +89,6 @@ test("merge array", async t =>
       }
     }
   ));
-
 
 test("eq1", t => {
   t.true(equal(1, 1));

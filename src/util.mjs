@@ -29,6 +29,10 @@ export function merge(a, b) {
     return b;
   }
 
+  if(b instanceof Buffer) {
+    return b;
+  }
+
   switch (typeof b) {
     case "function":
     case "string":
