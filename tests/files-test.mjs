@@ -1,6 +1,7 @@
 import test from "ava";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { readFileSync } from "fs";
 import { expand } from "../src/expander.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -22,6 +23,17 @@ test("has file content", async t =>
     ).map(v => v.toString()),
     ["line 1\n", "line 1\n"]
   ));
+
+test("has binary file content", async t => {
+  t.deepEqual(
+    await expand("${document('short.txt')}", {
+      constants: {
+        basedir: join(here, "..", "tests", "fixtures")
+      }
+    }),
+    readFileSync(join(here, "..", "tests", "fixtures", "short.txt"))
+  );
+});
 
 test("has file content #2", async t =>
   t.is(
