@@ -2,7 +2,8 @@ language: node_js
 node_js:
   - 10.16.2
   - 12.8.0
-cache: npm
+cache:
+  - '-npm'
 script:
   - npm run cover
   - npx codecov
