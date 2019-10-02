@@ -29,3 +29,4 @@ branches:
     - /^greenkeeper/.*$/
     - /^mkpr/.*$/
     - /^npm-template-sync/.*$/
+cache: '-npm'
