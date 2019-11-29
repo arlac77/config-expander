@@ -1,13 +1,13 @@
 {
   "name": "config-expander",
   "version": "0.0.0-semantic-release",
-  "type": "module",
   "publishConfig": {
     "access": "public"
   },
+  "sideEffects": false,
+  "type": "module",
   "main": "src/expander.mjs",
   "module": "src/expander.mjs",
-  "sideEffects": false,
   "description": "Expands expressions in config files",
   "keywords": [
     "config",
