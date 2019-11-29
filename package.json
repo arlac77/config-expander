@@ -68,5 +68,9 @@
   },
   "xrelease": {
     "verifyRelease": "cracks"
-  }
+  },
+  "repository,chore(package): correct repository url": 0,
+  "bugs,chore(package): set bugs url from template": 1,
+  "homepage,chore(package): homepage from template": 2,
+  "template,chore(package): set template repo": 3
 }
