@@ -90,6 +90,14 @@ test("merge array", async t =>
     }
   ));
 
+  test("merge object replaces string", async t =>
+  t.deepEqual(
+    await expand({ a: { k: 1} }, {
+      default: { a: "hello" }
+    }),
+    { a: { k: 1 } }
+  ));
+
 test("eq1", t => {
   t.true(equal(1, 1));
   t.true(equal([1], [1]));
