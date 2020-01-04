@@ -15,7 +15,11 @@
   ],
   "author": "Markus Felten <markus.felten@gmx.de>",
   "contributors": [
-    "Markus Felten <markus.felten@gmx.de>"
+    "Markus Felten <markus.felten@gmx.de>",
+    {
+      "name": "Markus Felten",
+      "email": "markus.felten@gmx.de"
+    }
   ],
   "license": "BSD-2-Clause",
   "scripts": {
