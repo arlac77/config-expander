@@ -14,6 +14,12 @@
     "expression-evaluation"
   ],
   "author": "Markus Felten <markus.felten@gmx.de>",
+  "contributors": [
+    {
+      "name": "Markus Felten",
+      "email": "markus.felten@gmx.de"
+    }
+  ],
   "license": "BSD-2-Clause",
   "scripts": {
     "cover": "c8 -x 'tests/**/*' --temp-directory build/tmp ava && c8 report -r lcov -o build/coverage --temp-directory build/tmp",
