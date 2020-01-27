@@ -116,7 +116,7 @@ const grammar = {
             }
           }
 
-          const value = pp.chunk.substring(pp.offset, i);
+          const value = pp.chunk.slice(pp.offset, i);
           const properties = pp.properties;
 
           pp.offset = i;

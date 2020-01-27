@@ -153,7 +153,7 @@ const functions = {
     arguments: ["string", "integer", "integer"],
     returns: "string",
     apply: (context, args) =>
-      createValue(args[0].value.substring(args[1].value, args[2].value))
+      createValue(args[0].value.slice(args[1].value, args[2].value))
   },
 
   /**
