@@ -1,0 +1,10 @@
+{
+  "name": "config-expander",
+  "description": "Expands expressions in config files",
+  "icons": [
+    {
+      "src": "facicon.ico",
+      "sizes": "16x16"
+    }
+  ]
+}
