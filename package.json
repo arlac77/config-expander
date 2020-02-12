@@ -28,7 +28,7 @@
     "test": "ava --timeout 2m"
   },
   "dependencies": {
-    "expression-expander": "^7.0.3",
+    "expression-expander": "^7.0.4",
     "pratt-parser": "^8.0.4"
   },
   "devDependencies": {
