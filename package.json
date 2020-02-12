@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "expression-expander": "^7.0.3",
-    "pratt-parser": "^8.0.1"
+    "pratt-parser": "^8.0.4"
   },
   "devDependencies": {
     "ava": "^3.3.0",
