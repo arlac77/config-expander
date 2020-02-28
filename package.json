@@ -50,7 +50,7 @@
   "homepage": "https://github.com/arlac77/config-expander#readme",
   "template": {
     "repository": {
-      "url": "https://github.com/arlac77/npm-package-template-esm-only.git"
+      "url": "arlac77/template-esm-only"
     }
   }
 }
