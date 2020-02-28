@@ -49,8 +49,6 @@
   },
   "homepage": "https://github.com/arlac77/config-expander#readme",
   "template": {
-    "repository": {
-      "url": "arlac77/template-esm-only"
-    }
+    "inheritFrom": "arlac77/template-esm-only"
   }
 }
