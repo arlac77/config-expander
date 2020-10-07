@@ -1,4 +1,5 @@
 import test from "ava";
+import { arch } from "os";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { expand, createValue } from "../src/expander.mjs";
@@ -17,7 +18,7 @@ test("null expansion", async t => {
 });
 
 test("os", async t => {
-  t.is(await expand("${os.arch}"), "x64");
+  t.is(await expand("${os.arch}"), arch());
   t.truthy(
     ["aix", "darwin", "freebsd", "linux", "win32"].includes(
       await expand("${os.platform}")
