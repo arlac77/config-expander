@@ -1,5 +1,5 @@
 import os from "os";
-import fs from 'fs';
+import { readFile } from "fs/promises";
 import crypto from "crypto";
 import { dirname, resolve } from "path";
 import { spawn } from "child_process";
@@ -54,9 +54,6 @@ export async function expand(config, options = {}) {
     : ee.expand(config);
 }
 
-
-
-
 /**
  * @typedef {Object} Value
  * @property {string} type
@@ -85,7 +82,7 @@ const functions = {
     arguments: ["string"],
     returns: "buffer",
     apply: (context, args) =>
-      createValue(fs.promises.readFile(resolve(context.constants.basedir, args[0].value)))
+      createValue(readFile(resolve(context.constants.basedir, args[0].value)))
   },
   resolve: {
     arguments: ["string"],
@@ -106,7 +103,7 @@ const functions = {
       const file = resolve(context.constants.basedir, args[0].value);
 
       return createValue(
-        fs.promises.readFile(file).then(data => {
+        readFile(file).then(data => {
           const json = JSON.parse(data);
           return expand(
             json,
