@@ -1,10 +1,9 @@
 import test from "ava";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
+import { join } from "path";
 import { readFileSync } from "fs";
 import { expand } from "../src/expander.mjs";
 
-const here = dirname(fileURLToPath(import.meta.url));
+const basedir = new URL(".", import.meta.url).pathname;
 
 test("has file content", async t =>
   t.deepEqual(
@@ -16,7 +15,7 @@ test("has file content", async t =>
         },
         {
           constants: {
-            basedir: join(here, "..", "tests", "fixtures")
+            basedir: join(basedir, "..", "tests", "fixtures")
           }
         }
       )
@@ -28,10 +27,10 @@ test("has binary file content", async t => {
   t.deepEqual(
     await expand("${document('short.txt')}", {
       constants: {
-        basedir: join(here, "..", "tests", "fixtures")
+        basedir: join(basedir, "..", "tests", "fixtures")
       }
     }),
-    readFileSync(join(here, "..", "tests", "fixtures", "short.txt"))
+    readFileSync(join(basedir, "..", "tests", "fixtures", "short.txt"))
   );
 });
 
@@ -39,17 +38,17 @@ test("has file content #2", async t =>
   t.is(
     await expand("${resolve('fixtures')}", {
       constants: {
-        basedir: join(here, "..", "tests")
+        basedir: join(basedir, "..", "tests")
       }
     }),
-    join(here, "..", "tests", "fixtures")
+    join(basedir, "..", "tests", "fixtures")
   ));
 
 test("can include", async t =>
   t.deepEqual(
     await expand("${include('../tests/fixtures/other.json')}", {
       constants: {
-        basedir: here,
+        basedir,
         c1: "x"
       }
     }),
@@ -63,7 +62,7 @@ test("can nest includes", async t =>
     (await expand("${include('../tests/fixtures/first.json')}", {
       constants: {
         nameOfTheOther: "other.json",
-        basedir: here
+        basedir
       }
     })).first_key,
     {
@@ -76,7 +75,7 @@ test("include missing", async t => {
     async () => expand("${include('../tests/fixtures/missing.json')}"),
     {
       message: `ENOENT: no such file or directory, open '${join(
-        here,
+        basedir,
         "..",
         "../tests/fixtures/missing.json"
       )}'`

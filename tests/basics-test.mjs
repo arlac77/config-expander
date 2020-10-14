@@ -1,10 +1,8 @@
 import test from "ava";
 import { arch } from "os";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
 import { expand, createValue } from "../src/expander.mjs";
 
-const here = dirname(fileURLToPath(import.meta.url));
+const basedir = new URL(".", import.meta.url).pathname;
 
 test("null expansion", async t => {
   t.deepEqual(
@@ -105,8 +103,9 @@ test("length (string)", async t => t.is(await expand("${length('abc')}"), 3));
 test("length (array)", async t => t.is(await expand("${length([1,2,3])}"), 3));
 
 test("first number", async t => t.is(await expand("${first(1,2,3)}"), 1));
-test("first string", async t => t.is(await expand("${first('a','b')}"), 'a'));
-test("first missing", async t => t.is(await expand("${first(env.MISSING,'b')}"), 'b'));
+test("first string", async t => t.is(await expand("${first('a','b')}"), "a"));
+test("first missing", async t =>
+  t.is(await expand("${first(env.MISSING,'b')}"), "b"));
 
 test("split", async t =>
   t.deepEqual(await expand("${split('1,2,3,4',',')}"), ["1", "2", "3", "4"]));
@@ -138,7 +137,7 @@ test("function promise arg", async t =>
       "${substring(string(document('../tests/fixtures/short.txt')),0,4)}",
       {
         constants: {
-          basedir: here
+          basedir
         }
       }
     ),
@@ -147,24 +146,28 @@ test("function promise arg", async t =>
 
 test("two promises binop", async t =>
   t.is(
-    (await expand(
-      "${document('../tests/fixtures/short.txt') + document('../tests/fixtures/short2.txt')}",
-      {
-        constants: {
-          basedir: here
+    (
+      await expand(
+        "${document('../tests/fixtures/short.txt') + document('../tests/fixtures/short2.txt')}",
+        {
+          constants: {
+            basedir
+          }
         }
-      }
-    )).toString(),
+      )
+    ).toString(),
     "line 1\nline 2\n"
   ));
 
 test("left only promise binop", async t =>
   t.is(
-    (await expand("${document('../tests/fixtures/short.txt') + 'XX'}", {
-      constants: {
-        basedir: here
-      }
-    })).toString(),
+    (
+      await expand("${document('../tests/fixtures/short.txt') + 'XX'}", {
+        constants: {
+          basedir
+        }
+      })
+    ).toString(),
     "line 1\nXX"
   ));
 
@@ -204,7 +207,7 @@ test("object paths with promise", async t =>
   t.deepEqual(
     await expand("${include('../tests/fixtures/with_sub.json').sub}", {
       constants: {
-        basedir: here,
+        basedir,
         c1: "vc1"
       }
     }),
