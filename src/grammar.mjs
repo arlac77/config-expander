@@ -4,9 +4,9 @@ import {
   WhiteSpaceToken,
   NumberToken,
   StringToken
-} from 'pratt-parser';
+} from "pratt-parser";
 
-import { createValue } from './util.mjs';
+import { createValue } from "./util.mjs";
 
 class AST {
   get value() {
@@ -17,7 +17,7 @@ class AST {
 class ArraySlice extends AST {
   constructor(array, index) {
     super();
-    Object.defineProperty(this, 'value', {
+    Object.defineProperty(this, "value", {
       get: () => array.value[index.value]
     });
   }
@@ -26,7 +26,7 @@ class ArraySlice extends AST {
 class ObjectAccess extends AST {
   constructor(object, attribute) {
     super();
-    Object.defineProperty(this, 'value', {
+    Object.defineProperty(this, "value", {
       get: () => {
         if (object.value instanceof Promise) {
           return object.value.then(v => {
@@ -44,7 +44,7 @@ class ObjectAccess extends AST {
 class SpreadOP extends AST {
   constructor(a, b) {
     super();
-    Object.defineProperty(this, 'value', {
+    Object.defineProperty(this, "value", {
       get: () => createValue([a.value, b.value])
     });
   }
@@ -53,7 +53,7 @@ class SpreadOP extends AST {
 class BinOP extends AST {
   constructor(a, b, exec) {
     super();
-    Object.defineProperty(this, 'value', {
+    Object.defineProperty(this, "value", {
       get: () => {
         if (a.value instanceof Promise) {
           if (b.value instanceof Promise) {
@@ -74,7 +74,7 @@ class BinOP extends AST {
 class TerneryOP extends AST {
   constructor(exp, a, b) {
     super();
-    Object.defineProperty(this, 'value', {
+    Object.defineProperty(this, "value", {
       get: () => (exp.value ? a.value : b.value)
     });
   }
@@ -84,10 +84,14 @@ class FCall extends AST {
   constructor(f, context, args) {
     super();
 
-    Object.defineProperty(this, 'value', {
+    Object.defineProperty(this, "value", {
       get: () =>
         Promise.all(args.map(a => a.value)).then(
-          r => f.apply(context, r.map(v => createValue(v))).value
+          r =>
+            f.apply(
+              context,
+              r.map(v => createValue(v))
+            ).value
         )
     });
   }
@@ -105,10 +109,10 @@ const grammar = {
           for (;;) {
             const c = pp.chunk[i];
             if (
-              (c >= 'a' && c <= 'z') ||
-              (c >= 'A' && c <= 'Z') ||
-              (c >= '0' && c <= '9') ||
-              c === '_'
+              (c >= "a" && c <= "z") ||
+              (c >= "A" && c <= "Z") ||
+              (c >= "0" && c <= "9") ||
+              c === "_"
             ) {
               i += 1;
             } else {
@@ -163,29 +167,29 @@ const grammar = {
   ],
 
   prefix: {
-    '(': {
+    "(": {
       precedence: 80,
       led(grammar, left) {
-        if (left.type === 'identifier') {
+        if (left.type === "identifier") {
           const args = [];
 
-          if (grammar.token.value !== ')') {
+          if (grammar.token.value !== ")") {
             while (true) {
               args.push(grammar.expression(0));
 
-              if (grammar.token.value !== ',') {
+              if (grammar.token.value !== ",") {
                 break;
               }
-              grammar.advance(',');
+              grammar.advance(",");
             }
           }
 
-          grammar.advance(')');
+          grammar.advance(")");
 
           const f = grammar.context.functions[left.value];
           if (f) {
             if (f.arguments && f.arguments.length > args.length) {
-              grammar.error('Missing argument', left, left.value);
+              grammar.error("Missing argument", left, left.value);
             } else {
               if (f.arguments) {
                 let i = 0;
@@ -204,124 +208,124 @@ const grammar = {
               return new FCall(f, grammar.context, args);
             }
           } else {
-            grammar.error('Unknown function', left, left.value);
+            grammar.error("Unknown function", left, left.value);
           }
         } else {
           const e = grammar.expression(0);
-          grammar.advance(')');
+          grammar.advance(")");
           return e;
         }
       }
     },
-    '[': {
+    "[": {
       nud(grammar) {
         const values = [];
 
-        if (grammar.token.value !== ']') {
+        if (grammar.token.value !== "]") {
           while (true) {
             values.push(grammar.expression(0).value);
 
-            if (grammar.token.value !== ',') {
+            if (grammar.token.value !== ",") {
               break;
             }
-            grammar.advance(',');
+            grammar.advance(",");
           }
         }
-        grammar.advance(']');
+        grammar.advance("]");
         return createValue(values);
       }
     }
   },
   infixr: {
-    '..': {
+    "..": {
       precedence: 30,
       combine: (left, right) =>
         new SpreadOP(left, right, (l, r) => l.value && r.value)
     },
-    '&&': {
+    "&&": {
       precedence: 30,
       combine: (left, right) =>
         new BinOP(left, right, (l, r) => l.value && r.value)
     },
-    '||': {
+    "||": {
       precedence: 30,
       combine: (left, right) =>
         new BinOP(left, right, (l, r) => l.value || r.value)
     },
-    '==': {
+    "==": {
       precedence: 40,
       combine: (left, right) =>
         new BinOP(left, right, (l, r) => l.value === r.value)
     },
-    '!=': {
+    "!=": {
       precedence: 40,
       combine: (left, right) =>
         new BinOP(left, right, (l, r) => l.value !== r.value)
     },
-    '>=': {
+    ">=": {
       precedence: 40,
       combine: (left, right) =>
         new BinOP(left, right, (l, r) => l.value >= r.value)
     },
-    '<=': {
+    "<=": {
       precedence: 40,
       combine: (left, right) =>
         new BinOP(left, right, (l, r) => l.value <= r.value)
     },
-    '>': {
+    ">": {
       precedence: 40,
       combine: (left, right) =>
         new BinOP(left, right, (l, r) => l.value > r.value)
     },
-    '<': {
+    "<": {
       precedence: 40,
       combine: (left, right) =>
         new BinOP(left, right, (l, r) => l.value < r.value)
     }
   },
   infix: {
-    '.': {
+    ".": {
       precedence: 80,
       combine: (left, right) => new ObjectAccess(left, right)
     },
-    '[': {
+    "[": {
       precedence: 80,
       led(grammar, left) {
         const right = grammar.expression(0);
-        grammar.advance(']');
+        grammar.advance("]");
         return new ArraySlice(left, right);
       }
     },
 
-    '?': {
+    "?": {
       precedence: 20,
       led(grammar, left) {
         const e1 = grammar.expression(0);
-        grammar.advance(':');
+        grammar.advance(":");
         const e2 = grammar.expression(0);
         return new TerneryOP(left, e1, e2);
       }
     },
-    ':': {},
-    ']': {},
-    ',': {},
-    ')': {},
-    '+': {
+    ":": {},
+    "]": {},
+    ",": {},
+    ")": {},
+    "+": {
       precedence: 50,
       combine: (left, right) =>
         new BinOP(left, right, (l, r) => l.value + r.value)
     },
-    '-': {
+    "-": {
       precedence: 50,
       combine: (left, right) =>
         new BinOP(left, right, (l, r) => l.value - r.value)
     },
-    '*': {
+    "*": {
       precedence: 60,
       combine: (left, right) =>
         new BinOP(left, right, (l, r) => l.value * r.value)
     },
-    '/': {
+    "/": {
       precedence: 60,
       combine: (left, right) =>
         new BinOP(left, right, (l, r) => l.value / r.value)
@@ -342,7 +346,7 @@ function isOfType(typeDescription, value) {
     if (t === tv) {
       return true;
     }
-    if (t === 'integer' && tv === 'number') {
+    if (t === "integer" && tv === "number") {
       return true;
     }
   }
