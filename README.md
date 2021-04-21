@@ -3,7 +3,7 @@
 [![minified size](https://badgen.net/bundlephobia/min/config-expander)](https://bundlephobia.com/result?p=config-expander)
 [![downloads](http://img.shields.io/npm/dm/config-expander.svg?style=flat-square)](https://npmjs.org/package/config-expander)
 [![GitHub Issues](https://img.shields.io/github/issues/arlac77/config-expander.svg?style=flat-square)](https://github.com/arlac77/config-expander/issues)
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Farlac77%2Fconfig-expander%2Fbadge&style=flat)](https://actions-badge.atrox.dev/arlac77/config-expander/goto)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Farlac77%2Fconfig-expander%2Fbadge\&style=flat)](https://actions-badge.atrox.dev/arlac77/config-expander/goto)
 [![Styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![Known Vulnerabilities](https://snyk.io/test/github/arlac77/config-expander/badge.svg)](https://snyk.io/test/github/arlac77/config-expander)
@@ -87,35 +87,35 @@ const configuration await expand("${include('" + '/path/to/the/config.json' + "'
 
 ### Table of Contents
 
--   [defaultConstants](#defaultconstants)
-    -   [Properties](#properties)
--   [expand](#expand)
-    -   [Parameters](#parameters)
--   [Value](#value)
-    -   [Properties](#properties-1)
--   [Apply](#apply)
-    -   [Parameters](#parameters-1)
--   [ConfigFunction](#configfunction)
-    -   [Properties](#properties-2)
--   [functions](#functions)
-    -   [include](#include)
-        -   [Parameters](#parameters-2)
-    -   [replace](#replace)
-        -   [Parameters](#parameters-3)
-    -   [toUpperCase](#touppercase)
-        -   [Parameters](#parameters-4)
-    -   [toLowerCase](#tolowercase)
-        -   [Parameters](#parameters-5)
-    -   [split](#split)
-        -   [Parameters](#parameters-6)
-    -   [encrypt](#encrypt)
-        -   [Parameters](#parameters-7)
-    -   [decrypt](#decrypt)
-        -   [Parameters](#parameters-8)
-    -   [spawn](#spawn)
-        -   [Parameters](#parameters-9)
--   [merge](#merge)
-    -   [Parameters](#parameters-10)
+*   [defaultConstants](#defaultconstants)
+    *   [Properties](#properties)
+*   [expand](#expand)
+    *   [Parameters](#parameters)
+*   [Value](#value)
+    *   [Properties](#properties-1)
+*   [Apply](#apply)
+    *   [Parameters](#parameters-1)
+*   [ConfigFunction](#configfunction)
+    *   [Properties](#properties-2)
+*   [functions](#functions)
+    *   [include](#include)
+        *   [Parameters](#parameters-2)
+    *   [replace](#replace)
+        *   [Parameters](#parameters-3)
+    *   [toUpperCase](#touppercase)
+        *   [Parameters](#parameters-4)
+    *   [toLowerCase](#tolowercase)
+        *   [Parameters](#parameters-5)
+    *   [split](#split)
+        *   [Parameters](#parameters-6)
+    *   [encrypt](#encrypt)
+        *   [Parameters](#parameters-7)
+    *   [decrypt](#decrypt)
+        *   [Parameters](#parameters-8)
+    *   [spawn](#spawn)
+        *   [Parameters](#parameters-9)
+*   [merge](#merge)
+    *   [Parameters](#parameters-10)
 
 ## defaultConstants
 
@@ -125,9 +125,9 @@ Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 ### Properties
 
--   `env` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** environment variables from process.env
--   `os` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** os module
--   `basedir` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** filesystem configuration start point
+*   `env` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** environment variables from process.env
+*   `os` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** os module
+*   `basedir` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** filesystem configuration start point
 
 ## expand
 
@@ -135,11 +135,12 @@ Expands expressions in a configuration object
 
 ### Parameters
 
--   `config` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** config source
--   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** the options (optional, default `{}`)
-    -   `options.constants` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** additional constants
-    -   `options.default` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** default configuration
-    -   `options.functions` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** additional functions
+*   `config` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** config source
+*   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** the options (optional, default `{}`)
+
+    *   `options.constants` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** additional constants
+    *   `options.default` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** default configuration
+    *   `options.functions` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** additional functions
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)** resolves to the expanded configuration
 
@@ -149,8 +150,8 @@ Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 ### Properties
 
--   `type` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `value` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+*   `type` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `value` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ## Apply
 
@@ -158,8 +159,8 @@ Type: [Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Sta
 
 ### Parameters
 
--   `Context` **Context** 
--   `args` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Value](#value)>** 
+*   `Context` **Context** 
+*   `args` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Value](#value)>** 
 
 ## ConfigFunction
 
@@ -167,9 +168,9 @@ Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 ### Properties
 
--   `arguments` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** 
--   `returns` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `apply` **[Apply](#apply)** 
+*   `arguments` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** 
+*   `returns` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `apply` **[Apply](#apply)** 
 
 ## functions
 
@@ -181,7 +182,7 @@ include definition form a file
 
 #### Parameters
 
--   `file` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** file name to be included
+*   `file` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** file name to be included
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** content of the file
 
@@ -191,7 +192,7 @@ Replace string
 
 #### Parameters
 
--   `source` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** input value
+*   `source` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** input value
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** replaced content
 
@@ -201,7 +202,7 @@ convert string into upper case
 
 #### Parameters
 
--   `source` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** input value
+*   `source` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** input value
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** uppercase result
 
@@ -211,7 +212,7 @@ convert string into lower case
 
 #### Parameters
 
--   `source` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** input value
+*   `source` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** input value
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** lowercase result
 
@@ -221,10 +222,10 @@ split source string on pattern boundaries
 
 #### Parameters
 
--   `source` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `pattern` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `source` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `pattern` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
-Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** separated source
+Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** separated source
 
 ### encrypt
 
@@ -232,8 +233,8 @@ Encrypt a plaintext value
 
 #### Parameters
 
--   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `plaintext` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** input value
+*   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `plaintext` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** input value
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** encrypted value
 
@@ -243,8 +244,8 @@ Decrypt a former encrypted string
 
 #### Parameters
 
--   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `encrypted` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `encrypted` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** plaintext
 
@@ -254,9 +255,9 @@ Call programm
 
 #### Parameters
 
--   `executable` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** path
--   `arguments` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** 
--   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** 
+*   `executable` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** path
+*   `arguments` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** 
+*   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** 
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** stdout
 
@@ -267,8 +268,8 @@ When a and b are arrays of values only the none duplaces are appendend to a
 
 ### Parameters
 
--   `a` **any** 
--   `b` **any** 
+*   `a` **any** 
+*   `b` **any** 
 
 Returns **any** merged b into a
 
