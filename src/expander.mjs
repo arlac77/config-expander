@@ -1,6 +1,6 @@
 import os from "os";
 import { readFile } from "fs/promises";
-import crypto from "crypto";
+import { createCipheriv, createDecipheriv, scryptSync, randomBytes } from "crypto";
 import { dirname, resolve } from "path";
 import { spawn } from "child_process";
 
@@ -8,6 +8,8 @@ import { createContext } from "expression-expander";
 import { ConfigParser } from "./grammar.mjs";
 import { createValue, merge } from "./util.mjs";
 export { createValue };
+
+const IV = randomBytes(16);
 
 /**
  * Predefined constants
@@ -231,7 +233,7 @@ const functions = {
     returns: "string",
     apply: (context, args) => {
       const [key, plaintext] = args.map(a => a.value);
-      const encipher = crypto.createCipher("aes-256-cbc", key);
+      const encipher = createCipheriv("aes-256-cbc", scryptSync(key, 'config-expander', 32), IV);
       let encryptdata = encipher.update(plaintext, "utf8", "binary");
       encryptdata += encipher.final("binary");
       return createValue(Buffer.from(encryptdata, "binary").toString("base64"));
@@ -250,7 +252,7 @@ const functions = {
     apply: (context, args) => {
       let [key, encryptdata] = args.map(a => a.value);
       encryptdata = Buffer.from(encryptdata, "base64").toString("binary");
-      const decipher = crypto.createDecipher("aes-256-cbc", key);
+      const decipher = createDecipheriv("aes-256-cbc", scryptSync(key, 'config-expander', 32), IV);
       let decoded = decipher.update(encryptdata, "binary", "utf8");
       decoded += decipher.final("utf8");
       return createValue(decoded);
