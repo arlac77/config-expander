@@ -1,6 +1,6 @@
 import test from "ava";
 import { arch } from "os";
-import { expand, createValue } from "../src/expander.mjs";
+import { expand, createValue } from "config-expander";
 
 const basedir = new URL(".", import.meta.url).pathname;
 

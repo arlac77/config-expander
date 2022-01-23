@@ -1,7 +1,7 @@
 import test from "ava";
 import { join } from "path";
 import { readFileSync } from "fs";
-import { expand } from "../src/expander.mjs";
+import { expand } from "config-expander";
 
 const basedir = new URL(".", import.meta.url).pathname;
 
@@ -59,12 +59,14 @@ test("can include", async t =>
 
 test("can nest includes", async t =>
   t.deepEqual(
-    (await expand("${include('../tests/fixtures/first.json')}", {
-      constants: {
-        nameOfTheOther: "other.json",
-        basedir
-      }
-    })).first_key,
+    (
+      await expand("${include('../tests/fixtures/first.json')}", {
+        constants: {
+          nameOfTheOther: "other.json",
+          basedir
+        }
+      })
+    ).first_key,
     {
       key: "value from other v1"
     }

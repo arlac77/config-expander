@@ -1,5 +1,5 @@
 import test from "ava";
-import { expand } from "../src/expander.mjs";
+import { expand } from "config-expander";
 import { equal } from "../src/util.mjs";
 
 test("merge", async t =>
