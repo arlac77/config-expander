@@ -14,7 +14,7 @@ test.only("string concat", async (t) =>
     await expand("${{'x' + 'y'}}", {
       leftMarker: "${{",
       rightMarker: "}}",
-      markerRegexp: "${{([^}]+)}}",
+      markerRegexp: /\${{([^}]+)}}/,
     }),
     "xy"
   ));
