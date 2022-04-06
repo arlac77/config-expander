@@ -1,5 +1,4 @@
 import test from "ava";
-import { arch } from "os";
 import { expand, createValue } from "config-expander";
 
 const basedir = new URL(".", import.meta.url).pathname;
@@ -77,18 +76,17 @@ test("tenery combined false 2nd.", async (t) =>
   t.is(await expand("${{2 < 1 ? 22+1 : 11+1}}", extraMarker), 12));
 test("tenery combined true 2nd.", async (t) =>
   t.is(await expand("${{2*0 < 1 ? 22+1 : 11+1}}", extraMarker), 23));
-test.only("tenery combined true 2nd. with function call", async (t) =>
+test("tenery combined true 2nd. with function call", async (t) =>
   t.is(
-    await expand("${{'a'=='b' ? 22+1 : substring('abc',1,2)}}", {
-      extraMarker,
-    }),
+    await expand("${{'a'=='b' ? 22+1 : substring('abc',1,2)}}", extraMarker),
     "b"
   ));
 test("tenery combined true with property access", async (t) =>
   t.is(
-    await expand("${{os.platform=='darwin' || os.platform=='linux' ? 1 : 0}}", {
-      extraMarker,
-    }),
+    await expand(
+      "${{os.platform=='darwin' || os.platform=='linux' ? 1 : 0}}",
+      extraMarker
+    ),
     1
   ));
 
@@ -144,15 +142,15 @@ test("substring with expressions", async (t) =>
 
 test("encrypt/decrypt", async (t) =>
   t.is(
-    await expand("${{decrypt('key',encrypt('key','secret'))}}", {
+    await expand("${{decrypt('key',encrypt('key','secret'))}}", 
       extraMarker,
-    }),
+    ),
     "secret"
   ));
 
 test("user defined functions", async (t) =>
   t.is(
-    await expand("${{myFunction()}}", extraMarker, {
+    await expand("${{myFunction()}}", {
       functions: {
         myFunction: {
           arguments: [],
@@ -161,6 +159,7 @@ test("user defined functions", async (t) =>
           },
         },
       },
+      ...extraMarker
     }),
     77
   ));
@@ -169,11 +168,11 @@ test("function promise arg", async (t) =>
   t.is(
     await expand(
       "${{substring(string(document('../tests/fixtures/short.txt')),0,4)}}",
-      extraMarker,
       {
         constants: {
           basedir,
         },
+        ...extraMarker,
       }
     ),
     "line"
@@ -184,11 +183,11 @@ test("two promises binop", async (t) =>
     (
       await expand(
         "${{document('../tests/fixtures/short.txt') + document('../tests/fixtures/short2.txt')}}",
-        extraMarker,
         {
           constants: {
             basedir,
           },
+          ...extraMarker,
         }
       )
     ).toString(),
@@ -200,11 +199,12 @@ test("left only promise binop", async (t) =>
     (
       await expand(
         "${{document('../tests/fixtures/short.txt') + 'XX'}}",
-        extraMarker,
+
         {
           constants: {
             basedir,
           },
+          ...extraMarker,
         }
       )
     ).toString(),
@@ -213,48 +213,48 @@ test("left only promise binop", async (t) =>
 
 test("array access", async (t) =>
   t.is(
-    await expand("${{myArray[2-1]}}", extraMarker, {
+    await expand("${{myArray[2-1]}}", {
       constants: {
         myArray: ["a", "b", "c"],
       },
+      ...extraMarker,
     }),
     "b"
   ));
 
 test("array access cascade", async (t) =>
   t.is(
-    await expand("${{myArray[1][2]}}", extraMarker, {
+    await expand("${{myArray[1][2]}}", {
       constants: {
         myArray: ["a", [0, 0, 4711], "c"],
       },
+      ...extraMarker,
     }),
     4711
   ));
 
 test("object paths one level", async (t) =>
   t.is(
-    await expand("${{myObject.att1}}", extraMarker, {
+    await expand("${{myObject.att1}}", {
       constants: {
         myObject: {
           att1: "val1",
         },
       },
+      ...extraMarker,
     }),
     "val1"
   ));
 
 test("object paths with promise", async (t) =>
   t.deepEqual(
-    await expand(
-      "${{include('../tests/fixtures/with_sub.json').sub}}",
-      extraMarker,
-      {
-        constants: {
-          basedir,
-          c1: "vc1",
-        },
-      }
-    ),
+    await expand("${{include('../tests/fixtures/with_sub.json').sub}}", {
+      constants: {
+        basedir,
+        c1: "vc1",
+      },
+      ...extraMarker,
+    }),
     {
       key: "value in other sub vc1",
     }
@@ -262,7 +262,7 @@ test("object paths with promise", async (t) =>
 
 test("object paths several levels", async (t) =>
   t.deepEqual(
-    await expand("${{myObject.level1.level2}}", extraMarker, {
+    await expand("${{myObject.level1.level2}}", {
       constants: {
         myObject: {
           level1: {
@@ -270,6 +270,7 @@ test("object paths several levels", async (t) =>
           },
         },
       },
+      ...extraMarker,
     }),
     "val2"
   ));
@@ -281,7 +282,7 @@ test("array literals nested", async (t) =>
 
 test("access objects first than array", async (t) =>
   t.deepEqual(
-    await expand("${{myObject.level1.level2[1]}}", extraMarker, {
+    await expand("${{myObject.level1.level2[1]}}", {
       constants: {
         myObject: {
           level1: {
@@ -289,13 +290,14 @@ test("access objects first than array", async (t) =>
           },
         },
       },
+      ...extraMarker,
     }),
     "val2"
   ));
 
 test("access objects first than array #2", async (t) =>
   t.deepEqual(
-    await expand("${{myObject.level1[1].level2}}", extraMarker, {
+    await expand("${{myObject.level1[1].level2}}", {
       constants: {
         myObject: {
           level1: [
@@ -306,6 +308,7 @@ test("access objects first than array #2", async (t) =>
           ],
         },
       },
+      ...extraMarker,
     }),
     "val2"
   ));
