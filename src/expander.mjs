@@ -48,7 +48,7 @@ export async function expand(config, options = {}) {
       context.path = path;
       const ast = parser.parse(expression, context);
       return ast.value;
-    }
+    },...options
   });
 
   return options.default !== undefined
