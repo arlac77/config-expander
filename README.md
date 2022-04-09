@@ -178,7 +178,7 @@ knwon functions
 
 ### include
 
-include definition form a file
+Include definition form a file.
 
 #### Parameters
 
@@ -188,7 +188,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### replace
 
-Replace string
+Replace string.
 
 #### Parameters
 
@@ -198,7 +198,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### toUpperCase
 
-convert string into upper case
+Convert string into upper case.
 
 #### Parameters
 
@@ -208,7 +208,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### toLowerCase
 
-convert string into lower case
+Convert string into lower case.
 
 #### Parameters
 
@@ -218,7 +218,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### split
 
-split source string on pattern boundaries
+Split source string on pattern boundaries.
 
 #### Parameters
 
@@ -229,7 +229,7 @@ Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Gl
 
 ### encrypt
 
-Encrypt a plaintext value
+Encrypt a plaintext value.
 
 #### Parameters
 
@@ -240,7 +240,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### decrypt
 
-Decrypt a former encrypted string
+Decrypt a former encrypted string.
 
 #### Parameters
 
@@ -251,7 +251,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### spawn
 
-Call programm
+Call executable.
 
 #### Parameters
 
