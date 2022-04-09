@@ -94,7 +94,7 @@ const functions = {
   },
 
   /**
-   * include definition form a file
+   * Include definition form a file.
    * @param {string} file file name to be included
    * @return {string} content of the file
    */
@@ -156,7 +156,7 @@ const functions = {
   },
 
   /**
-   * Replace string
+   * Replace string.
    * @param {string} source input value
    * @return {string} replaced content
    */
@@ -168,7 +168,7 @@ const functions = {
   },
 
   /**
-   * convert string into upper case
+   * Convert string into upper case.
    * @param {string} source input value
    * @return {string} uppercase result
    */
@@ -179,7 +179,7 @@ const functions = {
   },
 
   /**
-   * convert string into lower case
+   * Convert string into lower case.
    * @param {string} source input value
    * @return {string} lowercase result
    */
@@ -190,7 +190,7 @@ const functions = {
   },
 
   /**
-   * split source string on pattern boundaries
+   * Split source string on pattern boundaries.
    * @param {string} source
    * @param {string} pattern
    * @return {string[]} separated source
@@ -223,7 +223,7 @@ const functions = {
   },
 
   /**
-   * Encrypt a plaintext value
+   * Encrypt a plaintext value.
    * @param {string} key
    * @param {string} plaintext input value
    * @return {string} encrypted value
@@ -241,7 +241,7 @@ const functions = {
   },
 
   /**
-   * Decrypt a former encrypted string
+   * Decrypt a former encrypted string.
    * @param {string} key
    * @param {string} encrypted
    * @return {string} plaintext
@@ -258,8 +258,9 @@ const functions = {
       return createValue(decoded);
     }
   },
+
   /**
-   * Call programm
+   * Call executable.
    * @param {string} executable path
    * @param {string[]} arguments
    * @param {Object} [options]
