@@ -30,7 +30,7 @@
     "lint:docs": "documentation lint ./src/**/*.mjs"
   },
   "dependencies": {
-    "expression-expander": "^7.0.16",
+    "expression-expander": "^7.0.17",
     "pratt-parser": "^8.0.19"
   },
   "devDependencies": {
