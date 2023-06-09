@@ -5,7 +5,6 @@ import {
   NumberToken,
   StringToken
 } from "pratt-parser";
-
 import { createValue } from "./util.mjs";
 
 class AST {
