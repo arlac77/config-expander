@@ -1,7 +1,7 @@
 import os from "node:os";
 import { readFile } from "node:fs/promises";
 import { createCipheriv, createDecipheriv, scryptSync, randomBytes } from "node:crypto";
-import { dirname, resolve } from "mode:path";
+import { dirname, resolve } from "node:path";
 import { spawn } from "node:child_process";
 import { createContext } from "expression-expander";
 import { ConfigParser } from "./grammar.mjs";
@@ -27,7 +27,7 @@ const IV = randomBytes(16);
  * @param {Object} options.functions additional functions
  * @returns {Promise} resolves to the expanded configuration
  */
-export async function expand(config, options = {}) {
+export async function expand(config, options) {
   const context = {
     constants: Object.assign(
       {
@@ -35,9 +35,9 @@ export async function expand(config, options = {}) {
         env: process.env,
         os
       },
-      options.constants
+      options?.constants
     ),
-    functions: Object.assign({}, functions, options.functions)
+    functions: Object.assign({}, functions, options?.functions)
   };
 
   const parser = new ConfigParser();
@@ -50,7 +50,7 @@ export async function expand(config, options = {}) {
     },...options
   });
 
-  return options.default !== undefined
+  return options?.default !== undefined
     ? merge(await ee.expand(options.default), await ee.expand(config))
     : ee.expand(config);
 }

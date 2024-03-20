@@ -5,9 +5,11 @@
     "access": "public",
     "provenance": true
   },
+  "types": "./types/expander.d.mts",
   "exports": {
     ".": {
-      "default": "./src/expander.mjs"
+      "default": "./src/expander.mjs",
+      "types": "./types/expander.d.mts"
     }
   },
   "description": "Expands expressions in config files",
@@ -39,6 +41,7 @@
     "pratt-parser": "^9.0.2"
   },
   "devDependencies": {
+    "@types/node": "^20.11.30",
     "ava": "^6.1.2",
     "c8": "^9.1.0",
     "documentation": "^14.0.3",
@@ -46,7 +49,7 @@
     "typescript": "^5.4.2"
   },
   "engines": {
-    "node": ">=16.20.2"
+    "node": ">=20.11.1"
   },
   "repository": {
     "type": "git",
