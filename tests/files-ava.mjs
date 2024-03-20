@@ -1,6 +1,6 @@
 import test from "ava";
-import { join } from "path";
-import { readFileSync } from "fs";
+import { join } from "node:path";
+import { readFileSync } from "node:fs";
 import { expand } from "config-expander";
 
 const basedir = new URL(".", import.meta.url).pathname;

@@ -1,8 +1,8 @@
-import os from "os";
-import { readFile } from "fs/promises";
-import { createCipheriv, createDecipheriv, scryptSync, randomBytes } from "crypto";
-import { dirname, resolve } from "path";
-import { spawn } from "child_process";
+import os from "node:os";
+import { readFile } from "node:fs/promises";
+import { createCipheriv, createDecipheriv, scryptSync, randomBytes } from "node:crypto";
+import { dirname, resolve } from "mode:path";
+import { spawn } from "node:child_process";
 import { createContext } from "expression-expander";
 import { ConfigParser } from "./grammar.mjs";
 import { createValue, merge } from "./util.mjs";
