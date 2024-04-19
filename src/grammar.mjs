@@ -239,7 +239,7 @@ const grammar = {
     "..": {
       precedence: 30,
       combine: (left, right) =>
-        new SpreadOP(left, right, (l, r) => l.value && r.value)
+        new SpreadOP(left, right)
     },
     "&&": {
       precedence: 30,
