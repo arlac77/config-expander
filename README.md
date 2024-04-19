@@ -92,12 +92,14 @@ const configuration await expand("${include('" + '/path/to/the/config.json' + "'
     *   [Properties](#properties)
 *   [expand](#expand)
     *   [Parameters](#parameters)
-*   [Value](#value)
+*   [Context](#context)
     *   [Properties](#properties-1)
+*   [Value](#value)
+    *   [Properties](#properties-2)
 *   [Apply](#apply)
     *   [Parameters](#parameters-1)
 *   [ConfigFunction](#configfunction)
-    *   [Properties](#properties-2)
+    *   [Properties](#properties-3)
 *   [functions](#functions)
     *   [include](#include)
         *   [Parameters](#parameters-2)
@@ -145,6 +147,19 @@ Expands expressions in a configuration object
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)** resolves to the expanded configuration
 
+## Context
+
+Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
+
+### Properties
+
+*   `constants` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**&#x20;
+
+    *   `constants.basedir` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**&#x20;
+    *   `constants.env` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**&#x20;
+    *   `constants.os` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**&#x20;
+*   `functions` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**&#x20;
+
 ## Value
 
 Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
@@ -160,7 +175,7 @@ Type: [Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Sta
 
 ### Parameters
 
-*   `Context` **Context**&#x20;
+*   `context` **[Context](#context)**&#x20;
 *   `args` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Value](#value)>**&#x20;
 
 ## ConfigFunction
