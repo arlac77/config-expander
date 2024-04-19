@@ -1,6 +1,11 @@
 import os from "node:os";
 import { readFile } from "node:fs/promises";
-import { createCipheriv, createDecipheriv, scryptSync, randomBytes } from "node:crypto";
+import {
+  createCipheriv,
+  createDecipheriv,
+  scryptSync,
+  randomBytes
+} from "node:crypto";
 import { dirname, resolve } from "node:path";
 import { spawn } from "node:child_process";
 import { createContext } from "expression-expander";
@@ -47,7 +52,8 @@ export async function expand(config, options) {
       context.path = path;
       const ast = parser.parse(expression, context);
       return ast.value;
-    },...options
+    },
+    ...options
   });
 
   return options?.default !== undefined
@@ -113,7 +119,7 @@ const functions = {
       const file = resolve(context.constants.basedir, args[0].value);
 
       return createValue(
-        readFile(file).then(data => {
+        readFile(file, "utf8").then(data => {
           const json = JSON.parse(data);
           return expand(
             json,
@@ -241,7 +247,11 @@ const functions = {
     returns: "string",
     apply: (context, args) => {
       const [key, plaintext] = args.map(a => a.value);
-      const encipher = createCipheriv("aes-256-cbc", scryptSync(key, 'config-expander', 32), IV);
+      const encipher = createCipheriv(
+        "aes-256-cbc",
+        scryptSync(key, "config-expander", 32),
+        IV
+      );
       let encryptdata = encipher.update(plaintext, "utf8", "binary");
       encryptdata += encipher.final("binary");
       return createValue(Buffer.from(encryptdata, "binary").toString("base64"));
@@ -260,7 +270,11 @@ const functions = {
     apply: (context, args) => {
       let [key, encryptdata] = args.map(a => a.value);
       encryptdata = Buffer.from(encryptdata, "base64").toString("binary");
-      const decipher = createDecipheriv("aes-256-cbc", scryptSync(key, 'config-expander', 32), IV);
+      const decipher = createDecipheriv(
+        "aes-256-cbc",
+        scryptSync(key, "config-expander", 32),
+        IV
+      );
       let decoded = decipher.update(encryptdata, "binary", "utf8");
       decoded += decipher.final("utf8");
       return createValue(decoded);
