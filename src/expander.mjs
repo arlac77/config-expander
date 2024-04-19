@@ -56,6 +56,15 @@ export async function expand(config, options) {
 }
 
 /**
+ * @typedef {Object} Context
+ * @property {Object} constants
+ * @property {string} constants.basedir
+ * @property {Object} constants.env
+ * @property {string} constants.os
+ * @property {Object} functions
+ */
+
+/**
  * @typedef {Object} Value
  * @property {string} type
  * @property {Object} value
@@ -63,7 +72,7 @@ export async function expand(config, options) {
 
 /**
  * @callback Apply
- * @param {Context} Context
+ * @param {Context} context
  * @param {Value[]} args
  */
 
