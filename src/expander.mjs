@@ -30,19 +30,17 @@ const IV = randomBytes(16);
  * @param {Object} options.constants additional constants
  * @param {Object} options.default default configuration
  * @param {Object} options.functions additional functions
- * @returns {Promise} resolves to the expanded configuration
+ * @returns {Promise<Object>} resolves to the expanded configuration
  */
 export async function expand(config, options) {
   const context = {
-    constants: Object.assign(
-      {
-        basedir: process.cwd(),
-        env: process.env,
-        os
-      },
-      options?.constants
-    ),
-    functions: Object.assign({}, functions, options?.functions)
+    constants: {
+      basedir: process.cwd(),
+      env: process.env,
+      os,
+      ...options?.constants
+    },
+    functions: { ...functions, ...options?.functions }
   };
 
   const parser = new ConfigParser();
