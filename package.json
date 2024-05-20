@@ -37,7 +37,7 @@
     "lint:typescript": "tsc --allowJs --checkJs --noEmit --resolveJsonModule -t esnext -m esnext --module nodenext --moduleResolution nodenext ./src**/*.mjs"
   },
   "dependencies": {
-    "expression-expander": "^7.2.4",
+    "expression-expander": "^7.2.5",
     "pratt-parser": "^10.0.2"
   },
   "devDependencies": {
