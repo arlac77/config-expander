@@ -1,3 +1,4 @@
+bin
 build
 bun.lockb
 /node_modules/**
@@ -8,3 +9,4 @@ bun.lockb
 types
 .test
 .tmp
+dist
