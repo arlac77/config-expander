@@ -8,8 +8,8 @@
   "types": "./types/expander.d.mts",
   "exports": {
     ".": {
-      "default": "./src/expander.mjs",
-      "types": "./types/expander.d.mts"
+      "types": "./types/expander.d.mts",
+      "default": "./src/expander.mjs"
     }
   },
   "description": "Expands expressions in config files",
