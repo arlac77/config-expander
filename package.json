@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "expression-expander": "^7.2.5",
-    "pratt-parser": "^11.0.2"
+    "pratt-parser": "^11.0.3"
   },
   "devDependencies": {
     "@types/node": "^22.15.3",
